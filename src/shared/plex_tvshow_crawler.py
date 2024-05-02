@@ -1,3 +1,5 @@
+import os
+
 class PlexTvshowCrawler(object):
     def __init__(self, path):
         self.invalid_tvshows = None
@@ -10,6 +12,13 @@ class PlexTvshowCrawler(object):
         self.tvshows = []
 
     def get_tvshows(self):
+        directories = os.listdir(self.path)
+
+        self.tvshows = []
+
+        for directory in directories:
+            self.tvshows.append(directory)
+
         return self.tvshows
 
     def get_seasons(self, tvshow_id):
