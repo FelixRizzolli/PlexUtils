@@ -27,12 +27,12 @@ class TestPlexMovieCrawler(unittest.TestCase):
             open(os.path.join(movies_dir, movie_file), 'a').close()
 
         self.crawler = PlexMovieCrawler(movies_dir)
+        self.crawler.crawl()
 
     def test_crawl_movies(self):
-        self.crawler.crawl()
         movies = self.crawler.get_movies()
 
-        self.assertEqual(self.movie_files.count(), movies.count())
+        self.assertEqual(len(self.movie_files), len(movies))
 
 
 if __name__ == '__main__':
