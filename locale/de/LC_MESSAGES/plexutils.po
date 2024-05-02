@@ -1,0 +1,38 @@
+# PLEX UTILS.
+# Copyright (C) 2024 FELIX RIZZOLLI
+# This file is distributed under the same license as the PlexUtils package.
+# FELIX RIZZOLLI <FELIX.RIZZOLLI@OUTLOOK.DE>, 2024.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.1\n"
+"Report-Msgid-Bugs-To: FELIX RIZZOLLI <FELIX.RIZZOLLI@OUTLOOK.DE>\n"
+"POT-Creation-Date: 2024-05-02 15:06+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FELIX RIZZOLLI <FELIX.RIZZOLLI@OUTLOOK.DE>\n"
+"Language-Team: FELIX RIZZOLLI <FELIX.RIZZOLLI@OUTLOOK.DE>\n"
+"Language: Deutsch\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/main.py:9
+msgid "You selected Option 1."
+msgstr "Du hast Option 1 ausgewählt."
+
+#: src/main.py:14
+msgid "Option 1"
+msgstr "Option 1"
+
+#: src/main.py:18
+msgid "Console Menu:"
+msgstr "Konsolennemü:"
+
+#: src/main.py:22
+msgid "Enter your choice: "
+msgstr "Wähle:"
+
+#: src/main.py:27
+msgid "Invalid choice. Please enter a valid option."
+msgstr "Ungültige Auswahl. Bitte wähle gültige Option."

@@ -1,27 +1,40 @@
 from menu import Menu
+import gettext
+import os
+
+# Get the current script directory
+current_script_dir = os.path.dirname(os.path.realpath(__file__))
+
+# Construct the path to the locale directory
+locale_dir = os.path.join(os.path.dirname(current_script_dir), 'locale')
+
+trans = gettext.translation("plexutils", locale_dir, ["de"])
+trans.install(names=["_"])
+_ = trans.gettext
 
 
 def option_1():
-    print("\nYou selected Option 1.")
+    print("\n" + _("You selected Option 1."))
 
 
 def menu():
     menu_list = Menu([
-        {"id": "1", "name": "Option 1", "action": option_1}
+        {"id": "1", "name": _("Option 1"), "action": option_1}
     ])
 
     while True:
-        print("\nConsole Menu:")
+        print("\n" + _("Console Menu:"))
         for option in menu_list.get_list():
             print(f"{option["id"]}. {option["name"]}")
 
-        choice = input("\nEnter your choice: ")
+        choice = input("\n" + _("Enter your choice: "))
 
         if menu_list.id_exists(choice):
             menu_list.get_option_by_id(choice)["action"]()
         else:
-            print("\nInvalid choice. Please enter a valid option.")
+            print("\n" + _("Invalid choice. Please enter a valid option."))
 
 
 if __name__ == '__main__':
+    print(f"Locale directory: {locale_dir}")
     menu()
