@@ -8,6 +8,9 @@
             <path value="file://$PROJECT_DIR$/locale" />
             <path value="file://$PROJECT_DIR$/locale/de_DE" />
             <path value="file://$PROJECT_DIR$/locale/de_DE/LC_MESSAGES" />
+            <path value="file://$PROJECT_DIR$/data" />
+            <path value="file://$PROJECT_DIR$/data/movies" />
+            <path value="file://$PROJECT_DIR$/data/tvshows" />
           </resourceRoots>
         </entryData>
       </entry>
