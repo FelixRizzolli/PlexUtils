@@ -6,8 +6,8 @@
         <entryData>
           <resourceRoots>
             <path value="file://$PROJECT_DIR$/locale" />
-            <path value="file://$PROJECT_DIR$/locale/de" />
-            <path value="file://$PROJECT_DIR$/locale/de/LC_MESSAGES" />
+            <path value="file://$PROJECT_DIR$/locale/de_DE" />
+            <path value="file://$PROJECT_DIR$/locale/de_DE/LC_MESSAGES" />
           </resourceRoots>
         </entryData>
       </entry>
