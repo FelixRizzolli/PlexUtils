@@ -15,7 +15,8 @@ class TestPlexMovieCrawler(unittest.TestCase):
             "The Matrix Reloaded (2003) {tvdb-553}.mp4",
             "The Matrix Revolutions (2003) {tvdb-687}.mp4",
             "The Matrix Resurrections (2021) {tvdb-131590}.mp4",
-            "Happy Death Day (2017) {tvdb-475}.mp4"
+            "Happy Death Day (2017) {tvdb-475}.mp4",
+            "Baby Driver (2017).mp4",
         ]
 
         if not os.path.isdir(data_dir):
@@ -38,6 +39,10 @@ class TestPlexMovieCrawler(unittest.TestCase):
         matrix1 = list(filter(lambda movie: movie["filename"] == "The Matrix (1999) {tvdb-169}.mp4", movies))[0]
         self.assertEqual(matrix1["filename"], "The Matrix (1999) {tvdb-169}.mp4")
         self.assertEqual(matrix1["id"], "169")
+
+    def test_crawl_get_invalid_movie(self):
+        invalid_movies = self.crawler.get_invalid_movies()
+        self.assertEqual("Baby Driver (2017).mp4", invalid_movies[0])
 
 
 if __name__ == '__main__':

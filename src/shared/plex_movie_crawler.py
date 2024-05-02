@@ -23,3 +23,6 @@ class PlexMovieCrawler(object):
 
     def get_movies(self):
         return self.movies
+
+    def get_invalid_movies(self):
+        return []
