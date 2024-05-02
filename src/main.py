@@ -2,15 +2,16 @@ from menu import Menu
 import gettext
 import os
 
-# Get the current script directory
-current_script_dir = os.path.dirname(os.path.realpath(__file__))
+def setup_i18n():
+    # Get the current script directory
+    current_script_dir = os.path.dirname(os.path.realpath(__file__))
 
-# Construct the path to the locale directory
-locale_dir = os.path.join(os.path.dirname(current_script_dir), 'locale')
+    # Construct the path to the locale directory
+    locale_dir = os.path.join(os.path.dirname(current_script_dir), 'locale')
 
-trans = gettext.translation("plexutils", locale_dir, ["de"])
-trans.install(names=["_"])
-_ = trans.gettext
+    trans = gettext.translation("plexutils", locale_dir, ["de"])
+    trans.install()
+    return trans.gettext
 
 
 def option_1():
@@ -36,5 +37,5 @@ def menu():
 
 
 if __name__ == '__main__':
-    print(f"Locale directory: {locale_dir}")
+    _ = setup_i18n()
     menu()
