@@ -1,4 +1,4 @@
-from menu import Menu
+from shared.menu import Menu
 import gettext
 import os
 
