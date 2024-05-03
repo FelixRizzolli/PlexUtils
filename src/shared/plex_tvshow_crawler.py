@@ -1,25 +1,45 @@
+import json
 import os
 import re
 
 tvdb_id_pattern = r'{tvdb-(\d+)}'
 season_id_pattern = r'season (\d+)'
+episode_id_pattern = r'- s(\d+)e(\d+)'
 
 
-def crawl_seasons(directory):
-    season_directories = os.listdir(directory)
+def crawl_seasons(tvshow_directory):
+    season_directories = os.listdir(tvshow_directory)
 
     seasons = []
 
-    for seasons_directory in season_directories:
-        match = re.search(season_id_pattern, seasons_directory)
+    for season_dirname in season_directories:
+        match = re.search(season_id_pattern, season_dirname)
         if match:
             season = {
                 "id": int(match.group(1)),
-                "dirname": seasons_directory,
+                "dirname": season_dirname,
+                "episodes": crawl_episodes(os.path.join(tvshow_directory, season_dirname))
             }
             seasons.append(season)
 
     return seasons
+
+
+def crawl_episodes(directory):
+    episode_directories = os.listdir(directory)
+
+    episodes = []
+
+    for episode_filename in episode_directories:
+        match = re.search(episode_id_pattern, episode_filename)
+        if match:
+            episode = {
+                "id": int(match.group(2)),
+                "filename": episode_filename,
+            }
+            episodes.append(episode)
+
+    return episodes
 
 
 class PlexTvshowCrawler(object):
@@ -56,7 +76,9 @@ class PlexTvshowCrawler(object):
         return tvshow["seasons"]
 
     def get_episodes(self, tvshow_id, season_id):
-        return []
+        tvshow = list(filter(lambda tvshow: tvshow["id"] == tvshow_id, self.tvshows))[0]
+        season = list(filter(lambda season: season["id"] == season_id, tvshow["seasons"]))[0]
+        return season["episodes"]
 
     def get_invalid_tvshows(self):
         return self.invalid_tvshows
