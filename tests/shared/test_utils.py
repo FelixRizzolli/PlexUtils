@@ -17,7 +17,14 @@ class TestUtils(unittest.TestCase):
         self.assertIsNone(baby_driver)
 
     def test_extract_seasonid(self):
-        pass
+        season1 = extract_seasonid("season 01")
+        self.assertEqual(1, season1)
+
+        season2 = extract_seasonid("season 02")
+        self.assertEqual(2, season2)
+
+        season3 = extract_seasonid("season a")
+        self.assertIsNone(season3)
 
     def test_extract_episodeid(self):
         pass
