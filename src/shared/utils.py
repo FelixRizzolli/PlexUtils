@@ -45,6 +45,17 @@ def extract_episodeid(filename):
         return None
 
 
+def extract_seasonid_from_episode(filename):
+    seasonid_pattern = r'- s(\d+)e(\d+)'
+
+    seasonid_match = re.search(seasonid_pattern, filename)
+
+    if seasonid_match:
+        return int(seasonid_match.group(1))
+    else:
+        return None
+
+
 def extract_seasonid(dirname):
     seasonid_pattern = r'season (\d+)'
 
