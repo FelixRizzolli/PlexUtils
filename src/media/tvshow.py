@@ -24,3 +24,9 @@ class TVShow:
 
     def add_season(self, season):
         self.seasons.append(season)
+
+    def get_season(self, season_id):
+        for season in self.seasons:
+            if season.get_id() == season_id:
+                return season
+        return None

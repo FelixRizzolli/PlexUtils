@@ -5,19 +5,11 @@ import os
 from plex_tvshow_crawler import PlexTvshowCrawler
 from test_data import test_tvshow_files
 
+from utils import delete_directory
+
 current_script_dir = os.path.dirname(os.path.realpath(__file__))
 data_dir = os.path.join(current_script_dir, '../../data')
 tvshows_dir = os.path.join(data_dir, 'tvshows')
-
-
-def delete_directory(dir_path):
-    for item in os.listdir(dir_path):
-        item_path = os.path.join(dir_path, item)
-        if os.path.isfile(item_path):
-            os.remove(item_path)
-        elif os.path.isdir(item_path):
-            delete_directory(item_path)
-    os.rmdir(dir_path)
 
 
 class TestPlexTvshowsCrawler(unittest.TestCase):

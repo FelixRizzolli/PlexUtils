@@ -13,6 +13,7 @@ class TVShowList:
         for tvshow in self.tvshows:
             if tvshow.get_tvdbid() == tvshow_id:
                 return tvshow
+        return None
 
     def is_empty(self):
         return len(self.tvshows) == 0
