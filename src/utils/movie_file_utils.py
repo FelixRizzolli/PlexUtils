@@ -1,5 +1,6 @@
 from shared.menu import Menu
 from shared.utils import print_menu
+from shared.plex_movie_crawler import PlexMovieCrawler
 
 
 class MovieFileUtils:
@@ -11,7 +12,7 @@ class MovieFileUtils:
             {
                 "id": "1",
                 "name": self.gettext("validate movie filename syntax"),
-                "action": self.get_utils_name,
+                "action": self.validate_movie_syntax,
             },
         ])
 
@@ -22,4 +23,13 @@ class MovieFileUtils:
         print_menu(self.gettext("MovieFileUtils Menu:"), self.gettext, self.menu_list)
 
     def validate_movie_syntax(self):
-        pass
+        if 'movies-dir' not in self.config:
+            return False
+
+        crawler = PlexMovieCrawler(self.config['movies-dir'])
+        crawler.crawl()
+
+        for movie in crawler.get_invalid_movies():
+            print(f"Invalid movie file: {movie}")
+
+        input()
