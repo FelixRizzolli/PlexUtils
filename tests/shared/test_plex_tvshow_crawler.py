@@ -1,3 +1,4 @@
+import json
 import unittest
 import os
 
@@ -19,9 +20,21 @@ class TestPlexTvshowsCrawler(unittest.TestCase):
         if not os.path.isdir(tvshows_dir):
             os.mkdir(tvshows_dir)
 
-        for tvshow_directory in self.tvshow_directories:
-            if not os.path.isdir(os.path.join(tvshows_dir, tvshow_directory)):
-                os.mkdir(os.path.join(tvshows_dir, tvshow_directory))
+        for tvshow in self.tvshow_directories:
+            tvshow_dirname = tvshow["dirname"]
+            tvshow_dir = os.path.join(tvshows_dir, tvshow_dirname)
+            if not os.path.isdir(tvshow_dir):
+                os.mkdir(tvshow_dir)
+
+            for season in tvshow["seasons"]:
+                season_dirname = season["dirname"]
+                season_dir = os.path.join(tvshow_dir, season_dirname)
+                if not os.path.isdir(season_dir):
+                    os.mkdir(season_dir)
+
+                for episode in season["episodes"]:
+                    episode_dir = os.path.join(season_dir, episode)
+                    open(episode_dir, 'a').close()
 
         self.crawler = PlexTvshowCrawler(tvshows_dir)
         self.crawler.crawl()
