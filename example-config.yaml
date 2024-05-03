@@ -1,3 +1,5 @@
 language: de_DE
 movies-dir: /**/movies
 tvshows-dir: /**/tvshows
+tvdb-key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+tvdb-pin: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
