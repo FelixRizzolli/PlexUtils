@@ -75,6 +75,12 @@ class TestPlexTvshowsCrawler(unittest.TestCase):
         codegeass = list(filter(lambda tvshow: tvshow["dirname"] == "Code Geass (2006) {tvdb-79525}", self.tvshow_directories))[0]
         self.assertEqual(len(codegeass["seasons"]), len(seasons))
 
+    def test_crawl_get_episodes_count(self):
+        episodes = self.crawler.get_episodes("79525", 1)
+        codegeass = list(filter(lambda tvshow: tvshow["dirname"] == "Code Geass (2006) {tvdb-79525}", self.tvshow_directories))[0]
+        season1 = list(filter(lambda season: season["dirname"] == "season 01", codegeass["seasons"]))[0]
+        self.assertEqual(len(season1["episodes"]), len(episodes))
+
 
 if __name__ == '__main__':
     unittest.main()
