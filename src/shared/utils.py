@@ -7,7 +7,12 @@ def print_menu(title, gettext, menu_list):
         for option in menu_list.get_list():
             print(f"{option["id"]}. {option["name"]}")
 
+        print("\n" + gettext("E. Exit"))
+
         choice = input("\n" + gettext("Enter your choice: "))
+
+        if choice.upper() == "E":
+            return
 
         if menu_list.id_exists(choice):
             menu_list.get_option_by_id(choice)["action"]()
