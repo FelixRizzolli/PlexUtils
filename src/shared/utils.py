@@ -32,3 +32,13 @@ def extract_tvdbid(dirname):
         return int(tvdbid_match.group(1))
     else:
         return None
+
+
+def extract_episodeid(filename):
+    episodeid_pattern = r'- s(\d+)e(\d+)'
+
+    episodeid_match = re.search(episodeid_pattern, filename)
+    if episodeid_match:
+        return int(episodeid_match.group(2))
+    else:
+        return None
