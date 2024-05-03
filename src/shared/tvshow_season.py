@@ -1,18 +1,13 @@
-import re
-
-season_id_pattern = r'season (\d+)'
+from utils import extract_seasonid
 
 
 class TVShowSeason:
     def __init__(self, tvshow_id, dirname):
         self.tvshow_id = tvshow_id
-        self.season_id = None
+        self.season_id = extract_seasonid(dirname)
         self.dirname = dirname
         self.episodes = []
 
-        seasonid_match = re.search(season_id_pattern, dirname)
-        if seasonid_match:
-            self.season_id = int(seasonid_match.group(1))
 
     def get_id(self):
         return self.season_id
