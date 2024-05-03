@@ -12,9 +12,6 @@ class PlexTvshowCrawler(object):
         self.path = path
 
     def crawl(self):
-        self.tvshows = []
-
-    def get_tvshows(self):
         directories = os.listdir(self.path)
 
         self.tvshows = []
@@ -28,6 +25,7 @@ class PlexTvshowCrawler(object):
                 }
                 self.tvshows.append(tvshow)
 
+    def get_tvshows(self):
         return self.tvshows
 
     def get_seasons(self, tvshow_id):
