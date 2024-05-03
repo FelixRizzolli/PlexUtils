@@ -1,5 +1,6 @@
 from shared.menu import Menu
 from shared.utils import print_menu
+from shared.plex_tvshow_crawler import PlexTvshowCrawler
 
 class TvshowFileUtils:
     def __init__(self, config, gettext):
@@ -10,17 +11,17 @@ class TvshowFileUtils:
             {
                 "id": "1",
                 "name": self.gettext("validate tvshow directory syntax"),
-                "action": self.get_utils_name,
+                "action": self.validate_tvshow_syntax,
             },
             {
                 "id": "2",
                 "name": self.gettext("validate season directory syntax"),
-                "action": self.get_utils_name,
+                "action": self.validate_season_syntax,
             },
             {
                 "id": "3",
                 "name": self.gettext("validate episode filename syntax"),
-                "action": self.get_utils_name,
+                "action": self.validate_episode_syntax,
             },
         ])
 
@@ -31,7 +32,16 @@ class TvshowFileUtils:
         print_menu(self.gettext("TvshowFileUtils Menu:"), self.gettext, self.menu_list)
 
     def validate_tvshow_syntax(self):
-        pass
+        if 'movies-dir' not in self.config:
+            return False
+
+        crawler = PlexTvshowCrawler(self.config['tvshows-dir'])
+        crawler.crawl()
+
+        for tvshow in crawler.get_invalid_tvshows():
+            print(f"Invalid tvshow directory: {tvshow}")
+
+        input()
 
     def validate_season_syntax(self):
         pass
