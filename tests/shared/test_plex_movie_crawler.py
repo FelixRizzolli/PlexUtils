@@ -25,7 +25,7 @@ class TestPlexMovieCrawler(unittest.TestCase):
         self.movie_files = test_movie_files
 
         # clear data
-        if os.path.isdir(data_dir):
+        if os.path.isdir(movies_dir):
             delete_directory(movies_dir)
 
         # create data

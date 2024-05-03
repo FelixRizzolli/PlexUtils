@@ -26,7 +26,7 @@ class TestPlexTvshowsCrawler(unittest.TestCase):
         self.tvshow_directories = test_tvshow_files
 
         # clear data
-        if os.path.isdir(data_dir):
+        if os.path.isdir(tvshows_dir):
             delete_directory(tvshows_dir)
 
         # create data
