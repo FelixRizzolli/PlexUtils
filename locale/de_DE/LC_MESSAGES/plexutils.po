@@ -17,22 +17,22 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/main.py:9
-msgid "You selected Option 1."
-msgstr "Du hast Option 1 ausgewählt."
+#: src/utils/tvshow_file_utils.py:8
+msgid "TvshowFileUtils - Tools for tvshow directories and episode files"
+msgstr "TvshowFileUtils - Tools für Serien-Verzeichnisse und Episoden-Dateien"
 
-#: src/main.py:14
-msgid "Option 1"
-msgstr "Option 1"
+#: src/utils/plex_utils.py:28
+msgid "PlexUtils Menu:"
+msgstr "PlexUtils Menü:"
 
-#: src/main.py:18
-msgid "Console Menu:"
-msgstr "Konsolennemü:"
-
-#: src/main.py:22
+#: src/utils/plex_utils.py:32
 msgid "Enter your choice: "
 msgstr "Wähle:"
 
-#: src/main.py:27
+#: src/utils/plex_utils.py:37
 msgid "Invalid choice. Please enter a valid option."
 msgstr "Ungültige Auswahl. Bitte wähle gültige Option."
+
+#: src/utils/movie_file_utils.py:8
+msgid "MovieFileUtils  - Tools for movie files"
+msgstr "MovieFileUtils  - Tools für Film-Dateien"

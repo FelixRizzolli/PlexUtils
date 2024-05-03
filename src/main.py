@@ -1,23 +1,21 @@
-from shared.menu import Menu
 import gettext
 import os
 import yaml
 
-# Get the current script directory
-current_script_dir = os.path.dirname(os.path.realpath(__file__))
+from plex_utils import PlexUtils
 
 def load_config(config_file):
+    config = {}
     with open(config_file, 'r') as f:
         config = yaml.safe_load(f)
     return config
 
 
-def setup_i18n():
-    # Construct the path to the locale directory
-    locale_dir = os.path.join(os.path.dirname(current_script_dir), 'locale')
+def setup_i18n(pj_path, config):
+    locale_dir = os.path.join(pj_path, 'locale')
 
     language = "en_US"
-    if 'language' in config:
+    if (config is not None) and ('language' in config):
         language = config['language']
 
     trans = gettext.translation('plexutils', locale_dir, [language], fallback=True)
@@ -25,30 +23,12 @@ def setup_i18n():
     return trans.gettext
 
 
-def option_1():
-    print("\n" + _("You selected Option 1."))
-
-
-def menu():
-    menu_list = Menu([
-        {"id": "1", "name": _("Option 1"), "action": option_1}
-    ])
-
-    while True:
-        print("\n" + _("Console Menu:"))
-        for option in menu_list.get_list():
-            print(f"{option["id"]}. {option["name"]}")
-
-        choice = input("\n" + _("Enter your choice: "))
-
-        if menu_list.id_exists(choice):
-            menu_list.get_option_by_id(choice)["action"]()
-        else:
-            print("\n" + _("Invalid choice. Please enter a valid option."))
-
-
 if __name__ == '__main__':
-    config_dir = os.path.join(os.path.dirname(current_script_dir) + '/config.yaml')
+    pj_path = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+    config_dir = os.path.join(pj_path + '/config.yaml')
     config = load_config(config_dir)
-    _ = setup_i18n()
-    menu()
+
+    gettext = setup_i18n(pj_path, config)
+
+    plex_utils = PlexUtils(config, gettext)
+    plex_utils.print_menu()
