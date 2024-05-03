@@ -44,7 +44,16 @@ class TvshowFileUtils:
         input()
 
     def validate_season_syntax(self):
-        pass
+        if 'tvshows-dir' not in self.config:
+            return False
+
+        crawler = PlexTvshowCrawler(self.config['tvshows-dir'])
+        crawler.crawl()
+
+        for season in crawler.get_invalid_seasons():
+            print(f"Invalid season directory: {season}")
+
+        input()
 
     def validate_episode_syntax(self):
         pass
