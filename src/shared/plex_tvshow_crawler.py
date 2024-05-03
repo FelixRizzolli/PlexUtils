@@ -15,6 +15,7 @@ class PlexTvshowCrawler(object):
         directories = os.listdir(self.path)
 
         self.tvshows = []
+        self.invalid_tvshows = []
 
         for directory in directories:
             match = re.search(tvdb_id_pattern, directory)
@@ -24,6 +25,8 @@ class PlexTvshowCrawler(object):
                     "dirname": directory,
                 }
                 self.tvshows.append(tvshow)
+            else:
+                self.invalid_tvshows.append(directory)
 
     def get_tvshows(self):
         return self.tvshows
