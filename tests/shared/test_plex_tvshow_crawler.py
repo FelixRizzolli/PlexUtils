@@ -70,6 +70,12 @@ class TestPlexTvshowsCrawler(unittest.TestCase):
         invalid_tvshows = self.crawler.get_invalid_tvshows()
         self.assertEqual("Classroom of the Elite (2017)", invalid_tvshows[0])
 
+    def test_crawl_get_seasons_count(self):
+        seasons = self.crawler.get_seasons("79525")
+        codegeass = list(filter(lambda tvshow: tvshow["dirname"] == "Code Geass (2006) {tvdb-79525}", self.tvshow_directories))[0]
+        print(codegeass)
+        self.assertEqual(len(codegeass["seasons"]), len(seasons))
+
 
 if __name__ == '__main__':
     unittest.main()
