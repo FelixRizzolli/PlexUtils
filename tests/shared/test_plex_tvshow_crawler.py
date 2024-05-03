@@ -2,21 +2,17 @@ import unittest
 import os
 
 from plex_tvshow_crawler import PlexTvshowCrawler
+from test_data import test_tvshow_files
 
 current_script_dir = os.path.dirname(os.path.realpath(__file__))
 data_dir = os.path.join(current_script_dir, '../../data')
 tvshows_dir = os.path.join(data_dir, 'tvshows')
 
+
 class TestPlexTvshowsCrawler(unittest.TestCase):
 
     def setUp(self):
-        self.tvshow_directories = [
-            "Game of Thrones (2011) {tvdb-121361}",
-            "Money Heist (2017) {tvdb-327417}",
-            "My Name (2021) {tvdb-397441}",
-            "Code Geass (2006) {tvdb-79525}",
-            "Classroom of the Elite (2017)"
-        ]
+        self.tvshow_directories = test_tvshow_files
 
         if not os.path.isdir(data_dir):
             os.mkdir(data_dir)

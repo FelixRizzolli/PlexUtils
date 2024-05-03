@@ -2,22 +2,17 @@ import unittest
 import os
 
 from plex_movie_crawler import PlexMovieCrawler
+from test_data import test_movie_files
 
 current_script_dir = os.path.dirname(os.path.realpath(__file__))
 data_dir = os.path.join(current_script_dir, '../../data')
 movies_dir = os.path.join(data_dir, 'movies')
 
+
 class TestPlexMovieCrawler(unittest.TestCase):
 
     def setUp(self):
-        self.movie_files = [
-            "The Matrix (1999) {tvdb-169}.mp4",
-            "The Matrix Reloaded (2003) {tvdb-553}.mp4",
-            "The Matrix Revolutions (2003) {tvdb-687}.mp4",
-            "The Matrix Resurrections (2021) {tvdb-131590}.mp4",
-            "Happy Death Day (2017) {tvdb-475}.mp4",
-            "Baby Driver (2017).mp4",
-        ]
+        self.movie_files = test_movie_files
 
         if not os.path.isdir(data_dir):
             os.mkdir(data_dir)
