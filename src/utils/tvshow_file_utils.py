@@ -32,7 +32,7 @@ class TvshowFileUtils:
         print_menu(self.gettext("TvshowFileUtils Menu:"), self.gettext, self.menu_list)
 
     def validate_tvshow_syntax(self):
-        if 'movies-dir' not in self.config:
+        if 'tvshows-dir' not in self.config:
             return False
 
         crawler = PlexTvshowCrawler(self.config['tvshows-dir'])
