@@ -15,6 +15,7 @@ class TestPlexTvshowsCrawler(unittest.TestCase):
             "Money Heist (2017) {tvdb-327417}",
             "My Name (2021) {tvdb-397441}",
             "Code Geass (2006) {tvdb-79525}",
+            "Classroom of the Elite (2017)"
         ]
 
         if not os.path.isdir(data_dir):
@@ -38,6 +39,10 @@ class TestPlexTvshowsCrawler(unittest.TestCase):
         codegeass = list(filter(lambda tvshow: tvshow["dirname"] == "Code Geass (2006) {tvdb-79525}", tvshows))[0]
         self.assertEqual(codegeass["dirname"], "Code Geass (2006) {tvdb-79525}")
         self.assertEqual(codegeass["id"], "79525")
+
+    def test_crawl_get_invalid_tvshows(self):
+        invalid_tvshows = self.crawler.get_invalid_tvshows()
+        self.assertEqual("Classroom of the Elite (2017)", invalid_tvshows[0])
 
 
 if __name__ == '__main__':
