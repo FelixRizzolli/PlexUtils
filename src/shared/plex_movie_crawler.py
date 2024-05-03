@@ -1,8 +1,8 @@
 import json
 import os
-import re
 
-tvdb_id_pattern = r'{tvdb-(\d+)}'
+from movie import Movie
+from movie_list import MovieList
 
 class PlexMovieCrawler(object):
     def __init__(self, path):
@@ -11,24 +11,21 @@ class PlexMovieCrawler(object):
         self.path = path
 
     def crawl(self):
-        files = os.listdir(self.path)
+        movie_directories = os.listdir(self.path)
 
-        self.movies = []
+        self.movies = MovieList()
         self.invalid_movies = []
 
-        for file in files:
-            match = re.search(tvdb_id_pattern, file)
-            if match:
-                movie = {
-                    "id": match.group(1),
-                    "filename": file,
-                }
-                self.movies.append(movie)
+        for movie_dir in movie_directories:
+            movie = Movie(movie_dir)
+
+            if movie.get_tvdbid() is not None:
+                self.movies.add(movie)
             else:
-                self.invalid_movies.append(file)
+                self.invalid_movies.append(f"{movie_dir}")
 
 
-    def get_movies(self):
+    def get_movielist(self):
         return self.movies
 
     def get_invalid_movies(self):
