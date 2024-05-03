@@ -1,3 +1,5 @@
+from shared.menu import clear_console
+
 
 class TvshowFileUtils:
     def __init__(self, config, gettext):
@@ -8,4 +10,5 @@ class TvshowFileUtils:
         return self.gettext("TvshowFileUtils - Tools for tvshow directories and episode files")
 
     def print_menu(self):
+        clear_console()
         print("Tvshow File Utilities")

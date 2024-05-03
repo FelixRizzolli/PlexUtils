@@ -1,3 +1,5 @@
+from shared.menu import clear_console
+
 
 class MovieFileUtils:
     def __init__(self, config, gettext):
@@ -8,4 +10,5 @@ class MovieFileUtils:
         return self.gettext("MovieFileUtils  - Tools for movie files")
 
     def print_menu(self):
+        clear_console()
         print("Movie File Utilities")

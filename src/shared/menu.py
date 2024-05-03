@@ -1,3 +1,12 @@
+import os
+
+
+def clear_console():
+    print("clear_console()")
+    command = 'cls' if os.name == 'nt' else 'clear'
+    os.system(command)
+
+
 class Menu(object):
     def __init__(self, menu):
         self.menu = menu
