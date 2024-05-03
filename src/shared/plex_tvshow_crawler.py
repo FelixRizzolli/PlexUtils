@@ -2,6 +2,25 @@ import os
 import re
 
 tvdb_id_pattern = r'{tvdb-(\d+)}'
+season_id_pattern = r'season (\d+)'
+
+
+def crawl_seasons(directory):
+    season_directories = os.listdir(directory)
+
+    seasons = []
+
+    for seasons_directory in season_directories:
+        match = re.search(season_id_pattern, seasons_directory)
+        if match:
+            season = {
+                "id": int(match.group(1)),
+                "dirname": seasons_directory,
+            }
+            seasons.append(season)
+
+    return seasons
+
 
 class PlexTvshowCrawler(object):
     def __init__(self, path):
@@ -23,6 +42,7 @@ class PlexTvshowCrawler(object):
                 tvshow = {
                     "id": match.group(1),
                     "dirname": directory,
+                    "seasons": crawl_seasons(os.path.join(self.path, directory))
                 }
                 self.tvshows.append(tvshow)
             else:
@@ -32,7 +52,8 @@ class PlexTvshowCrawler(object):
         return self.tvshows
 
     def get_seasons(self, tvshow_id):
-        return []
+        tvshow = list(filter(lambda tvshow: tvshow["id"] == tvshow_id, self.tvshows))[0]
+        return tvshow["seasons"]
 
     def get_episodes(self, tvshow_id, season_id):
         return []
