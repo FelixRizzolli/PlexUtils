@@ -53,7 +53,6 @@ class TestTVDBTool(unittest.TestCase):
             print("EMPTY TV SHOWS")
 
     def test_get_episodes(self):
-        print(json.dumps(self.config, indent=4))
         tvdb_tool = TVDBTool(self.config['tvdb-key'], self.config['tvdb-pin'])
         tvdb_got_episodes = tvdb_tool.get_episodes(121361, 1)
         plex_got_episodes = self.crawler.get_tvshowlist().get_tvshow(121361).get_season(1).get_episodes()
