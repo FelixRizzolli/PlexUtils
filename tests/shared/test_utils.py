@@ -27,7 +27,14 @@ class TestUtils(unittest.TestCase):
         self.assertIsNone(season3)
 
     def test_extract_episodeid(self):
-        pass
+        ep1 = extract_episodeid("Game of Thrones (2011) - s01e01 - Winter Is Coming.mp4")
+        self.assertEqual(1, ep1)
+
+        ep25 = extract_episodeid("Code Geass (2006) - s01e25 - Zero.mp4")
+        self.assertEqual(25, ep25)
+
+        epx3 = extract_episodeid("Code Geass (2006) - s01ex3 - Zero.mp4")
+        self.assertIsNone(epx3)
 
     def test_extract_seasonid_from_episode(self):
         pass
