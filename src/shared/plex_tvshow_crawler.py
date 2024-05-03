@@ -1,4 +1,7 @@
 import os
+import re
+
+tvdb_id_pattern = r'{tvdb-(\d+)}'
 
 class PlexTvshowCrawler(object):
     def __init__(self, path):
@@ -17,7 +20,13 @@ class PlexTvshowCrawler(object):
         self.tvshows = []
 
         for directory in directories:
-            self.tvshows.append(directory)
+            match = re.search(tvdb_id_pattern, directory)
+            if match:
+                tvshow = {
+                    "id": match.group(1),
+                    "dirname": directory,
+                }
+                self.tvshows.append(tvshow)
 
         return self.tvshows
 
