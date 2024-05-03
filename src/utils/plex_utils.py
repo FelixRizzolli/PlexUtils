@@ -1,7 +1,7 @@
 from movie_file_utils import MovieFileUtils
 from tvshow_file_utils import TvshowFileUtils
-from shared.menu import Menu, clear_console
-
+from shared.menu import Menu
+from shared.utils import print_menu
 
 class PlexUtils:
     def __init__(self, config, gettext):
@@ -25,15 +25,4 @@ class PlexUtils:
         ])
 
     def print_menu(self):
-        while True:
-            clear_console()
-            print("\n" + self.gettext("PlexUtils Menu:"))
-            for option in self.menu_list.get_list():
-                print(f"{option["id"]}. {option["name"]}")
-
-            choice = input("\n" + self.gettext("Enter your choice: "))
-
-            if self.menu_list.id_exists(choice):
-                self.menu_list.get_option_by_id(choice)["action"]()
-            else:
-                print("\n" + self.gettext("Invalid choice. Please enter a valid option."))
+        print_menu(self.gettext("PlexUtils Menu:"), self.gettext, self.menu_list)
