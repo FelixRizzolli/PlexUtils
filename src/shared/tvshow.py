@@ -7,7 +7,7 @@ class TVShow:
 
     def __init__(self, dirname):
         self.dirname = dirname
-        self.tvdb_id = extract_tvdbid(dirname)
+        self.tvdbid = extract_tvdbid(dirname)
         self.seasons = []
 
 
