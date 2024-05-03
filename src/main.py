@@ -1,14 +1,8 @@
 import gettext
 import os
-import yaml
 
 from plex_utils import PlexUtils
-
-def load_config(config_file):
-    config = {}
-    with open(config_file, 'r') as f:
-        config = yaml.safe_load(f)
-    return config
+from utils import load_config
 
 
 def setup_i18n(pj_path, config):

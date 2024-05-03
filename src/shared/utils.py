@@ -1,7 +1,15 @@
 import os
 import re
 
+import yaml
+
 from menu import clear_console
+
+def load_config(config_file):
+    config = {}
+    with open(config_file, 'r') as f:
+        config = yaml.safe_load(f)
+    return config
 
 
 def print_menu(title, gettext, menu_list):
