@@ -28,7 +28,8 @@ class TestPlexTvshowsCrawler(unittest.TestCase):
 
     def test_crawl_get_tvshows_count(self):
         tvshows = self.crawler.get_tvshows()
-        self.assertEqual(len(self.tvshow_directories), len(tvshows))
+        invalid_tvshows = self.crawler.get_invalid_tvshows()
+        self.assertEqual(len(self.tvshow_directories), len(tvshows) + len(invalid_tvshows))
 
     def test_crawl_get_tvshows_object(self):
         tvshows = self.crawler.get_tvshows()

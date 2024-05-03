@@ -27,7 +27,8 @@ class TestPlexMovieCrawler(unittest.TestCase):
 
     def test_crawl_get_movies_count(self):
         movies = self.crawler.get_movies()
-        self.assertEqual(len(self.movie_files), len(movies))
+        invalid_movies = self.crawler.get_invalid_movies()
+        self.assertEqual(len(self.movie_files), len(movies) + len(invalid_movies))
 
     def test_crawl_get_movies_object(self):
         movies = self.crawler.get_movies()
