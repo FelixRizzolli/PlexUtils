@@ -1,5 +1,6 @@
 from movie_file_utils import MovieFileUtils
 from tvshow_file_utils import TvshowFileUtils
+from tvdb_utils import TVDBUtils
 from shared.menu import Menu
 from shared.utils import print_menu
 
@@ -10,6 +11,7 @@ class PlexUtils:
 
         self.movie_file_utils = MovieFileUtils(config, gettext)
         self.tvshow_file_utils = TvshowFileUtils(config, gettext)
+        self.tvdb_utils = TVDBUtils(config, gettext)
 
         self.menu_list = Menu([
             {
@@ -21,6 +23,11 @@ class PlexUtils:
                 "id": "2",
                 "name": self.tvshow_file_utils.get_utils_name(),
                 "action": self.tvshow_file_utils.print_menu,
+            },
+            {
+                "id": "2",
+                "name": self.tvdb_utils.get_utils_name(),
+                "action": self.tvdb_utils.print_menu,
             },
         ])
 
