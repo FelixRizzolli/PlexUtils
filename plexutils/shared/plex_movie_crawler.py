@@ -3,6 +3,7 @@ import os
 from plexutils.media.movie import Movie
 from plexutils.media.movie_list import MovieList
 
+
 class PlexMovieCrawler(object):
     def __init__(self, path):
         self.invalid_movies = None
@@ -22,7 +23,6 @@ class PlexMovieCrawler(object):
                 self.movies.add(movie)
             else:
                 self.invalid_movies.append(f"{movie_dir}")
-
 
     def get_movielist(self):
         return self.movies
