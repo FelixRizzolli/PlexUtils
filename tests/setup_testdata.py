@@ -1,11 +1,12 @@
 import os
 
-from test_data import test_movie_files
+from test_data import test_movie_files, test_tvshow_files
 
 
 current_script_dir = os.path.dirname(os.path.realpath(__file__))
 data_dir = os.path.join(current_script_dir, '../../data')
 movies_dir = os.path.join(data_dir, 'movies')
+tvshows_dir = os.path.join(data_dir, 'tvshows')
 
 
 def delete_directory(dir_path):
@@ -33,3 +34,32 @@ def create_movie_files():
 
     for movie_file in movie_files:
         open(os.path.join(movies_dir, movie_file), 'a').close()
+
+def create_tvshow_files():
+    tvshow_directories = test_tvshow_files
+
+    # clear data
+    if os.path.isdir(tvshows_dir):
+        delete_directory(tvshows_dir)
+
+    # create data
+    if not os.path.isdir(data_dir):
+        os.mkdir(data_dir)
+    if not os.path.isdir(tvshows_dir):
+        os.mkdir(tvshows_dir)
+
+    for tvshow in tvshow_directories:
+        tvshow_dirname = tvshow["dirname"]
+        tvshow_dir = os.path.join(tvshows_dir, tvshow_dirname)
+        if not os.path.isdir(tvshow_dir):
+            os.mkdir(tvshow_dir)
+
+        for season in tvshow["seasons"]:
+            season_dirname = season["dirname"]
+            season_dir = os.path.join(tvshow_dir, season_dirname)
+            if not os.path.isdir(season_dir):
+                os.mkdir(season_dir)
+
+            for episode in season["episodes"]:
+                episode_dir = os.path.join(season_dir, episode)
+                open(episode_dir, 'a').close()
