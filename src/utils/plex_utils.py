@@ -25,7 +25,7 @@ class PlexUtils:
                 "action": self.tvshow_file_utils.print_menu,
             },
             {
-                "id": "2",
+                "id": "3",
                 "name": self.tvdb_utils.get_utils_name(),
                 "action": self.tvdb_utils.print_menu,
             },
