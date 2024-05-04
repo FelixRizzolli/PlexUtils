@@ -23,28 +23,46 @@ class PlexTvshowCrawler(object):
         for tvshow_dir in tvshow_directories:
             tvshow = TVShow(tvshow_dir)
 
-            season_directories = os.listdir(os.path.join(self.path, tvshow_dir))
-            for season_dir in season_directories:
-                season = TVShowSeason(season_dir)
-
-                episode_directories = os.listdir(os.path.join(self.path, tvshow_dir, season_dir))
-                for episode_dir in episode_directories:
-                    episode = TVShowEpisode(episode_dir)
-
-                    if episode.is_valid():
-                        season.add_episode(episode)
-                    else:
-                        self.invalid_episodes.append(f"{tvshow_dir} -> {season_dir} -> {episode_dir}")
-
-                if season.is_valid():
-                    tvshow.add_season(season)
-                else:
-                    self.invalid_seasons.append(f"{tvshow_dir} -> {season_dir}")
+            seasons = self.crawl_seasons(tvshow_dir)
+            for season in seasons:
+                tvshow.add_season(season)
 
             if tvshow.is_valid():
                 self.tvshowlist.add_tvshow(tvshow)
             else:
                 self.invalid_tvshows.append(f"{tvshow_dir}")
+
+    def crawl_seasons(self, tvshow_dir):
+        seasons = []
+        season_directories = os.listdir(os.path.join(self.path, tvshow_dir))
+
+        for season_dir in season_directories:
+            season = TVShowSeason(season_dir)
+
+            episodes = self.crawl_episodes(tvshow_dir, season_dir)
+            for episode in episodes:
+                season.add_episode(episode)
+
+            if season.is_valid():
+                seasons.append(season)
+            else:
+                self.invalid_seasons.append(f"{tvshow_dir} -> {season_dir}")
+
+        return seasons
+
+    def crawl_episodes(self, tvshow_dir, season_dir):
+        episodes = []
+        episode_directories = os.listdir(os.path.join(self.path, tvshow_dir, season_dir))
+
+        for episode_dir in episode_directories:
+            episode = TVShowEpisode(episode_dir)
+
+            if episode.is_valid():
+                episodes.append(episode)
+            else:
+                self.invalid_episodes.append(f"{tvshow_dir} -> {season_dir} -> {episode_dir}")
+
+        return episodes
 
     def get_tvshowlist(self):
         return self.tvshowlist
