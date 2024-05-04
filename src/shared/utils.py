@@ -74,13 +74,3 @@ def extract_seasonid(dirname):
         return int(seasonid_match.group(1))
     else:
         return None
-
-
-def delete_directory(dir_path):
-    for item in os.listdir(dir_path):
-        item_path = os.path.join(dir_path, item)
-        if os.path.isfile(item_path):
-            os.remove(item_path)
-        elif os.path.isdir(item_path):
-            delete_directory(item_path)
-    os.rmdir(dir_path)
