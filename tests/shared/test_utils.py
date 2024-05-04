@@ -1,6 +1,7 @@
 import unittest
 
-from utils import extract_tvdbid, extract_seasonid, extract_episodeid, extract_seasonid_from_episode
+from plexutils.shared.utils import extract_tvdbid, extract_seasonid, extract_episodeid, extract_seasonid_from_episode
+
 
 class TestUtils(unittest.TestCase):
     def test_extract_tvdbid(self):

@@ -1,8 +1,8 @@
 import unittest
 import os
 
-from plex_movie_crawler import PlexMovieCrawler
-from test_data import test_movie_files
+from plexutils.shared.plex_movie_crawler import PlexMovieCrawler
+from tests.testdata import test_movie_files
 
 current_script_dir = os.path.dirname(os.path.realpath(__file__))
 data_dir = os.path.join(current_script_dir, '../../data')

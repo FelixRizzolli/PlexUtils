@@ -1,4 +1,4 @@
-from shared.utils import extract_seasonid
+from plexutils.shared.utils import extract_seasonid
 
 
 class TVShowSeason:

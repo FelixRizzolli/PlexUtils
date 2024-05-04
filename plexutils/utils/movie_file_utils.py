@@ -1,6 +1,6 @@
-from shared.menu import Menu
-from shared.utils import print_menu
-from shared.plex_movie_crawler import PlexMovieCrawler
+from plexutils.shared.menu import Menu
+from plexutils.shared.utils import print_menu
+from plexutils.shared.plex_movie_crawler import PlexMovieCrawler
 
 
 class MovieFileUtils:

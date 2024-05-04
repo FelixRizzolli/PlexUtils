@@ -1,8 +1,9 @@
-from .movie_file_utils import MovieFileUtils
-from .tvshow_file_utils import TvshowFileUtils
-from .tvdb_utils import TVDBUtils
-from shared.menu import Menu
-from shared.utils import print_menu
+from plexutils.utils.movie_file_utils import MovieFileUtils
+from plexutils.utils.tvshow_file_utils import TvshowFileUtils
+from plexutils.utils.tvdb_utils import TVDBUtils
+from plexutils.shared.menu import Menu
+from plexutils.shared.utils import print_menu
+
 
 class PlexUtils:
     def __init__(self, config, gettext):

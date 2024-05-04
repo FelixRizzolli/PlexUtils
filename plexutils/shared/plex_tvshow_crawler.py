@@ -1,9 +1,9 @@
 import os
 
-from media.tvshow_list import TVShowList
-from media.tvshow import TVShow
-from media.tvshow_season import TVShowSeason
-from media.tvshow_episode import TVShowEpisode
+from plexutils.media.tvshow_list import TVShowList
+from plexutils.media.tvshow import TVShow
+from plexutils.media.tvshow_season import TVShowSeason
+from plexutils.media.tvshow_episode import TVShowEpisode
 
 class PlexTvshowCrawler(object):
     def __init__(self, path):

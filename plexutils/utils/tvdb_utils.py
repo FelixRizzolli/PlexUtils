@@ -1,7 +1,7 @@
-from shared.plex_tvshow_crawler import PlexTvshowCrawler
-from shared.menu import Menu
-from shared.utils import print_menu
-from shared.tvdb_tool import TVDBTool
+from plexutils.shared.plex_tvshow_crawler import PlexTvshowCrawler
+from plexutils.shared.menu import Menu
+from plexutils.shared.utils import print_menu
+from plexutils.shared.tvdb_tool import TVDBTool
 
 
 class TVDBUtils:

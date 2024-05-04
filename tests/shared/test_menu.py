@@ -1,5 +1,5 @@
 import unittest
-from shared.menu import Menu
+from plexutils.shared.menu import Menu
 
 
 def action1():

@@ -1,7 +1,7 @@
 import os
 
-from media.movie import Movie
-from media.movie_list import MovieList
+from plexutils.media.movie import Movie
+from plexutils.media.movie_list import MovieList
 
 class PlexMovieCrawler(object):
     def __init__(self, path):

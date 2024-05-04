@@ -1,4 +1,4 @@
-from shared.utils import extract_tvdbid
+from plexutils.shared.utils import extract_tvdbid
 
 
 class Movie:

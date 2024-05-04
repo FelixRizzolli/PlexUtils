@@ -1,7 +1,7 @@
 import re
 import yaml
 
-from .menu import clear_console
+from plexutils.shared.menu import clear_console
 
 
 def load_config(config_file):

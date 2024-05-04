@@ -1,6 +1,7 @@
-from shared.menu import Menu
-from shared.utils import print_menu
-from shared.plex_tvshow_crawler import PlexTvshowCrawler
+from plexutils.shared.menu import Menu
+from plexutils.shared.utils import print_menu
+from plexutils.shared.plex_tvshow_crawler import PlexTvshowCrawler
+
 
 class TvshowFileUtils:
     def __init__(self, config, gettext):
