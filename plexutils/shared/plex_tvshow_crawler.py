@@ -5,8 +5,10 @@ from plexutils.media.tvshow import TVShow
 from plexutils.media.tvshow_season import TVShowSeason
 from plexutils.media.tvshow_episode import TVShowEpisode
 
-class PlexTvshowCrawler(object):
+
+class PlexTvshowCrawler:
     """class for crawling tvshow data from a plex library"""
+
     def __init__(self, path):
         self.invalid_tvshows = None
         self.invalid_seasons = None

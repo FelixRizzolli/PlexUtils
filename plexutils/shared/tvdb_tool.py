@@ -8,6 +8,7 @@ ssl._create_default_https_context = ssl._create_unverified_context
 
 class TVDBTool:
     """class for accessing the tvdb api"""
+
     def __init__(self, key, pin):
         self.tvdb = TVDB(key, pin)
         self.cached_episodes = []
