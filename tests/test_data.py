@@ -144,7 +144,7 @@ test_tvshow_files = [
                     "Money Heist (2017) - s01e10 - Masked No Longer.mp4",
                     "Money Heist (2017) - s01e11 - The Head of the Plan.mp4",
                     "Money Heist (2017) - s01e12 - A Matter of Efficiency.mp4",
-                    "Money Heist (2017) - s01e13 - What Have We Done?.mp4",
+                    "Money Heist (2017) - s01e13 - What Have We Done.mp4",
                     "Money Heist (2017) - s01e14 - Against the Clock.mp4",
                     "Money Heist (2017) - s01e15 - Bye Beautiful.mp4",
                 ],
