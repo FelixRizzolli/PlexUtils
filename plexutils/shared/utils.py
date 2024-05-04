@@ -103,5 +103,4 @@ def is_future_date(iso_date_string):
     # Compare the two dates
     if date > now:
         return True
-    else:
-        return False
+    return False
