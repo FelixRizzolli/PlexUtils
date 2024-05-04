@@ -16,14 +16,14 @@ class TVDBUtils:
 
         self.menu_list = Menu([
             {
-                "id": "1",
-                "name": "search in tvdb for new seasons of existing tvshows",
-                "action": self.search_new_seasons,
+                'id': '1',
+                'name': "search in tvdb for new seasons of existing tvshows",
+                'action': self.search_new_seasons,
             },
             {
-                "id": "2",
-                "name": "search in tvdb for missing episodes of existing seasons of existing tvshows",
-                "action": self.search_missing_episodes,
+                'id': '2',
+                'name': "search in tvdb for missing episodes of existing seasons of existing tvshows",
+                'action': self.search_missing_episodes,
             },
         ])
 
@@ -53,7 +53,7 @@ class TVDBUtils:
         for season in missing_season_strings:
             print(season)
 
-        input('Press Enter to continue...')
+        input("Press Enter to continue...")
 
 
     def search_missing_episodes(self):
@@ -75,10 +75,10 @@ class TVDBUtils:
                 missing_episodes = list(tvdb_episodeids - plex_episodeids)
                 for missing_episode in missing_episodes:
                     missing_episode_strings.append(
-                        f'{tvshow.get_dirname()} -> s{season.get_id()}e{missing_episode}'
+                        f"{tvshow.get_dirname()} -> s{season.get_id()}e{missing_episode}"
                     )
 
         for episode in missing_episode_strings:
             print(episode)
 
-        input('Press Enter to continue...')
+        input("Press Enter to continue...")

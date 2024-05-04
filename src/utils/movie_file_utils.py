@@ -10,9 +10,9 @@ class MovieFileUtils:
 
         self.menu_list = Menu([
             {
-                "id": "1",
-                "name": self.gettext("validate movie filename syntax"),
-                "action": self.validate_movie_syntax,
+                'id': '1',
+                'name': self.gettext("validate movie filename syntax"),
+                'action': self.validate_movie_syntax,
             },
         ])
 

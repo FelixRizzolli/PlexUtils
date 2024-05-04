@@ -15,19 +15,19 @@ class PlexUtils:
 
         self.menu_list = Menu([
             {
-                "id": "1",
-                "name": self.movie_file_utils.get_utils_name(),
-                "action": self.movie_file_utils.print_menu,
+                'id': '1',
+                'name': self.movie_file_utils.get_utils_name(),
+                'action': self.movie_file_utils.print_menu,
             },
             {
-                "id": "2",
-                "name": self.tvshow_file_utils.get_utils_name(),
-                "action": self.tvshow_file_utils.print_menu,
+                'id': '2',
+                'name': self.tvshow_file_utils.get_utils_name(),
+                'action': self.tvshow_file_utils.print_menu,
             },
             {
-                "id": "3",
-                "name": self.tvdb_utils.get_utils_name(),
-                "action": self.tvdb_utils.print_menu,
+                'id': '3',
+                'name': self.tvdb_utils.get_utils_name(),
+                'action': self.tvdb_utils.print_menu,
             },
         ])
 

@@ -9,19 +9,19 @@ class TvshowFileUtils:
 
         self.menu_list = Menu([
             {
-                "id": "1",
-                "name": self.gettext("validate tvshow directory syntax"),
-                "action": self.validate_tvshow_syntax,
+                'id': '1',
+                'name': self.gettext("validate tvshow directory syntax"),
+                'action': self.validate_tvshow_syntax,
             },
             {
-                "id": "2",
-                "name": self.gettext("validate season directory syntax"),
-                "action": self.validate_season_syntax,
+                'id': '2',
+                'name': self.gettext("validate season directory syntax"),
+                'action': self.validate_season_syntax,
             },
             {
-                "id": "3",
-                "name": self.gettext("validate episode filename syntax"),
-                "action": self.validate_episode_syntax,
+                'id': '3',
+                'name': self.gettext("validate episode filename syntax"),
+                'action': self.validate_episode_syntax,
             },
         ])
 

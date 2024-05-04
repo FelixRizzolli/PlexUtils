@@ -8,7 +8,7 @@ from shared.utils import load_config
 def setup_i18n(pj_path, config):
     locale_dir = os.path.join(pj_path, 'locale')
 
-    language = "en_US"
+    language = 'en_US'
     if (config is not None) and ('language' in config):
         language = config['language']
 
