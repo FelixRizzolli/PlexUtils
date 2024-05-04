@@ -18,34 +18,34 @@ class TestUtils(unittest.TestCase):
         self.assertIsNone(baby_driver)
 
     def test_extract_seasonid(self):
-        season1 = extract_seasonid("season 01")
-        self.assertEqual(1, season1)
+        season_1 = extract_seasonid("season 01")
+        self.assertEqual(1, season_1)
 
-        season2 = extract_seasonid("season 02")
-        self.assertEqual(2, season2)
+        season_2 = extract_seasonid("season 02")
+        self.assertEqual(2, season_2)
 
-        season3 = extract_seasonid("season a")
-        self.assertIsNone(season3)
+        season_a = extract_seasonid("season a")
+        self.assertIsNone(season_a)
 
     def test_extract_episodeid(self):
-        ep1 = extract_episodeid("Game of Thrones (2011) - s01e01 - Winter Is Coming.mp4")
-        self.assertEqual(1, ep1)
+        ep_1 = extract_episodeid("Game of Thrones (2011) - s01e01 - Winter Is Coming.mp4")
+        self.assertEqual(1, ep_1)
 
-        ep25 = extract_episodeid("Code Geass (2006) - s01e25 - Zero.mp4")
-        self.assertEqual(25, ep25)
+        ep_25 = extract_episodeid("Code Geass (2006) - s01e25 - Zero.mp4")
+        self.assertEqual(25, ep_25)
 
-        epx3 = extract_episodeid("Code Geass (2006) - s01ex3 - Zero.mp4")
-        self.assertIsNone(epx3)
+        ep_x3 = extract_episodeid("Code Geass (2006) - s01ex3 - Zero.mp4")
+        self.assertIsNone(ep_x3)
 
     def test_extract_seasonid_from_episode(self):
-        season1 = extract_seasonid_from_episode("Game of Thrones (2011) - s01e01 - Winter Is Coming.mp4")
-        self.assertEqual(1, season1)
+        season_1 = extract_seasonid_from_episode("Game of Thrones (2011) - s01e01 - Winter Is Coming.mp4")
+        self.assertEqual(1, season_1)
 
-        season2 = extract_seasonid_from_episode("Code Geass (2006) - s02e13 - Assassin from the Past.mp4")
-        self.assertEqual(2, season2)
+        season_2 = extract_seasonid_from_episode("Code Geass (2006) - s02e13 - Assassin from the Past.mp4")
+        self.assertEqual(2, season_2)
 
-        seasonX1 = extract_seasonid_from_episode("Code Geass (2006) - sx1e13 - Assassin from the Past.mp4")
-        self.assertIsNone(seasonX1)
+        season_x1 = extract_seasonid_from_episode("Code Geass (2006) - sx1e13 - Assassin from the Past.mp4")
+        self.assertIsNone(season_x1)
 
     def test_is_past_date(self):
         date_to_check = "2000-01-01"
