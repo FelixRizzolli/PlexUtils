@@ -1,8 +1,8 @@
 import gettext
 import os
 
-from plex_utils import PlexUtils
-from utils import load_config
+from utils.plex_utils import PlexUtils
+from shared.utils import load_config
 
 
 def setup_i18n(pj_path, config):

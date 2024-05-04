@@ -1,6 +1,6 @@
-from movie_file_utils import MovieFileUtils
-from tvshow_file_utils import TvshowFileUtils
-from tvdb_utils import TVDBUtils
+from .movie_file_utils import MovieFileUtils
+from .tvshow_file_utils import TvshowFileUtils
+from .tvdb_utils import TVDBUtils
 from shared.menu import Menu
 from shared.utils import print_menu
 

@@ -1,4 +1,4 @@
-from utils import extract_episodeid, extract_seasonid_from_episode
+from shared.utils import extract_episodeid, extract_seasonid_from_episode
 
 
 class TVShowEpisode:

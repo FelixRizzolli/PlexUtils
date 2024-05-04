@@ -1,6 +1,4 @@
-import re
-
-from utils import extract_tvdbid
+from shared.utils import extract_tvdbid
 
 
 class TVShow:

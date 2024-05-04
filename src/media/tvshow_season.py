@@ -1,4 +1,4 @@
-from utils import extract_seasonid
+from shared.utils import extract_seasonid
 
 
 class TVShowSeason:

@@ -1,8 +1,7 @@
-import json
 import os
 
-from movie import Movie
-from movie_list import MovieList
+from media.movie import Movie
+from media.movie_list import MovieList
 
 class PlexMovieCrawler(object):
     def __init__(self, path):

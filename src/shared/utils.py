@@ -1,9 +1,8 @@
-import os
 import re
-
 import yaml
 
-from menu import clear_console
+from .menu import clear_console
+
 
 def load_config(config_file):
     config = {}

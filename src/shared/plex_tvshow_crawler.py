@@ -1,10 +1,9 @@
-import json
 import os
 
-from tvshow_list import TVShowList
-from tvshow import TVShow
-from tvshow_season import TVShowSeason
-from tvshow_episode import TVShowEpisode
+from media.tvshow_list import TVShowList
+from media.tvshow import TVShow
+from media.tvshow_season import TVShowSeason
+from media.tvshow_episode import TVShowEpisode
 
 class PlexTvshowCrawler(object):
     def __init__(self, path):
