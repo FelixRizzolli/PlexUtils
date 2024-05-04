@@ -53,7 +53,7 @@ class TVDBUtils:
         for season in missing_season_strings:
             print(season)
 
-        input("Press Enter to continue...")
+        input(self.gettext("Press Enter to continue..."))
 
 
     def search_missing_episodes(self):
@@ -81,4 +81,4 @@ class TVDBUtils:
         for episode in missing_episode_strings:
             print(episode)
 
-        input("Press Enter to continue...")
+        input(self.gettext("Press Enter to continue..."))
