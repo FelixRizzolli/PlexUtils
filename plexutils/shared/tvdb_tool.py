@@ -69,7 +69,9 @@ class TVDBTool:
 
         episodeid_list = set()
         for episode in episodes:
-            if episode['seasonNumber'] == season_id and episode['isMovie'] == 0 and is_past_date(episode['aired']):
+            if (episode['seasonNumber'] == season_id
+                    and episode['isMovie'] == 0
+                    and is_past_date(episode['aired'])):
                 episodeid_list.add(episode['number'])
 
         return episodeid_list
