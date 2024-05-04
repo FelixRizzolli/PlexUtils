@@ -40,7 +40,7 @@ class TvshowFileUtils:
         crawler.crawl()
 
         for tvshow in crawler.get_invalid_tvshows():
-            print(self.gettext(f"Invalid tvshow directory: ") + tvshow)
+            print(self.gettext("Invalid tvshow directory: ") + tvshow)
 
         input()
 
@@ -52,7 +52,7 @@ class TvshowFileUtils:
         crawler.crawl()
 
         for season in crawler.get_invalid_seasons():
-            print(self.gettext(f"Invalid season directory: ") + season)
+            print(self.gettext("Invalid season directory: ") + season)
 
         input()
 
@@ -64,6 +64,6 @@ class TvshowFileUtils:
         crawler.crawl()
 
         for episode in crawler.get_invalid_episodes():
-            print(self.gettext(f"Invalid episode filename: ") + episode)
+            print(self.gettext("Invalid episode filename: ") + episode)
 
         input()
