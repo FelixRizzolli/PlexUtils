@@ -28,7 +28,7 @@ class TVDBUtils:
         ])
 
     def get_utils_name(self):
-        return self.gettext("TVDBUtils - Tools to compare the plex library with tvdb or search new content")
+        return self.gettext("TVDBUtils       - Tools to compare the plex library with tvdb or search new content")
 
     def print_menu(self):
         print_menu(self.gettext("TVDBUtils Menu:"), self.gettext, self.menu_list)

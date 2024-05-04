@@ -19,9 +19,9 @@ msgstr ""
 
 #: plexutils/utils/tvdb_utils.py:31
 msgid ""
-"TVDBUtils - Tools to compare the plex library with tvdb or search new content"
+"TVDBUtils       - Tools to compare the plex library with tvdb or search new content"
 msgstr ""
-"TVDBUtils - Tools zum Vergleichen der Plex-Bibliothek mit TVDB oder Suchen neuer Inhalte"
+"TVDBUtils       - Tools zum Vergleichen der Plex-Bibliothek mit TVDB oder Suchen neuer Inhalte"
 
 #: plexutils/utils/tvdb_utils.py:34
 msgid "TVDBUtils Menu:"
