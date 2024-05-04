@@ -4,7 +4,7 @@ import unittest
 from test_data import test_movie_files, test_tvshow_files
 
 current_script_dir = os.path.dirname(os.path.realpath(__file__))
-data_dir = os.path.join(current_script_dir, '../../data')
+data_dir = os.path.join(current_script_dir, '../data')
 movies_dir = os.path.join(data_dir, 'movies')
 tvshows_dir = os.path.join(data_dir, 'tvshows')
 
