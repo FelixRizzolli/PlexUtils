@@ -11,8 +11,8 @@ class TVDBTool:
     def get_movie(self, movie_id):
         return self.tvdb.get_movie(movie_id)
 
-    def get_episodes(self, tvdb_id, season_id):
-        episodes = self.tvdb.get_series_episodes(tvdb_id)["episodes"]
+    def get_episodes(self, tvdbid, season_id):
+        episodes = self.tvdb.get_series_episodes(tvdbid)["episodes"]
 
         clean_ep_list = []
         for episode in episodes:
