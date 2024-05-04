@@ -2,14 +2,6 @@ import unittest
 from plexutils.shared.menu import Menu
 
 
-def action1():
-    print("action1")
-
-
-def actionB():
-    print("actionB")
-
-
 class TestMenu(unittest.TestCase):
     def setUp(self):
         self.menu = [
