@@ -24,3 +24,14 @@ class TVDBTool:
                 clean_ep_list.append(clean_ep)
 
         return clean_ep_list
+
+    def get_seasons(self, tvdbid):
+        episodes = self.tvdb.get_series_episodes(tvdbid)["episodes"]
+
+        clean_season_list = []
+        for episode in episodes:
+            if episode["isMovie"] == 0 and episode["seasonNumber"] not in clean_season_list:
+                clean_season_list.append(episode["seasonNumber"])
+
+        return clean_season_list
+
