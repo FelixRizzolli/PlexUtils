@@ -1,7 +1,7 @@
 import os
 import re
-import yaml
 from datetime import datetime
+import yaml
 
 
 def load_config(config_file):
