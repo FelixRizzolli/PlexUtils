@@ -1,7 +1,7 @@
 import os
+import unittest
 
 from test_data import test_movie_files, test_tvshow_files
-
 
 current_script_dir = os.path.dirname(os.path.realpath(__file__))
 data_dir = os.path.join(current_script_dir, '../../data')
@@ -19,47 +19,52 @@ def delete_directory(dir_path):
     os.rmdir(dir_path)
 
 
-def create_movie_files():
-    movie_files = test_movie_files
+class SetupTestData(unittest.TestCase):
+    def test_create_movie_files(self):
+        movie_files = test_movie_files
 
-    # clear data
-    if os.path.isdir(movies_dir):
-        delete_directory(movies_dir)
+        # clear data
+        if os.path.isdir(movies_dir):
+            delete_directory(movies_dir)
 
-    # create data
-    if not os.path.isdir(data_dir):
-        os.mkdir(data_dir)
-    if not os.path.isdir(movies_dir):
-        os.mkdir(movies_dir)
+        # create data
+        if not os.path.isdir(data_dir):
+            os.mkdir(data_dir)
+        if not os.path.isdir(movies_dir):
+            os.mkdir(movies_dir)
 
-    for movie_file in movie_files:
-        open(os.path.join(movies_dir, movie_file), 'a').close()
+        for movie_file in movie_files:
+            open(os.path.join(movies_dir, movie_file), 'a').close()
 
-def create_tvshow_files():
-    tvshow_directories = test_tvshow_files
+        self.assertTrue(os.path.isdir(movies_dir))
 
-    # clear data
-    if os.path.isdir(tvshows_dir):
-        delete_directory(tvshows_dir)
+    def test_create_tvshow_files(self):
+        tvshow_directories = test_tvshow_files
 
-    # create data
-    if not os.path.isdir(data_dir):
-        os.mkdir(data_dir)
-    if not os.path.isdir(tvshows_dir):
-        os.mkdir(tvshows_dir)
+        # clear data
+        if os.path.isdir(tvshows_dir):
+            delete_directory(tvshows_dir)
 
-    for tvshow in tvshow_directories:
-        tvshow_dirname = tvshow["dirname"]
-        tvshow_dir = os.path.join(tvshows_dir, tvshow_dirname)
-        if not os.path.isdir(tvshow_dir):
-            os.mkdir(tvshow_dir)
+        # create data
+        if not os.path.isdir(data_dir):
+            os.mkdir(data_dir)
+        if not os.path.isdir(tvshows_dir):
+            os.mkdir(tvshows_dir)
 
-        for season in tvshow["seasons"]:
-            season_dirname = season["dirname"]
-            season_dir = os.path.join(tvshow_dir, season_dirname)
-            if not os.path.isdir(season_dir):
-                os.mkdir(season_dir)
+        for tvshow in tvshow_directories:
+            tvshow_dirname = tvshow["dirname"]
+            tvshow_dir = os.path.join(tvshows_dir, tvshow_dirname)
+            if not os.path.isdir(tvshow_dir):
+                os.mkdir(tvshow_dir)
 
-            for episode in season["episodes"]:
-                episode_dir = os.path.join(season_dir, episode)
-                open(episode_dir, 'a').close()
+            for season in tvshow["seasons"]:
+                season_dirname = season["dirname"]
+                season_dir = os.path.join(tvshow_dir, season_dirname)
+                if not os.path.isdir(season_dir):
+                    os.mkdir(season_dir)
+
+                for episode in season["episodes"]:
+                    episode_dir = os.path.join(season_dir, episode)
+                    open(episode_dir, 'a').close()
+
+        self.assertTrue(os.path.isdir(tvshows_dir))
