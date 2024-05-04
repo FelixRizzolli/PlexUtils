@@ -7,15 +7,26 @@ ssl._create_default_https_context = ssl._create_unverified_context
 
 
 class TVDBTool:
+    """class for accessing the tvdb api"""
     def __init__(self, key, pin):
         self.tvdb = TVDB(key, pin)
         self.cached_episodes = []
         self.cached_episodes_tvdbid = None
 
     def get_movie(self, movie_id):
+        """
+            returns the movie data
+                from the tvdb api
+                for the given movie id
+        """
         return self.tvdb.get_movie(movie_id)
 
     def get_episodes(self, tvdbid, season_id):
+        """
+            returns the episodes data
+                from the tvdb api
+                for the given tvdbid and the season of the tvshow
+        """
         episodes = self.tvdb.get_series_episodes(tvdbid)['episodes']
 
         clean_ep_list = []
@@ -30,6 +41,11 @@ class TVDBTool:
         return clean_ep_list
 
     def get_seasonids(self, tvdbid):
+        """
+            returns the season ids
+                from the tvdb api
+                for the given tvdbid of the tvshow
+        """
         episodes = self.tvdb.get_series_episodes(tvdbid)['episodes']
 
         seasonid_list = set()
@@ -40,6 +56,11 @@ class TVDBTool:
         return seasonid_list
 
     def get_episodeids(self, tvdbid, season_id):
+        """
+            returns the season ids
+                from the tvdb api
+                for the given tvdbid and the season of the tvshow
+        """
         if self.cached_episodes_tvdbid is None or self.cached_episodes_tvdbid != tvdbid:
             self.cached_episodes = self.tvdb.get_series_episodes(tvdbid)['episodes']
             self.cached_episodes_tvdbid = tvdbid

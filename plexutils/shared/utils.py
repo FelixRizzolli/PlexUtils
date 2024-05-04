@@ -12,12 +12,14 @@ def load_config(config_file):
 
 
 def clear_console():
+    """clears the console screen for windows and unix - this doesn't wor in ides like pycharm"""
     print("clear_console()")
     command = 'cls' if os.name == 'nt' else 'clear'
     os.system(command)
 
 
 def print_menu(title, gettext, menu_list):
+    """prints the menu of the given menu list and handles the user input"""
     while True:
         clear_console()
         print("\n" + title)
@@ -38,6 +40,7 @@ def print_menu(title, gettext, menu_list):
 
 
 def extract_tvdbid(dirname):
+    """extracts the tvdb id from the given directory string"""
     tvdbid_pattern = r'{tvdb-(\d+)}'
 
     tvdbid_match = re.search(tvdbid_pattern, dirname)
@@ -49,6 +52,7 @@ def extract_tvdbid(dirname):
 
 
 def extract_episodeid(filename):
+    """extracts the episode id from the given filename"""
     episodeid_pattern = r'- s(\d+)e(\d+)'
 
     episodeid_match = re.search(episodeid_pattern, filename)
@@ -60,6 +64,7 @@ def extract_episodeid(filename):
 
 
 def extract_seasonid_from_episode(filename):
+    """extracts the season id from the given filename"""
     seasonid_pattern = r'- s(\d+)e(\d+)'
 
     seasonid_match = re.search(seasonid_pattern, filename)
@@ -71,6 +76,7 @@ def extract_seasonid_from_episode(filename):
 
 
 def extract_seasonid(dirname):
+    """extracts the season id from the given directory string"""
     seasonid_pattern = r'season (\d+)'
 
     seasonid_match = re.search(seasonid_pattern, dirname)
@@ -82,10 +88,12 @@ def extract_seasonid(dirname):
 
 
 def is_past_date(iso_date_string):
+    """checks if the given date string is in the past"""
     return not is_future_date(iso_date_string)
 
 
 def is_future_date(iso_date_string):
+    """checks if the given date string is in the future"""
     # Parse the ISO date string into a datetime object
     date = datetime.fromisoformat(iso_date_string)
 

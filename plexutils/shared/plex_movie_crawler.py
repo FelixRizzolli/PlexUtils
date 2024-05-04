@@ -5,6 +5,7 @@ from plexutils.media.movie_list import MovieList
 
 
 class PlexMovieCrawler(object):
+    """class for crawling movie data from a plex library"""
     def __init__(self, path):
         self.invalid_movies = None
         self.movies = None
