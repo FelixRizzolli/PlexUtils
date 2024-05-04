@@ -1,6 +1,6 @@
 import unittest
 
-from plexutils.shared.utils import extract_tvdbid, extract_seasonid, extract_episodeid, extract_seasonid_from_episode
+from plexutils.shared.utils import extract_tvdbid, extract_seasonid, extract_episodeid, extract_seasonid_from_episode, is_future_date, is_past_date
 
 
 class TestUtils(unittest.TestCase):
@@ -46,6 +46,18 @@ class TestUtils(unittest.TestCase):
 
         seasonX1 = extract_seasonid_from_episode("Code Geass (2006) - sx1e13 - Assassin from the Past.mp4")
         self.assertIsNone(seasonX1)
+
+    def test_is_past_date(self):
+        date_to_check = "2000-01-01"
+        self.assertTrue(is_past_date(date_to_check))
+        date_to_check = "3000-01-01"
+        self.assertFalse(is_past_date(date_to_check))
+
+    def test_is_future_date(self):
+        date_to_check = "2000-01-01"
+        self.assertFalse(is_future_date(date_to_check))
+        date_to_check = "3000-01-01"
+        self.assertTrue(is_future_date(date_to_check))
 
 
 if __name__ == '__main__':

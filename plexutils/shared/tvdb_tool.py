@@ -1,6 +1,8 @@
 from tvdb_v4_official import TVDB
 import ssl
 
+from plexutils.shared.utils import is_past_date
+
 ssl._create_default_https_context = ssl._create_unverified_context
 
 
@@ -46,7 +48,7 @@ class TVDBTool:
 
         episodeid_list = set()
         for episode in episodes:
-            if episode['seasonNumber'] == season_id and episode['isMovie'] == 0:
+            if episode['seasonNumber'] == season_id and episode['isMovie'] == 0 and is_past_date(episode['aired']):
                 episodeid_list.add(episode['number'])
 
         return episodeid_list

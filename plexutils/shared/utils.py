@@ -1,5 +1,6 @@
 import re
 import yaml
+from datetime import datetime
 
 from plexutils.shared.menu import clear_console
 
@@ -73,3 +74,21 @@ def extract_seasonid(dirname):
         return int(seasonid_match.group(1))
     else:
         return None
+
+
+def is_past_date(iso_date_string):
+    return not is_future_date(iso_date_string)
+
+
+def is_future_date(iso_date_string):
+    # Parse the ISO date string into a datetime object
+    date = datetime.fromisoformat(iso_date_string)
+
+    # Get the current date and time
+    now = datetime.now()
+
+    # Compare the two dates
+    if date > now:
+        return True
+    else:
+        return False
