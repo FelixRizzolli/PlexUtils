@@ -3,5 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="Python 3.12 (PlexUtils)" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.12 (PlexUtils)" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.9 (PlexUtils)" project-jdk-type="Python SDK" />
 </project>
