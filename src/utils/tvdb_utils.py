@@ -57,4 +57,28 @@ class TVDBUtils:
 
 
     def search_missing_episodes(self):
-        pass
+        if 'tvshows-dir' not in self.config:
+            return False
+
+        tvdb_tool = TVDBTool(self.tvdb_key, self.tvdb_pin)
+        crawler = PlexTvshowCrawler(self.config['tvshows-dir'])
+        crawler.crawl()
+
+        tvshows = crawler.get_tvshowlist().get_tvshows()
+        missing_episode_strings = []
+        for tvshow in tvshows:
+            seasons = tvshow.get_seasons()
+            for season in seasons:
+                plex_episodeids = set(season.get_episodeids())
+                tvdb_episodeids = tvdb_tool.get_episodeids(tvshow.get_tvdbid(), season.get_id())
+
+                missing_episodes = list(tvdb_episodeids - plex_episodeids)
+                for missing_episode in missing_episodes:
+                    missing_episode_strings.append(
+                        f'{tvshow.get_dirname()} -> s{season.get_id()}e{missing_episode}'
+                    )
+
+        for episode in missing_episode_strings:
+            print(episode)
+
+        input('Press Enter to continue...')

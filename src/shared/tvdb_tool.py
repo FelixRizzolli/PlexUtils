@@ -35,3 +35,12 @@ class TVDBTool:
 
         return seasonid_list
 
+    def get_episodeids(self, tvdbid, season_id):
+        episodes = self.tvdb.get_series_episodes(tvdbid)["episodes"]
+
+        episodeid_list = set()
+        for episode in episodes:
+            if episode["seasonNumber"] == season_id and episode["isMovie"] == 0:
+                episodeid_list.add(episode["number"])
+
+        return episodeid_list
