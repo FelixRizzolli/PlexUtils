@@ -17,6 +17,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: plexutils/utils/tvdb_utils.py:20
+msgid "search in tvdb for new seasons of existing tvshows"
+msgstr "Suche in TVDB nach neuen Staffeln für Serien in der Plex-Library"
+
+#: plexutils/utils/tvdb_utils.py:25
+msgid ""
+"search in tvdb for missing episodes of existing seasons of existing tvshows"
+msgstr "Suche in TVDB nach fehlenden Episoden der Staffeln der Serien aus der Plex-Library"
+
 #: plexutils/utils/tvdb_utils.py:31
 msgid ""
 "TVDBUtils       - Tools to compare the plex library with tvdb or search new content"
