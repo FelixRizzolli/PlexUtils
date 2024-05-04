@@ -6,7 +6,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.1\n"
+"Project-Id-Version: 1.0.0\n"
 "Report-Msgid-Bugs-To: FELIX RIZZOLLI <FELIX.RIZZOLLI@OUTLOOK.DE>\n"
 "POT-Creation-Date: 2024-05-02 15:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
@@ -17,22 +17,80 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/utils/tvshow_file_utils.py:8
-msgid "TvshowFileUtils - Tools for tvshow directories and episode files"
-msgstr "TvshowFileUtils - Tools für Serien-Verzeichnisse und Episoden-Dateien"
+#: plexutils/utils/tvdb_utils.py:31
+msgid ""
+"TVDBUtils - Tools to compare the plex library with tvdb or search new content"
+msgstr ""
+"TVDBUtils - Tools zum Vergleichen der Plex-Bibliothek mit TVDB oder Suchen neuer Inhalte"
 
-#: src/utils/plex_utils.py:28
+#: plexutils/utils/tvdb_utils.py:34
+msgid "TVDBUtils Menu:"
+msgstr "TVDBUtils Menü:"
+
+#: plexutils/utils/tvdb_utils.py:56 plexutils/utils/tvdb_utils.py:84
+msgid "Press Enter to continue..."
+msgstr "Drücken Sie Enter, um fortzufahren..."
+
+#: plexutils/utils/tvshow_file_utils.py:13
+msgid "validate tvshow directory syntax"
+msgstr "Validierung der Syntax des Serien-Verzeichnisses"
+
+#: plexutils/utils/tvshow_file_utils.py:18
+msgid "validate season directory syntax"
+msgstr "Validierung der Syntax des Staffel-Verzeichnisses"
+
+#: plexutils/utils/tvshow_file_utils.py:23
+msgid "validate episode filename syntax"
+msgstr "Validierung der Syntax des Dateinamen der Episode"
+
+#: plexutils/utils/tvshow_file_utils.py:29
+msgid "TvshowFileUtils - Tools for tvshow directories and episode files"
+msgstr "TvshowFileUtils - Tools für Serien-Verzeichnisse und Dateinamen der Episoden"
+
+#: plexutils/utils/tvshow_file_utils.py:32
+msgid "TvshowFileUtils Menu:"
+msgstr "TvshowFileUtils Menü:"
+
+#: plexutils/utils/tvshow_file_utils.py:42
+msgid "Invalid tvshow directory: "
+msgstr "Ungültige Serien-Verzeichnis-Bezeichnung: "
+
+#: plexutils/utils/tvshow_file_utils.py:54
+msgid "Invalid season directory: "
+msgstr "Ungültige Staffel-Verzeichnis-Bezeichnung: "
+
+#: plexutils/utils/tvshow_file_utils.py:66
+msgid "Invalid episode filename: "
+msgstr "Ungültiger Episoden-Dateinamen: "
+
+#: plexutils/utils/plex_utils.py:35
 msgid "PlexUtils Menu:"
 msgstr "PlexUtils Menü:"
 
-#: src/utils/plex_utils.py:32
-msgid "Enter your choice: "
-msgstr "Wähle:"
+#: plexutils/utils/movie_file_utils.py:14
+msgid "validate movie filename syntax"
+msgstr "Validierung der Syntax des Dateinamen des Films"
 
-#: src/utils/plex_utils.py:37
+#: plexutils/utils/movie_file_utils.py:20
+msgid "MovieFileUtils  - Tools for movie files"
+msgstr "MovieFileUtils  - Tools zur Validierung von Filmdateien"
+
+#: plexutils/utils/movie_file_utils.py:23
+msgid "MovieFileUtils Menu:"
+msgstr "MovieFileUtils Menü:"
+
+#: plexutils/utils/movie_file_utils.py:33
+msgid "Invalid movie file: "
+msgstr "Ungültiger Film-Dateinamen: "
+
+#: plexutils/shared/utils.py:21
+msgid "E. Exit"
+msgstr "E. Exit"
+
+#: plexutils/shared/utils.py:23
+msgid "Enter your choice: "
+msgstr "Wähle: "
+
+#: plexutils/shared/utils.py:31
 msgid "Invalid choice. Please enter a valid option."
 msgstr "Ungültige Auswahl. Bitte wähle gültige Option."
-
-#: src/utils/movie_file_utils.py:8
-msgid "MovieFileUtils  - Tools for movie files"
-msgstr "MovieFileUtils  - Tools für Film-Dateien"
