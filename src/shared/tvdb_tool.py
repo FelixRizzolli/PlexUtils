@@ -7,6 +7,8 @@ ssl._create_default_https_context = ssl._create_unverified_context
 class TVDBTool:
     def __init__(self, key, pin):
         self.tvdb = TVDB(key, pin)
+        self.cached_episodes = []
+        self.cached_episodes_tvdbid = None
 
     def get_movie(self, movie_id):
         return self.tvdb.get_movie(movie_id)
@@ -36,7 +38,11 @@ class TVDBTool:
         return seasonid_list
 
     def get_episodeids(self, tvdbid, season_id):
-        episodes = self.tvdb.get_series_episodes(tvdbid)["episodes"]
+        if self.cached_episodes_tvdbid is None or self.cached_episodes_tvdbid != tvdbid:
+            self.cached_episodes = self.tvdb.get_series_episodes(tvdbid)["episodes"]
+            self.cached_episodes_tvdbid = tvdbid
+
+        episodes = self.cached_episodes
 
         episodeid_list = set()
         for episode in episodes:
