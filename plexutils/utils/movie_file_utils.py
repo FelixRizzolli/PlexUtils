@@ -30,6 +30,6 @@ class MovieFileUtils:
         crawler.crawl()
 
         for movie in crawler.get_invalid_movies():
-            print(self.gettext(f"Invalid movie file: {movie}"))
+            print(self.gettext("Invalid movie file: ") + movie)
 
         input()

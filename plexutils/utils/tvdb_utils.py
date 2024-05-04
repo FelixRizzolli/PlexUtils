@@ -48,7 +48,7 @@ class TVDBUtils:
             tvdb_tvshow_seasonids = tvdb_tool.get_seasonids(tvshow.get_tvdbid())
             missing_seasons = list(tvdb_tvshow_seasonids - plex_tvshow_seasonids)
             for missing_season in missing_seasons:
-                missing_season_strings.append(f'{tvshow.get_dirname()} -> {missing_season}')
+                missing_season_strings.append(f"{tvshow.get_dirname()} -> {missing_season}")
 
         for season in missing_season_strings:
             print(season)
