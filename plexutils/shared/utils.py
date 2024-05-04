@@ -1,8 +1,7 @@
+import os
 import re
 import yaml
 from datetime import datetime
-
-from plexutils.shared.menu import clear_console
 
 
 def load_config(config_file):
@@ -10,6 +9,12 @@ def load_config(config_file):
     with open(config_file, 'r') as f:
         config = yaml.safe_load(f)
     return config
+
+
+def clear_console():
+    print("clear_console()")
+    command = 'cls' if os.name == 'nt' else 'clear'
+    os.system(command)
 
 
 def print_menu(title, gettext, menu_list):
