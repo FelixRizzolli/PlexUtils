@@ -22,6 +22,12 @@ class TVShow:
     def get_seasons(self):
         return self.seasons
 
+    def get_seasonids(self):
+        ids = []
+        for season in self.seasons:
+            ids.append(season.get_id())
+        return ids
+
     def add_season(self, season):
         self.seasons.append(season)
 

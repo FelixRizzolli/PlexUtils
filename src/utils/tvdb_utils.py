@@ -1,5 +1,7 @@
+from plex_tvshow_crawler import PlexTvshowCrawler
 from shared.menu import Menu
 from shared.utils import print_menu
+from tvdb_tool import TVDBTool
 
 
 class TVDBUtils:
@@ -32,7 +34,27 @@ class TVDBUtils:
         print_menu(self.gettext("TVDBUtils Menu:"), self.gettext, self.menu_list)
 
     def search_new_seasons(self):
-        pass
+        if 'tvshows-dir' not in self.config:
+            return False
+
+        tvdb_tool = TVDBTool(self.tvdb_key, self.tvdb_pin)
+        crawler = PlexTvshowCrawler(self.config['tvshows-dir'])
+        crawler.crawl()
+
+        tvshows = crawler.get_tvshowlist().get_tvshows()
+        seasons = []
+        for tvshow in tvshows:
+            plex_tvshow_seasonids = tvshow.get_seasonids()
+            tvdb_tvshow_seasonids = tvdb_tool.get_seasonids(tvshow.get_tvdbid())
+            missing_seasons = list(set(tvdb_tvshow_seasonids) - set(plex_tvshow_seasonids))
+            for missing_season in missing_seasons:
+                seasons.append(f'{tvshow.get_dirname()} -> {missing_season}')
+
+        for season in seasons:
+            print(season)
+
+        input('Press Enter to continue...')
+
 
     def search_missing_episodes(self):
         pass
