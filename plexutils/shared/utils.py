@@ -5,6 +5,7 @@ import yaml
 
 
 def load_config(config_file):
+    """loads the config file from the given directory and returns it as a dict"""
     config = {}
     with open(config_file, 'r') as f:
         config = yaml.safe_load(f)
