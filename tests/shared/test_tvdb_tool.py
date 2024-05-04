@@ -40,6 +40,13 @@ class TestTVDBTool(unittest.TestCase):
 
         self.assertEqual(len(tvdb_got_seasons), len(plex_got_seasons))
 
+    def test_get_episodeids(self):
+        tvdb_tool = TVDBTool(self.config['tvdb-key'], self.config['tvdb-pin'])
+        tvdb_got_episodes = tvdb_tool.get_episodeids(121361, 1)
+        plex_got_episodes = self.crawler.get_tvshowlist().get_tvshow(121361).get_season(1).get_episodes()
+
+        self.assertEqual(len(tvdb_got_episodes), len(plex_got_episodes))
+
 
 if __name__ == '__main__':
     unittest.main()
