@@ -1,6 +1,8 @@
 """
     This module contains TvshowFileUtils class.
 """
+from typing import Callable
+
 from plexutils.shared.menu import Menu
 from plexutils.shared.utils import print_menu
 from plexutils.shared.plex_tvshow_crawler import PlexTvshowCrawler
@@ -9,11 +11,11 @@ from plexutils.shared.plex_tvshow_crawler import PlexTvshowCrawler
 class TvshowFileUtils:
     """represents the menu and tools for tv show files"""
 
-    def __init__(self, config, gettext):
-        self.gettext = gettext
-        self.config = config
+    def __init__(self, config: dict, gettext: Callable[[str], str]):
+        self.gettext: Callable[[str], str] = gettext
+        self.config: dict = config
 
-        self.menu_list = Menu([
+        self.menu_list: Menu = Menu([
             {
                 'id': '1',
                 'name': self.gettext("validate tvshow directory syntax"),
@@ -31,15 +33,15 @@ class TvshowFileUtils:
             },
         ])
 
-    def get_utils_name(self):
+    def get_utils_name(self) -> str:
         """returns the utils name"""
         return self.gettext("TvshowFileUtils - Tools for tvshow directories and episode files")
 
-    def print_menu(self):
+    def print_menu(self) -> None:
         """prints the menu"""
         print_menu(self.gettext("TvshowFileUtils Menu:"), self.gettext, self.menu_list)
 
-    def validate_tvshow_syntax(self):
+    def validate_tvshow_syntax(self) -> None:
         """
             validates the directory name
                 of the tv shows
@@ -48,7 +50,7 @@ class TvshowFileUtils:
         if 'tvshows-dir' not in self.config:
             return
 
-        crawler = PlexTvshowCrawler(self.config['tvshows-dir'])
+        crawler: PlexTvshowCrawler = PlexTvshowCrawler(self.config['tvshows-dir'])
         crawler.crawl()
 
         for tvshow in crawler.get_invalid_tvshows():
@@ -56,7 +58,7 @@ class TvshowFileUtils:
 
         input()
 
-    def validate_season_syntax(self):
+    def validate_season_syntax(self) -> None:
         """
             validates the directory name
                 of the seasons
@@ -66,7 +68,7 @@ class TvshowFileUtils:
         if 'tvshows-dir' not in self.config:
             return
 
-        crawler = PlexTvshowCrawler(self.config['tvshows-dir'])
+        crawler: PlexTvshowCrawler = PlexTvshowCrawler(self.config['tvshows-dir'])
         crawler.crawl()
 
         for season in crawler.get_invalid_seasons():
@@ -74,7 +76,7 @@ class TvshowFileUtils:
 
         input()
 
-    def validate_episode_syntax(self):
+    def validate_episode_syntax(self) -> None:
         """
             validates the directory name
                 of the episodes
@@ -85,7 +87,7 @@ class TvshowFileUtils:
         if 'tvshows-dir' not in self.config:
             return
 
-        crawler = PlexTvshowCrawler(self.config['tvshows-dir'])
+        crawler: PlexTvshowCrawler = PlexTvshowCrawler(self.config['tvshows-dir'])
         crawler.crawl()
 
         for episode in crawler.get_invalid_episodes():

@@ -1,6 +1,8 @@
 """
     This module contains PlexUtils class.
 """
+from typing import Callable
+
 from plexutils.utils.movie_file_utils import MovieFileUtils
 from plexutils.utils.tvshow_file_utils import TvshowFileUtils
 from plexutils.utils.tvdb_utils import TVDBUtils
@@ -12,15 +14,15 @@ from plexutils.shared.utils import print_menu
 class PlexUtils:
     """represents the menu and tools for plex"""
 
-    def __init__(self, config, gettext):
-        self.gettext = gettext
-        self.config = config
+    def __init__(self, config: dict, gettext: Callable[[str], str]):
+        self.gettext: Callable[[str], str] = gettext
+        self.config: dict = config
 
-        self.movie_file_utils = MovieFileUtils(config, gettext)
-        self.tvshow_file_utils = TvshowFileUtils(config, gettext)
-        self.tvdb_utils = TVDBUtils(config, gettext)
+        self.movie_file_utils: MovieFileUtils = MovieFileUtils(config, gettext)
+        self.tvshow_file_utils: TvshowFileUtils = TvshowFileUtils(config, gettext)
+        self.tvdb_utils: TVDBUtils = TVDBUtils(config, gettext)
 
-        self.menu_list = Menu([
+        self.menu_list: Menu = Menu([
             {
                 'id': '1',
                 'name': self.movie_file_utils.get_utils_name(),
@@ -38,6 +40,6 @@ class PlexUtils:
             },
         ])
 
-    def print_menu(self):
+    def print_menu(self) -> None:
         """prints the menu"""
         print_menu(self.gettext("PlexUtils Menu:"), self.gettext, self.menu_list)

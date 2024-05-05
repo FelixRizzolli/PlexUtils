@@ -1,25 +1,29 @@
 """
     This module contains TVDBUtils class.
 """
+from typing import Callable, List, Set
+
 from plexutils.shared.plex_tvshow_crawler import PlexTvshowCrawler
 from plexutils.shared.menu import Menu
 from plexutils.shared.utils import print_menu
 from plexutils.shared.tvdb_tool import TVDBTool
+from plexutils.media.tvshow import TVShow
+from plexutils.media.tvshow_season import TVShowSeason
 
 
 class TVDBUtils:
     """represents the menu and tools with tvdb"""
 
-    def __init__(self, config, gettext):
-        self.gettext = gettext
-        self.config = config
+    def __init__(self, config: dict, gettext: Callable[[str], str]):
+        self.gettext: Callable[[str], str] = gettext
+        self.config: dict = config
 
         if 'tvdb-key' in self.config:
             self.tvdb_key = self.config['tvdb-key']
         if 'tvdb-pin' in self.config:
             self.tvdb_pin = self.config['tvdb-pin']
 
-        self.menu_list = Menu([
+        self.menu_list: Menu = Menu([
             {
                 'id': '1',
                 'name': self.gettext(
@@ -36,17 +40,17 @@ class TVDBUtils:
             },
         ])
 
-    def get_utils_name(self):
+    def get_utils_name(self) -> str:
         """returns the utils name"""
         return self.gettext(
             "TVDBUtils       - Tools to compare the plex library with tvdb or search new content"
         )
 
-    def print_menu(self):
+    def print_menu(self) -> None:
         """prints the menu"""
         print_menu(self.gettext("TVDBUtils Menu:"), self.gettext, self.menu_list)
 
-    def search_new_seasons(self):
+    def search_new_seasons(self) -> None:
         """
             searches for new seasons
                 of existing tvshows
@@ -54,16 +58,16 @@ class TVDBUtils:
         if 'tvshows-dir' not in self.config:
             return
 
-        tvdb_tool = TVDBTool(self.tvdb_key, self.tvdb_pin)
-        crawler = PlexTvshowCrawler(self.config['tvshows-dir'])
+        tvdb_tool: TVDBTool = TVDBTool(self.tvdb_key, self.tvdb_pin)
+        crawler: PlexTvshowCrawler = PlexTvshowCrawler(self.config['tvshows-dir'])
         crawler.crawl()
 
-        tvshows = crawler.get_tvshowlist().get_tvshows()
-        missing_season_strings = []
+        tvshows: List[TVShow] = crawler.get_tvshowlist().get_tvshows()
+        missing_season_strings: List[str] = []
         for tvshow in tvshows:
-            plex_tvshow_seasonids = set(tvshow.get_seasonids())
-            tvdb_tvshow_seasonids = tvdb_tool.get_seasonids(tvshow.get_tvdbid())
-            missing_seasons = list(tvdb_tvshow_seasonids - plex_tvshow_seasonids)
+            plex_tvshow_seasonids: Set[int] = set(tvshow.get_seasonids())
+            tvdb_tvshow_seasonids: Set[int] = tvdb_tool.get_seasonids(tvshow.get_tvdbid())
+            missing_seasons: List[int] = list(tvdb_tvshow_seasonids - plex_tvshow_seasonids)
             for missing_season in missing_seasons:
                 missing_season_strings.append(f"{tvshow.get_dirname()} -> {missing_season}")
 
@@ -72,8 +76,7 @@ class TVDBUtils:
 
         input(self.gettext("Press Enter to continue..."))
 
-
-    def search_missing_episodes(self):
+    def search_missing_episodes(self) -> None:
         """
             searches for missing episodes
                 of existing seasons
@@ -82,19 +85,19 @@ class TVDBUtils:
         if 'tvshows-dir' not in self.config:
             return
 
-        tvdb_tool = TVDBTool(self.tvdb_key, self.tvdb_pin)
-        crawler = PlexTvshowCrawler(self.config['tvshows-dir'])
+        tvdb_tool: TVDBTool = TVDBTool(self.tvdb_key, self.tvdb_pin)
+        crawler: PlexTvshowCrawler = PlexTvshowCrawler(self.config['tvshows-dir'])
         crawler.crawl()
 
-        tvshows = crawler.get_tvshowlist().get_tvshows()
-        missing_episode_strings = []
+        tvshows: List[TVShow] = crawler.get_tvshowlist().get_tvshows()
+        missing_episode_strings: List[str] = []
         for tvshow in tvshows:
-            seasons = tvshow.get_seasons()
+            seasons: List[TVShowSeason] = tvshow.get_seasons()
             for season in seasons:
-                plex_episodeids = set(season.get_episodeids())
-                tvdb_episodeids = tvdb_tool.get_episodeids(tvshow.get_tvdbid(), season.get_id())
+                plex_episodeids: Set[int] = set(season.get_episodeids())
+                tvdb_episodeids: Set[int] = tvdb_tool.get_episodeids(tvshow.get_tvdbid(), season.get_id())
 
-                missing_episodes = list(tvdb_episodeids - plex_episodeids)
+                missing_episodes: List[int] = list(tvdb_episodeids - plex_episodeids)
                 for missing_episode in missing_episodes:
                     missing_episode_strings.append(
                         f"{tvshow.get_dirname()} -> s{season.get_id()}e{missing_episode}"
