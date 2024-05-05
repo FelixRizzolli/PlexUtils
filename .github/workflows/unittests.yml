@@ -24,4 +24,4 @@ jobs:
         poetry run python -m unittest tests/shared/test_menu.py
         poetry run python -m unittest tests/shared/test_plex_movie_crawler.py
         poetry run python -m unittest tests/shared/test_plex_tvshow_crawler.py
-        poetry run python -m unittest tests/shared/test_utils_crawler.py
+        poetry run python -m unittest tests/shared/test_utils.py
