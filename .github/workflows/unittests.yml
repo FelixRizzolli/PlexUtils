@@ -20,5 +20,8 @@ jobs:
     - name: Run tests
       run: |
         poetry run python -m unittest tests/setup_testdata.py
-        poetry run python -m unittest discover tests/shared
-        poetry run python -m unittest discover tests/utils
+        poetry run python -m unittest tests/shared/test_media.py
+        poetry run python -m unittest tests/shared/test_menu.py
+        poetry run python -m unittest tests/shared/test_movie_crawler.py
+        poetry run python -m unittest tests/shared/test_tvshow_crawler.py
+        poetry run python -m unittest tests/shared/test_utils_crawler.py
