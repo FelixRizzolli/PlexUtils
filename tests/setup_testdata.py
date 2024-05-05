@@ -41,7 +41,8 @@ class SetupTestData(unittest.TestCase):
             os.mkdir(movies_dir)
 
         for movie_file in movie_files:
-            open(os.path.join(movies_dir, movie_file), 'a').close()
+            with open(os.path.join(movies_dir, movie_file), 'a', encoding='utf-8'):
+                pass
 
         self.assertTrue(os.path.isdir(movies_dir))
 
@@ -73,6 +74,7 @@ class SetupTestData(unittest.TestCase):
 
                 for episode in season["episodes"]:
                     episode_dir = os.path.join(season_dir, episode)
-                    open(episode_dir, 'a').close()
+                    with open(episode_dir, 'a', encoding='utf-8'):
+                        pass
 
         self.assertTrue(os.path.isdir(tvshows_dir))
