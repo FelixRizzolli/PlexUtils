@@ -16,6 +16,7 @@ class PlexMovieCrawler:
         self.path = path
 
     def crawl(self):
+        """crawls the movies from a plex library"""
         movie_directories = os.listdir(self.path)
 
         self.movies = MovieList()
@@ -30,7 +31,9 @@ class PlexMovieCrawler:
                 self.invalid_movies.append(f"{movie_dir}")
 
     def get_movielist(self):
+        """returns the list of all movies"""
         return self.movies
 
     def get_invalid_movies(self):
+        """returns the list of invalid movies"""
         return self.invalid_movies
