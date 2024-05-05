@@ -18,7 +18,7 @@ data_dir = os.path.join(current_script_dir, '../../data')
 tvshows_dir = os.path.join(data_dir, 'tvshows')
 
 
-class TestTVDBTool(unittest.TestCase):
+class TestTvdbApi(unittest.TestCase):
     """test class for the TVDBTool class"""
 
     def setUp(self) -> None:

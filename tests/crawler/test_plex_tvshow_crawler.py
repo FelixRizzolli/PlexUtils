@@ -17,7 +17,7 @@ data_dir = os.path.join(current_script_dir, '../../data')
 tvshows_dir = os.path.join(data_dir, 'tvshows')
 
 
-class TestPlexTVShowsCrawler(unittest.TestCase):
+class TestPlexTVShowCrawler(unittest.TestCase):
     """test class for the PlexTvshowsCrawler class"""
 
     def setUp(self) -> None:
