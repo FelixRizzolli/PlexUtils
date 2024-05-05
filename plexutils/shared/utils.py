@@ -4,7 +4,7 @@
 import os
 import re
 from datetime import datetime
-import gettext
+import gettext as _
 import yaml
 
 
@@ -24,7 +24,7 @@ def setup_i18n(pj_path, config):
     if (config is not None) and ('language' in config):
         language = config['language']
 
-    trans = gettext.translation('plexutils', locale_dir, [language], fallback=True)
+    trans = _.translation('plexutils', locale_dir, [language], fallback=True)
     trans.install()
     return trans.gettext
 
