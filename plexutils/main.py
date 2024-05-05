@@ -1,20 +1,7 @@
-import gettext
 import os
 
 from plexutils.utils.plex_utils import PlexUtils
-from plexutils.shared.utils import load_config
-
-
-def setup_i18n(pj_path, config):
-    locale_dir = os.path.join(pj_path, 'locale')
-
-    language = 'en_US'
-    if (config is not None) and ('language' in config):
-        language = config['language']
-
-    trans = gettext.translation('plexutils', locale_dir, [language], fallback=True)
-    trans.install()
-    return trans.gettext
+from plexutils.shared.utils import load_config, setup_i18n
 
 
 if __name__ == '__main__':
