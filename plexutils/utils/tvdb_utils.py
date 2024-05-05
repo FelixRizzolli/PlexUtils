@@ -52,7 +52,7 @@ class TVDBUtils:
                 of existing tvshows
         """
         if 'tvshows-dir' not in self.config:
-            return False
+            return
 
         tvdb_tool = TVDBTool(self.tvdb_key, self.tvdb_pin)
         crawler = PlexTvshowCrawler(self.config['tvshows-dir'])
@@ -80,7 +80,7 @@ class TVDBUtils:
                 of existing tvshows
         """
         if 'tvshows-dir' not in self.config:
-            return False
+            return
 
         tvdb_tool = TVDBTool(self.tvdb_key, self.tvdb_pin)
         crawler = PlexTvshowCrawler(self.config['tvshows-dir'])
