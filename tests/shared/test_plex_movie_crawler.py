@@ -6,7 +6,7 @@ import os
 
 from plexutils.media.movie import Movie
 from plexutils.media.movie_list import MovieList
-from plexutils.shared.plex_movie_crawler import PlexMovieCrawler
+from plexutils.crawler.plex_movie_crawler import PlexMovieCrawler
 
 from tests.testdata import test_movie_files
 

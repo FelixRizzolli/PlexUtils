@@ -3,7 +3,7 @@
 """
 from typing import Callable
 
-from plexutils.shared.plex_tvshow_crawler import PlexTVShowCrawler
+from plexutils.crawler.plex_tvshow_crawler import PlexTVShowCrawler
 from plexutils.shared.menu import Menu
 from plexutils.shared.utils import print_menu
 from plexutils.shared.tvdb_tool import TVDBTool

@@ -4,7 +4,7 @@
 import unittest
 import os
 
-from plexutils.shared.plex_tvshow_crawler import PlexTVShowCrawler
+from plexutils.crawler.plex_tvshow_crawler import PlexTVShowCrawler
 from plexutils.media.tvshow import TVShow
 from plexutils.media.tvshow_episode import TVShowEpisode
 from plexutils.media.tvshow_list import TVShowList
