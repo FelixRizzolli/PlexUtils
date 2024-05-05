@@ -11,7 +11,7 @@ from plexutils.shared.utils import is_past_date
 ssl._create_default_https_context = ssl._create_unverified_context
 
 
-class TVDBTool:
+class TvdbApi:
     """class for accessing the tvdb api"""
 
     def __init__(self, key: str, pin: str):

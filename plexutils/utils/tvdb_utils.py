@@ -6,7 +6,7 @@ from typing import Callable
 from plexutils.crawler.plex_tvshow_crawler import PlexTVShowCrawler
 from plexutils.shared.menu import Menu
 from plexutils.shared.utils import print_menu
-from plexutils.shared.tvdb_tool import TVDBTool
+from plexutils.api.tvdb_api import TvdbApi
 from plexutils.media.tvshow import TVShow
 from plexutils.media.tvshow_season import TVShowSeason
 
@@ -58,7 +58,7 @@ class TVDBUtils:
         if 'tvshows-dir' not in self.config:
             return
 
-        tvdb_tool: TVDBTool = TVDBTool(self.tvdb_key, self.tvdb_pin)
+        tvdb_tool: TvdbApi = TvdbApi(self.tvdb_key, self.tvdb_pin)
         crawler: PlexTVShowCrawler = PlexTVShowCrawler(self.config['tvshows-dir'])
         crawler.crawl()
 
@@ -85,7 +85,7 @@ class TVDBUtils:
         if 'tvshows-dir' not in self.config:
             return
 
-        tvdb_tool: TVDBTool = TVDBTool(self.tvdb_key, self.tvdb_pin)
+        tvdb_tool: TvdbApi = TvdbApi(self.tvdb_key, self.tvdb_pin)
         crawler: PlexTVShowCrawler = PlexTVShowCrawler(self.config['tvshows-dir'])
         crawler.crawl()
 
