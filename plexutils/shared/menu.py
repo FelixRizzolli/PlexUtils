@@ -2,7 +2,8 @@
     This module contains Menu class.
 """
 
-class Menu(object):
+
+class Menu:
     """class for working with menu items"""
     def __init__(self, menu_list):
         self.menu_list = menu_list
