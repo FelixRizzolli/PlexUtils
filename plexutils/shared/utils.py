@@ -65,8 +65,7 @@ def extract_tvdbid(dirname):
 
     if tvdbid_match:
         return int(tvdbid_match.group(1))
-    else:
-        return None
+    return None
 
 
 def extract_episodeid(filename):
@@ -77,8 +76,7 @@ def extract_episodeid(filename):
 
     if episodeid_match:
         return int(episodeid_match.group(2))
-    else:
-        return None
+    return None
 
 
 def extract_seasonid_from_episode(filename):
@@ -89,8 +87,7 @@ def extract_seasonid_from_episode(filename):
 
     if seasonid_match:
         return int(seasonid_match.group(1))
-    else:
-        return None
+    return None
 
 
 def extract_seasonid(dirname):
@@ -101,8 +98,7 @@ def extract_seasonid(dirname):
 
     if seasonid_match:
         return int(seasonid_match.group(1))
-    else:
-        return None
+    return None
 
 
 def is_past_date(iso_date_string):
