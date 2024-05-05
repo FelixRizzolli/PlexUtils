@@ -1,4 +1,6 @@
-
+"""
+    This module contains Menu class.
+"""
 
 class Menu(object):
     """class for working with menu items"""

@@ -1,3 +1,6 @@
+"""
+    This module contains unit tests for the functions in utils.py.
+"""
 import unittest
 
 from plexutils.shared.utils import (

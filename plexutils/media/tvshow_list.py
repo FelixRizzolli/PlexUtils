@@ -1,3 +1,7 @@
+"""
+    This module contains TVShowList class.
+"""
+
 
 class TVShowList:
     """represents a collection of tv shows"""

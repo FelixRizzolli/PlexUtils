@@ -1,3 +1,6 @@
+"""
+    This module contains the main function.
+"""
 import os
 
 from plexutils.utils.plex_utils import PlexUtils

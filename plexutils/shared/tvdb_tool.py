@@ -1,3 +1,6 @@
+"""
+    This module contains TVDBTool class.
+"""
 from tvdb_v4_official import TVDB
 import ssl
 

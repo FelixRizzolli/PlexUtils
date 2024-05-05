@@ -1,3 +1,6 @@
+"""
+    This module contains unit tests for the media modules.
+"""
 import unittest
 
 from plexutils.media.tvshow_list import TVShowList

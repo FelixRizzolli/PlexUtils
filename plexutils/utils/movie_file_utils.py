@@ -1,3 +1,6 @@
+"""
+    This module contains MovieFileUtils class.
+"""
 from plexutils.shared.menu import Menu
 from plexutils.shared.utils import print_menu
 from plexutils.shared.plex_movie_crawler import PlexMovieCrawler

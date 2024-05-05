@@ -1,3 +1,6 @@
+"""
+    This module provides some utility functions.
+"""
 import os
 import re
 from datetime import datetime

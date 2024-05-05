@@ -1,3 +1,6 @@
+"""
+    This module contains PlexUtils class.
+"""
 from plexutils.utils.movie_file_utils import MovieFileUtils
 from plexutils.utils.tvshow_file_utils import TvshowFileUtils
 from plexutils.utils.tvdb_utils import TVDBUtils

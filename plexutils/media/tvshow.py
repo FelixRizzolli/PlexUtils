@@ -1,3 +1,6 @@
+"""
+    This module contains TVShow class.
+"""
 from plexutils.shared.utils import extract_tvdbid
 
 

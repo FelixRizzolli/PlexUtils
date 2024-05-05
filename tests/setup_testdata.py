@@ -1,3 +1,6 @@
+"""
+    This module contains methods in form of unit tests for setting up a test environment.
+"""
 import os
 import unittest
 

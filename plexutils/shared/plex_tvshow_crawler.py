@@ -1,3 +1,6 @@
+"""
+    This module contains PlexTvshowCrawler class.
+"""
 import os
 
 from plexutils.media.tvshow_list import TVShowList

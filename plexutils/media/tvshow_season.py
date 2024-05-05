@@ -1,3 +1,6 @@
+"""
+    This module contains TVShowSeason class.
+"""
 from plexutils.shared.utils import extract_seasonid
 
 

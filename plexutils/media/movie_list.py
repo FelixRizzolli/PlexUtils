@@ -1,3 +1,8 @@
+"""
+    This module contains MovieList class.
+"""
+
+
 class MovieList:
     """represents a collection of movies"""
 

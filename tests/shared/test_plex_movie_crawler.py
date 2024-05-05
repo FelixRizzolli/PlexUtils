@@ -1,3 +1,6 @@
+"""
+    This module contains unit tests for the TestPlexMovieCrawler class.
+"""
 import unittest
 import os
 

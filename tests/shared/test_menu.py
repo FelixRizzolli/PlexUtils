@@ -1,3 +1,6 @@
+"""
+    This module contains unit tests for the Menu class.
+"""
 import unittest
 from plexutils.shared.menu import Menu
 

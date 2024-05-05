@@ -1,3 +1,6 @@
+"""
+    This module contains Movie class.
+"""
 from plexutils.shared.utils import extract_tvdbid
 
 
