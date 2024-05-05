@@ -24,6 +24,8 @@ def delete_directory(dir_path):
 
 
 class SetupTestData(unittest.TestCase):
+    """this class contains methods in form of unit tests for setting up a test environment"""
+
     def test_create_movie_files(self):
         """creates the movies files for the tests"""
         movie_files = test_movie_files
