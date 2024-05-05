@@ -2,6 +2,7 @@
     This module contains PlexTvshowCrawler class.
 """
 import os
+from typing import List
 
 from plexutils.media.tvshow_list import TVShowList
 from plexutils.media.tvshow import TVShow
@@ -13,24 +14,20 @@ class PlexTvshowCrawler:
     """class for crawling tvshow data from a plex library"""
 
     def __init__(self, path):
-        self.invalid_tvshows = None
-        self.invalid_seasons = None
-        self.invalid_episodes = None
+        self.invalid_tvshows: List[str] = []
+        self.invalid_seasons: List[str] = []
+        self.invalid_episodes: List[str] = []
         self.tvshowlist = TVShowList()
         self.path = path
 
-    def crawl(self):
+    def crawl(self) -> None:
         """crawls the tvshows from a plex library"""
-        tvshow_directories = os.listdir(self.path)
-
-        self.invalid_tvshows = []
-        self.invalid_seasons = []
-        self.invalid_episodes = []
+        tvshow_directories: List[str] = os.listdir(self.path)
 
         for tvshow_dir in tvshow_directories:
-            tvshow = TVShow(tvshow_dir)
+            tvshow: TVShow = TVShow(tvshow_dir)
 
-            seasons = self.crawl_seasons(tvshow_dir)
+            seasons: List[TVShowSeason] = self.crawl_seasons(tvshow_dir)
             for season in seasons:
                 tvshow.add_season(season)
 
@@ -39,15 +36,15 @@ class PlexTvshowCrawler:
             else:
                 self.invalid_tvshows.append(f"{tvshow_dir}")
 
-    def crawl_seasons(self, tvshow_dir):
+    def crawl_seasons(self, tvshow_dir) -> List[TVShowSeason]:
         """crawls the seasons from the given tvshow directory"""
-        seasons = []
-        season_directories = os.listdir(os.path.join(self.path, tvshow_dir))
+        seasons: List[TVShowSeason] = []
+        season_directories: List[str] = os.listdir(os.path.join(self.path, tvshow_dir))
 
         for season_dir in season_directories:
-            season = TVShowSeason(season_dir)
+            season: TVShowSeason = TVShowSeason(season_dir)
 
-            episodes = self.crawl_episodes(tvshow_dir, season_dir)
+            episodes: List[TVShowEpisode] = self.crawl_episodes(tvshow_dir, season_dir)
             for episode in episodes:
                 season.add_episode(episode)
 
@@ -58,13 +55,13 @@ class PlexTvshowCrawler:
 
         return seasons
 
-    def crawl_episodes(self, tvshow_dir, season_dir):
+    def crawl_episodes(self, tvshow_dir, season_dir) -> List[TVShowEpisode]:
         """crawls the episodes from the given tvshow and season directory"""
-        episodes = []
-        episode_directories = os.listdir(os.path.join(self.path, tvshow_dir, season_dir))
+        episodes: List[TVShowEpisode] = []
+        episode_directories: List[str] = os.listdir(os.path.join(self.path, tvshow_dir, season_dir))
 
         for episode_dir in episode_directories:
-            episode = TVShowEpisode(episode_dir)
+            episode: TVShowEpisode = TVShowEpisode(episode_dir)
 
             if episode.is_valid():
                 episodes.append(episode)
@@ -73,18 +70,18 @@ class PlexTvshowCrawler:
 
         return episodes
 
-    def get_tvshowlist(self):
+    def get_tvshowlist(self) -> TVShowList:
         """returns the list of all tvshows"""
         return self.tvshowlist
 
-    def get_invalid_tvshows(self):
+    def get_invalid_tvshows(self) -> List[str]:
         """returns the list of invalid tvshows"""
         return self.invalid_tvshows
 
-    def get_invalid_seasons(self):
+    def get_invalid_seasons(self) -> List[str]:
         """returns the list of invalid seasons"""
         return self.invalid_seasons
 
-    def get_invalid_episodes(self):
+    def get_invalid_episodes(self) -> List[str]:
         """returns the list of invalid episodes"""
         return self.invalid_episodes
