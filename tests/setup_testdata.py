@@ -3,7 +3,6 @@
 """
 import os
 import unittest
-from typing import List
 
 from tests.testdata import test_movie_files, test_tvshow_files
 
@@ -29,7 +28,7 @@ class SetupTestData(unittest.TestCase):
 
     def test_create_movie_files(self) -> None:
         """creates the movies files for the tests"""
-        movie_files: List[str] = test_movie_files
+        movie_files: list[str] = test_movie_files
 
         # clear data
         if os.path.isdir(movies_dir):
@@ -49,7 +48,7 @@ class SetupTestData(unittest.TestCase):
 
     def test_create_tvshow_files(self) -> None:
         """creates the tv show directories and files for the tests"""
-        tvshow_directories: List[dict] = test_tvshow_files
+        tvshow_directories: list[dict] = test_tvshow_files
 
         # clear data
         if os.path.isdir(tvshows_dir):

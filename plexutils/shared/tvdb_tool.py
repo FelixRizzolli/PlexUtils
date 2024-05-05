@@ -2,7 +2,7 @@
     This module contains TVDBTool class.
 """
 import ssl
-from typing import List, Set
+from typing import Set
 
 from tvdb_v4_official import TVDB
 
@@ -28,15 +28,15 @@ class TVDBTool:
         """
         return self.tvdb.get_movie(movie_id)
 
-    def get_episodes(self, tvdbid: int, season_id: int) -> List[dict]:
+    def get_episodes(self, tvdbid: int, season_id: int) -> list[dict]:
         """
             returns the episodes data
                 from the tvdb api
                 for the given tvdbid and the season of the tvshow
         """
-        episodes: List[dict] = self.tvdb.get_series_episodes(tvdbid)['episodes']
+        episodes: list[dict] = self.tvdb.get_series_episodes(tvdbid)['episodes']
 
-        clean_ep_list: List[dict] = []
+        clean_ep_list: list[dict] = []
         for episode in episodes:
             if episode['seasonNumber'] == season_id and episode['isMovie'] == 0:
                 clean_ep: dict = {
@@ -53,7 +53,7 @@ class TVDBTool:
                 from the tvdb api
                 for the given tvdbid of the tvshow
         """
-        episodes: List[dict] = self.tvdb.get_series_episodes(tvdbid)['episodes']
+        episodes: list[dict] = self.tvdb.get_series_episodes(tvdbid)['episodes']
 
         seasonid_list: Set[int] = set()
         for episode in episodes:
@@ -70,7 +70,7 @@ class TVDBTool:
                 for the given tvdbid and the season of the tvshow
         """
         if self.cached_episodes_tvdbid is None or self.cached_episodes_tvdbid != tvdbid:
-            self.cached_episodes: List[dict] = self.tvdb.get_series_episodes(tvdbid)['episodes']
+            self.cached_episodes: list[dict] = self.tvdb.get_series_episodes(tvdbid)['episodes']
             self.cached_episodes_tvdbid: int = tvdbid
 
         episodes = self.cached_episodes

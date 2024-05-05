@@ -1,7 +1,7 @@
 """
     This module contains TVShowList class.
 """
-from typing import List, Optional
+from typing import Optional
 
 from plexutils.media.tvshow import TVShow
 
@@ -9,13 +9,13 @@ from plexutils.media.tvshow import TVShow
 class TVShowList:
     """represents a collection of tv shows"""
     def __init__(self):
-        self.tvshows: List[TVShow] = []
+        self.tvshows: list[TVShow] = []
 
     def add_tvshow(self, tvshow: TVShow) -> None:
         """adds a tv show to the list"""
         self.tvshows.append(tvshow)
 
-    def get_tvshows(self) -> List[TVShow]:
+    def get_tvshows(self) -> list[TVShow]:
         """returns a collection of tv shows"""
         return self.tvshows
 

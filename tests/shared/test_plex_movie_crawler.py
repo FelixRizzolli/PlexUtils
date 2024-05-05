@@ -3,7 +3,6 @@
 """
 import unittest
 import os
-from typing import List
 
 from plexutils.media.movie import Movie
 from plexutils.media.movie_list import MovieList
@@ -20,7 +19,7 @@ class TestPlexMovieCrawler(unittest.TestCase):
     """test class for the PlexMovieCrawler class"""
 
     def setUp(self) -> None:
-        self.movie_files: List[str] = test_movie_files
+        self.movie_files: list[str] = test_movie_files
 
         # initialize crawler
         self.crawler: PlexMovieCrawler = PlexMovieCrawler(movies_dir)
@@ -33,7 +32,7 @@ class TestPlexMovieCrawler(unittest.TestCase):
                 and comparing the result with the expected number of movies
         """
         movielist: MovieList = self.crawler.get_movielist()
-        invalid_movies: List[str] = self.crawler.get_invalid_movies()
+        invalid_movies: list[str] = self.crawler.get_invalid_movies()
         self.assertEqual(len(self.movie_files), len(movielist.get_movies()) + len(invalid_movies))
 
     def test_crawl_get_movies_object(self) -> None:
@@ -53,7 +52,7 @@ class TestPlexMovieCrawler(unittest.TestCase):
                 by selecting the first element in the collection
                 and comparing the result with the expected data
         """
-        invalid_movies: List[str] = self.crawler.get_invalid_movies()
+        invalid_movies: list[str] = self.crawler.get_invalid_movies()
         self.assertEqual("Baby Driver (2017).mp4", invalid_movies[0])
 
 

@@ -1,13 +1,13 @@
 """
     This module contains Menu class.
 """
-from typing import Optional, List
+from typing import Optional
 
 
 class Menu:
     """class for working with menu items"""
-    def __init__(self, menu_list: List[dict]):
-        self.menu_list: List[dict] = menu_list
+    def __init__(self, menu_list: list[dict]):
+        self.menu_list: list[dict] = menu_list
 
     def id_exists(self, option_id: str) -> bool:
         """returns true if option with the id option_id exists in menu"""
@@ -23,6 +23,6 @@ class Menu:
                 return option
         return None
 
-    def get_list(self) -> List[dict]:
+    def get_list(self) -> list[dict]:
         """returns the menu list"""
         return self.menu_list

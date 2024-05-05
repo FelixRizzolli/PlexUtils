@@ -1,7 +1,7 @@
 """
     This module contains TVShowSeason class.
 """
-from typing import Optional, List
+from typing import Optional
 
 from plexutils.shared.utils import extract_seasonid
 from plexutils.media.tvshow_episode import TVShowEpisode
@@ -12,7 +12,7 @@ class TVShowSeason:
     def __init__(self, dirname):
         self.season_id: Optional[int] = extract_seasonid(dirname)
         self.dirname: str = dirname
-        self.episodes: List[TVShowEpisode] = []
+        self.episodes: list[TVShowEpisode] = []
 
     def get_id(self) -> Optional[int]:
         """returns the season id"""
@@ -22,13 +22,13 @@ class TVShowSeason:
         """checks if the seasons directory name is valid"""
         return self.season_id is not None
 
-    def get_episodes(self) -> List[TVShowEpisode]:
+    def get_episodes(self) -> list[TVShowEpisode]:
         """returns all the episodes of the season"""
         return self.episodes
 
-    def get_episodeids(self) -> List[int]:
+    def get_episodeids(self) -> list[int]:
         """returns all the episode ids of the season"""
-        ids: List[int] = []
+        ids: list[int] = []
         for episode in self.episodes:
             ids.append(episode.get_id())
         return ids

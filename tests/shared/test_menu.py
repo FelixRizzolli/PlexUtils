@@ -2,7 +2,6 @@
     This module contains unit tests for the Menu class.
 """
 import unittest
-from typing import List
 
 from plexutils.shared.menu import Menu
 
@@ -11,7 +10,7 @@ class TestMenu(unittest.TestCase):
     """test class for the Menu class"""
 
     def setUp(self) -> None:
-        self.menu: List[dict] = [
+        self.menu: list[dict] = [
             {'id': '1', 'name': 'Option 1'},
             {'id': '2', 'name': 'Option 2'},
             {'id': '3', 'name': 'Option 3'}

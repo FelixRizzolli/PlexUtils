@@ -3,7 +3,7 @@
 """
 import unittest
 import os
-from typing import List, Set
+from typing import Set
 
 from plexutils.shared.plex_tvshow_crawler import PlexTvshowCrawler
 from plexutils.shared.utils import load_config
@@ -22,7 +22,7 @@ class TestTVDBTool(unittest.TestCase):
     """test class for the TVDBTool class"""
 
     def setUp(self) -> None:
-        self.tvshow_directories: List[dict] = test_tvshow_files
+        self.tvshow_directories: list[dict] = test_tvshow_files
         self.config: dict = load_config(os.path.join(current_script_dir, '../../config.yaml'))
 
         # initialize crawler
@@ -34,8 +34,8 @@ class TestTVDBTool(unittest.TestCase):
     def test_get_episodes(self) -> None:
         """test the get_episodes method"""
         tvdb_tool: TVDBTool = TVDBTool(self.config['tvdb-key'], self.config['tvdb-pin'])
-        tvdb_got_episodes: List[dict] = tvdb_tool.get_episodes(121361, 1)
-        plex_got_episodes: List[TVShowEpisode] = (self.crawler.get_tvshowlist()
+        tvdb_got_episodes: list[dict] = tvdb_tool.get_episodes(121361, 1)
+        plex_got_episodes: list[TVShowEpisode] = (self.crawler.get_tvshowlist()
                                                   .get_tvshow(121361)
                                                   .get_season(1)
                                                   .get_episodes())
@@ -46,7 +46,7 @@ class TestTVDBTool(unittest.TestCase):
         """test the get_seasons method"""
         tvdb_tool = TVDBTool(self.config['tvdb-key'], self.config['tvdb-pin'])
         tvdb_got_seasons: Set[int] = tvdb_tool.get_seasonids(121361)
-        plex_got_seasons: List[TVShowSeason] = (self.crawler.get_tvshowlist()
+        plex_got_seasons: list[TVShowSeason] = (self.crawler.get_tvshowlist()
                                                 .get_tvshow(121361)
                                                 .get_seasons())
 
@@ -56,7 +56,7 @@ class TestTVDBTool(unittest.TestCase):
         """test the get_episodeids method"""
         tvdb_tool = TVDBTool(self.config['tvdb-key'], self.config['tvdb-pin'])
         tvdb_got_episodes: Set[int] = tvdb_tool.get_episodeids(121361, 1)
-        plex_got_episodes: List[TVShowEpisode] = (self.crawler.get_tvshowlist()
+        plex_got_episodes: list[TVShowEpisode] = (self.crawler.get_tvshowlist()
                                                   .get_tvshow(121361)
                                                   .get_season(1)
                                                   .get_episodes())

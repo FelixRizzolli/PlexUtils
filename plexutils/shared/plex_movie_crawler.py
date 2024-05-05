@@ -2,7 +2,6 @@
     This module contains PlexMovieCrawler class.
 """
 import os
-from typing import List
 
 from plexutils.media.movie import Movie
 from plexutils.media.movie_list import MovieList
@@ -12,13 +11,13 @@ class PlexMovieCrawler:
     """class for crawling movie data from a plex library"""
 
     def __init__(self, path):
-        self.invalid_movies: List[str] = []
+        self.invalid_movies: list[str] = []
         self.movielist: MovieList = MovieList()
         self.path = path
 
     def crawl(self) -> None:
         """crawls the movies from a plex library"""
-        movie_directories: List[str] = os.listdir(self.path)
+        movie_directories: list[str] = os.listdir(self.path)
 
         for movie_dir in movie_directories:
             movie: Movie = Movie(movie_dir)
@@ -32,6 +31,6 @@ class PlexMovieCrawler:
         """returns the list of all movies"""
         return self.movielist
 
-    def get_invalid_movies(self) -> List[str]:
+    def get_invalid_movies(self) -> list[str]:
         """returns the list of invalid movies"""
         return self.invalid_movies
