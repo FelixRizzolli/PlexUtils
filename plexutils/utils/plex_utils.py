@@ -8,6 +8,7 @@ from plexutils.shared.menu import Menu
 from plexutils.shared.utils import print_menu
 
 
+# pylint: disable=too-few-public-methods
 class PlexUtils:
     """represents the menu and tools for plex"""
 

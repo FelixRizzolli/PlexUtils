@@ -46,7 +46,7 @@ class TvshowFileUtils:
                 from the initialized directory
         """
         if 'tvshows-dir' not in self.config:
-            return False
+            return
 
         crawler = PlexTvshowCrawler(self.config['tvshows-dir'])
         crawler.crawl()
@@ -64,7 +64,7 @@ class TvshowFileUtils:
                 from the initialized directory
         """
         if 'tvshows-dir' not in self.config:
-            return False
+            return
 
         crawler = PlexTvshowCrawler(self.config['tvshows-dir'])
         crawler.crawl()
@@ -83,7 +83,7 @@ class TvshowFileUtils:
                 from the initialized directory
         """
         if 'tvshows-dir' not in self.config:
-            return False
+            return
 
         crawler = PlexTvshowCrawler(self.config['tvshows-dir'])
         crawler.crawl()
