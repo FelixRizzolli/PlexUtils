@@ -19,4 +19,6 @@ jobs:
         poetry install
     - name: Run tests
       run: |
-        poetry run python -m unittest discover tests
+        poetry run python -m unittest tests/setup_testdata.py
+        poetry run python -m unittest discover tests/shared
+        poetry run python -m unittest discover tests/utils
