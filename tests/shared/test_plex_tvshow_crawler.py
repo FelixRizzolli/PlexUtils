@@ -4,7 +4,7 @@
 import unittest
 import os
 
-from plexutils.shared.plex_tvshow_crawler import PlexTvshowCrawler
+from plexutils.shared.plex_tvshow_crawler import PlexTVShowCrawler
 from plexutils.media.tvshow import TVShow
 from plexutils.media.tvshow_episode import TVShowEpisode
 from plexutils.media.tvshow_list import TVShowList
@@ -17,14 +17,14 @@ data_dir = os.path.join(current_script_dir, '../../data')
 tvshows_dir = os.path.join(data_dir, 'tvshows')
 
 
-class TestPlexTvshowsCrawler(unittest.TestCase):
+class TestPlexTVShowsCrawler(unittest.TestCase):
     """test class for the PlexTvshowsCrawler class"""
 
     def setUp(self) -> None:
         self.tvshow_directories: list[dict] = test_tvshow_files
 
         # initialize crawler
-        self.crawler: PlexTvshowCrawler = PlexTvshowCrawler(tvshows_dir)
+        self.crawler: PlexTVShowCrawler = PlexTVShowCrawler(tvshows_dir)
         self.crawler.crawl()
         if self.crawler.get_tvshowlist().is_empty():
             print("EMPTY TV SHOWS")

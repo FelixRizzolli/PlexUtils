@@ -3,7 +3,7 @@
 """
 from typing import Callable
 
-from plexutils.shared.plex_tvshow_crawler import PlexTvshowCrawler
+from plexutils.shared.plex_tvshow_crawler import PlexTVShowCrawler
 from plexutils.shared.menu import Menu
 from plexutils.shared.utils import print_menu
 from plexutils.shared.tvdb_tool import TVDBTool
@@ -59,7 +59,7 @@ class TVDBUtils:
             return
 
         tvdb_tool: TVDBTool = TVDBTool(self.tvdb_key, self.tvdb_pin)
-        crawler: PlexTvshowCrawler = PlexTvshowCrawler(self.config['tvshows-dir'])
+        crawler: PlexTVShowCrawler = PlexTVShowCrawler(self.config['tvshows-dir'])
         crawler.crawl()
 
         tvshows: list[TVShow] = crawler.get_tvshowlist().get_tvshows()
@@ -86,7 +86,7 @@ class TVDBUtils:
             return
 
         tvdb_tool: TVDBTool = TVDBTool(self.tvdb_key, self.tvdb_pin)
-        crawler: PlexTvshowCrawler = PlexTvshowCrawler(self.config['tvshows-dir'])
+        crawler: PlexTVShowCrawler = PlexTVShowCrawler(self.config['tvshows-dir'])
         crawler.crawl()
 
         tvshows: list[TVShow] = crawler.get_tvshowlist().get_tvshows()

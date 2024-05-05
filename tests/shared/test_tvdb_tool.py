@@ -4,7 +4,7 @@
 import unittest
 import os
 
-from plexutils.shared.plex_tvshow_crawler import PlexTvshowCrawler
+from plexutils.shared.plex_tvshow_crawler import PlexTVShowCrawler
 from plexutils.shared.utils import load_config
 from plexutils.shared.tvdb_tool import TVDBTool
 
@@ -26,7 +26,7 @@ class TestTVDBTool(unittest.TestCase):
         self.config: dict = load_config(os.path.join(current_script_dir, '../../config.yaml'))
 
         # initialize crawler
-        self.crawler: PlexTvshowCrawler = PlexTvshowCrawler(tvshows_dir)
+        self.crawler: PlexTVShowCrawler = PlexTVShowCrawler(tvshows_dir)
         self.crawler.crawl()
         if self.crawler.get_tvshowlist().is_empty():
             print("EMPTY TV SHOWS")

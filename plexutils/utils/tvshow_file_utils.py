@@ -5,7 +5,7 @@ from typing import Callable
 
 from plexutils.shared.menu import Menu
 from plexutils.shared.utils import print_menu
-from plexutils.shared.plex_tvshow_crawler import PlexTvshowCrawler
+from plexutils.shared.plex_tvshow_crawler import PlexTVShowCrawler
 
 
 class TvshowFileUtils:
@@ -50,7 +50,7 @@ class TvshowFileUtils:
         if 'tvshows-dir' not in self.config:
             return
 
-        crawler: PlexTvshowCrawler = PlexTvshowCrawler(self.config['tvshows-dir'])
+        crawler: PlexTVShowCrawler = PlexTVShowCrawler(self.config['tvshows-dir'])
         crawler.crawl()
 
         for tvshow in crawler.get_invalid_tvshows():
@@ -68,7 +68,7 @@ class TvshowFileUtils:
         if 'tvshows-dir' not in self.config:
             return
 
-        crawler: PlexTvshowCrawler = PlexTvshowCrawler(self.config['tvshows-dir'])
+        crawler: PlexTVShowCrawler = PlexTVShowCrawler(self.config['tvshows-dir'])
         crawler.crawl()
 
         for season in crawler.get_invalid_seasons():
@@ -87,7 +87,7 @@ class TvshowFileUtils:
         if 'tvshows-dir' not in self.config:
             return
 
-        crawler: PlexTvshowCrawler = PlexTvshowCrawler(self.config['tvshows-dir'])
+        crawler: PlexTVShowCrawler = PlexTVShowCrawler(self.config['tvshows-dir'])
         crawler.crawl()
 
         for episode in crawler.get_invalid_episodes():

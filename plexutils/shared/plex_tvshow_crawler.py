@@ -9,7 +9,7 @@ from plexutils.media.tvshow_season import TVShowSeason
 from plexutils.media.tvshow_episode import TVShowEpisode
 
 
-class PlexTvshowCrawler:
+class PlexTVShowCrawler:
     """class for crawling tvshow data from a plex library"""
 
     def __init__(self, path):
