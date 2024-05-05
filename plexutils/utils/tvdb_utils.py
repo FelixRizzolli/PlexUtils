@@ -22,12 +22,16 @@ class TVDBUtils:
         self.menu_list = Menu([
             {
                 'id': '1',
-                'name': self.gettext("search in tvdb for new seasons of existing tvshows"),
+                'name': self.gettext(
+                    "search in tvdb for new seasons of existing tvshows"
+                ),
                 'action': self.search_new_seasons,
             },
             {
                 'id': '2',
-                'name': self.gettext("search in tvdb for missing episodes of existing seasons of existing tvshows"),
+                'name': self.gettext(
+                    "search in tvdb for missing episodes of existing seasons of existing tvshows"
+                ),
                 'action': self.search_missing_episodes,
             },
         ])
