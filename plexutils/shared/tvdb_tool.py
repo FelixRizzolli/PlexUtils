@@ -2,7 +2,6 @@
     This module contains TVDBTool class.
 """
 import ssl
-from typing import Set
 
 from tvdb_v4_official import TVDB
 
@@ -47,7 +46,7 @@ class TVDBTool:
 
         return clean_ep_list
 
-    def get_seasonids(self, tvdbid: int) -> Set[int]:
+    def get_seasonids(self, tvdbid: int) -> set[int]:
         """
             returns the season ids
                 from the tvdb api
@@ -55,7 +54,7 @@ class TVDBTool:
         """
         episodes: list[dict] = self.tvdb.get_series_episodes(tvdbid)['episodes']
 
-        seasonid_list: Set[int] = set()
+        seasonid_list: set[int] = set()
         for episode in episodes:
             if episode['seasonNumber'] != 0 and episode['isMovie'] == 0:
                 season_id: int = int(episode['seasonNumber'])
@@ -63,7 +62,7 @@ class TVDBTool:
 
         return seasonid_list
 
-    def get_episodeids(self, tvdbid: int, season_id: int) -> Set[int]:
+    def get_episodeids(self, tvdbid: int, season_id: int) -> set[int]:
         """
             returns the season ids
                 from the tvdb api
@@ -75,7 +74,7 @@ class TVDBTool:
 
         episodes = self.cached_episodes
 
-        episodeid_list: Set[int] = set()
+        episodeid_list: set[int] = set()
         for episode in episodes:
             if (episode['seasonNumber'] == season_id
                     and episode['isMovie'] == 0

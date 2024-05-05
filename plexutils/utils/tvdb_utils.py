@@ -1,7 +1,7 @@
 """
     This module contains TVDBUtils class.
 """
-from typing import Callable, Set
+from typing import Callable
 
 from plexutils.shared.plex_tvshow_crawler import PlexTvshowCrawler
 from plexutils.shared.menu import Menu
@@ -65,8 +65,8 @@ class TVDBUtils:
         tvshows: list[TVShow] = crawler.get_tvshowlist().get_tvshows()
         missing_season_strings: list[str] = []
         for tvshow in tvshows:
-            plex_tvshow_seasonids: Set[int] = set(tvshow.get_seasonids())
-            tvdb_tvshow_seasonids: Set[int] = tvdb_tool.get_seasonids(tvshow.get_tvdbid())
+            plex_tvshow_seasonids: set[int] = set(tvshow.get_seasonids())
+            tvdb_tvshow_seasonids: set[int] = tvdb_tool.get_seasonids(tvshow.get_tvdbid())
             missing_seasons: list[int] = list(tvdb_tvshow_seasonids - plex_tvshow_seasonids)
             for missing_season in missing_seasons:
                 missing_season_strings.append(f"{tvshow.get_dirname()} -> {missing_season}")
@@ -94,8 +94,8 @@ class TVDBUtils:
         for tvshow in tvshows:
             seasons: list[TVShowSeason] = tvshow.get_seasons()
             for season in seasons:
-                plex_episodeids: Set[int] = set(season.get_episodeids())
-                tvdb_episodeids: Set[int] = tvdb_tool.get_episodeids(tvshow.get_tvdbid(), season.get_id())
+                plex_episodeids: set[int] = set(season.get_episodeids())
+                tvdb_episodeids: set[int] = tvdb_tool.get_episodeids(tvshow.get_tvdbid(), season.get_id())
 
                 missing_episodes: list[int] = list(tvdb_episodeids - plex_episodeids)
                 for missing_episode in missing_episodes:
