@@ -3,8 +3,14 @@
 """
 import unittest
 import os
+from typing import List
 
 from plexutils.shared.plex_tvshow_crawler import PlexTvshowCrawler
+from plexutils.media.tvshow import TVShow
+from plexutils.media.tvshow_episode import TVShowEpisode
+from plexutils.media.tvshow_list import TVShowList
+from plexutils.media.tvshow_season import TVShowSeason
+
 from tests.testdata import test_tvshow_files
 
 current_script_dir = os.path.dirname(os.path.realpath(__file__))
@@ -15,60 +21,62 @@ tvshows_dir = os.path.join(data_dir, 'tvshows')
 class TestPlexTvshowsCrawler(unittest.TestCase):
     """test class for the PlexTvshowsCrawler class"""
 
-    def setUp(self):
-        self.tvshow_directories = test_tvshow_files
+    def setUp(self) -> None:
+        self.tvshow_directories: List[dict] = test_tvshow_files
 
         # initialize crawler
-        self.crawler = PlexTvshowCrawler(tvshows_dir)
+        self.crawler: PlexTvshowCrawler = PlexTvshowCrawler(tvshows_dir)
         self.crawler.crawl()
         if self.crawler.get_tvshowlist().is_empty():
             print("EMPTY TV SHOWS")
 
-    def test_crawl_get_tvshows_count(self):
+    def test_crawl_get_tvshows_count(self) -> None:
         """
             tests the get_tvshows method
                 by counting the number of tvshows
                 and comparing the result with the expected number of tvshows
         """
-        tvshows = self.crawler.get_tvshowlist().get_tvshows()
-        invalid_tvshows = self.crawler.get_invalid_tvshows()
+        tvshows: List[TVShow] = self.crawler.get_tvshowlist().get_tvshows()
+        invalid_tvshows: List[str] = self.crawler.get_invalid_tvshows()
         self.assertEqual(len(self.tvshow_directories), len(tvshows) + len(invalid_tvshows))
 
-    def test_crawl_get_tvshows_object(self):
+    def test_crawl_get_tvshows_object(self) -> None:
         """
             tests the get_tvshows method
                 by selecting a specific tvshow
                 and comparing the result with the expected data
         """
-        tvshowlist = self.crawler.get_tvshowlist()
-        codegeass = tvshowlist.get_tvshow(79525)
+        tvshowlist: TVShowList = self.crawler.get_tvshowlist()
+        codegeass: TVShow = tvshowlist.get_tvshow(79525)
         self.assertEqual(codegeass.get_dirname(), "Code Geass (2006) {tvdb-79525}")
         self.assertEqual(codegeass.get_tvdbid(), 79525)
 
-    def test_crawl_get_invalid_tvshows(self):
+    def test_crawl_get_invalid_tvshows(self) -> None:
         """
             tests the get_invalid_tvshows method
                 by selecting the first element in the collection
                 and comparing the result with the expected data
         """
-        invalid_tvshows = self.crawler.get_invalid_tvshows()
+        invalid_tvshows: List[str] = self.crawler.get_invalid_tvshows()
         self.assertEqual("Classroom of the Elite (2017)", invalid_tvshows[0])
 
-    def test_crawl_get_seasons_count(self):
+    def test_crawl_get_seasons_count(self) -> None:
         """
             tests the get_seasons method
                 by counting the number of seasons
                     of a specific tvshow
                 and comparing the result with the expected number of seasons
         """
-        seasons = self.crawler.get_tvshowlist().get_tvshow(79525).get_seasons()
-        codegeass = list(filter(
+        seasons: List[TVShowSeason] = (self.crawler.get_tvshowlist()
+                                       .get_tvshow(79525)
+                                       .get_seasons())
+        codegeass: dict = list(filter(
             lambda tvshow: tvshow["dirname"] == "Code Geass (2006) {tvdb-79525}",
             self.tvshow_directories)
         )[0]
         self.assertEqual(len(codegeass["seasons"]), len(seasons))
 
-    def test_crawl_get_episodes_count(self):
+    def test_crawl_get_episodes_count(self) -> None:
         """
             tests the get_episodes method
                 by counting the number of episodes
@@ -76,12 +84,15 @@ class TestPlexTvshowsCrawler(unittest.TestCase):
                     of a specific tvshow
                 and comparing the result with the expected number of seasons
         """
-        episodes = self.crawler.get_tvshowlist().get_tvshow(79525).get_season(1).get_episodes()
-        codegeass = list(filter(
+        episodes: List[TVShowEpisode] = (self.crawler.get_tvshowlist()
+                                         .get_tvshow(79525)
+                                         .get_season(1)
+                                         .get_episodes())
+        codegeass: dict = list(filter(
             lambda tvshow: tvshow["dirname"] == "Code Geass (2006) {tvdb-79525}",
             self.tvshow_directories)
         )[0]
-        season1 = list(filter(
+        season1: dict = list(filter(
             lambda season: season["dirname"] == "season 01",
             codegeass["seasons"])
         )[0]

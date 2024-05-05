@@ -3,6 +3,7 @@
 """
 import os
 import unittest
+from typing import List
 
 from tests.testdata import test_movie_files, test_tvshow_files
 
@@ -26,9 +27,9 @@ def delete_directory(dir_path):
 class SetupTestData(unittest.TestCase):
     """this class contains methods in form of unit tests for setting up a test environment"""
 
-    def test_create_movie_files(self):
+    def test_create_movie_files(self) -> None:
         """creates the movies files for the tests"""
-        movie_files = test_movie_files
+        movie_files: List[str] = test_movie_files
 
         # clear data
         if os.path.isdir(movies_dir):
@@ -46,9 +47,9 @@ class SetupTestData(unittest.TestCase):
 
         self.assertTrue(os.path.isdir(movies_dir))
 
-    def test_create_tvshow_files(self):
+    def test_create_tvshow_files(self) -> None:
         """creates the tv show directories and files for the tests"""
-        tvshow_directories = test_tvshow_files
+        tvshow_directories: List[str] = test_tvshow_files
 
         # clear data
         if os.path.isdir(tvshows_dir):
@@ -61,19 +62,19 @@ class SetupTestData(unittest.TestCase):
             os.mkdir(tvshows_dir)
 
         for tvshow in tvshow_directories:
-            tvshow_dirname = tvshow["dirname"]
-            tvshow_dir = os.path.join(tvshows_dir, tvshow_dirname)
+            tvshow_dirname: str = tvshow["dirname"]
+            tvshow_dir: str = os.path.join(tvshows_dir, tvshow_dirname)
             if not os.path.isdir(tvshow_dir):
                 os.mkdir(tvshow_dir)
 
             for season in tvshow["seasons"]:
-                season_dirname = season["dirname"]
-                season_dir = os.path.join(tvshow_dir, season_dirname)
+                season_dirname: str = season["dirname"]
+                season_dir: str = os.path.join(tvshow_dir, season_dirname)
                 if not os.path.isdir(season_dir):
                     os.mkdir(season_dir)
 
                 for episode in season["episodes"]:
-                    episode_dir = os.path.join(season_dir, episode)
+                    episode_dir: str = os.path.join(season_dir, episode)
                     with open(episode_dir, 'a', encoding='utf-8'):
                         pass
 
