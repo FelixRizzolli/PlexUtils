@@ -13,6 +13,7 @@ tvshows_dir = os.path.join(data_dir, 'tvshows')
 
 
 class TestTVDBTool(unittest.TestCase):
+    """test class for the TVDBTool class"""
 
     def setUp(self):
         self.tvshow_directories = test_tvshow_files
@@ -25,6 +26,7 @@ class TestTVDBTool(unittest.TestCase):
             print("EMPTY TV SHOWS")
 
     def test_get_episodes(self):
+        """test the get_episodes method"""
         tvdb_tool = TVDBTool(self.config['tvdb-key'], self.config['tvdb-pin'])
         tvdb_got_episodes = tvdb_tool.get_episodes(121361, 1)
         plex_got_episodes = (self.crawler.get_tvshowlist()
@@ -35,6 +37,7 @@ class TestTVDBTool(unittest.TestCase):
         self.assertEqual(len(tvdb_got_episodes), len(plex_got_episodes))
 
     def test_get_seasons(self):
+        """test the get_seasons method"""
         tvdb_tool = TVDBTool(self.config['tvdb-key'], self.config['tvdb-pin'])
         tvdb_got_seasons = tvdb_tool.get_seasonids(121361)
         plex_got_seasons = (self.crawler.get_tvshowlist()
@@ -44,6 +47,7 @@ class TestTVDBTool(unittest.TestCase):
         self.assertEqual(len(tvdb_got_seasons), len(plex_got_seasons))
 
     def test_get_episodeids(self):
+        """test the get_episodeids method"""
         tvdb_tool = TVDBTool(self.config['tvdb-key'], self.config['tvdb-pin'])
         tvdb_got_episodes = tvdb_tool.get_episodeids(121361, 1)
         plex_got_episodes = (self.crawler.get_tvshowlist()

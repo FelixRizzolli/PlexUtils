@@ -4,7 +4,10 @@ from plexutils.shared.utils import extract_tvdbid, extract_seasonid, extract_epi
 
 
 class TestUtils(unittest.TestCase):
+    """test class for the functions in utils.py"""
+
     def test_extract_tvdbid(self):
+        """tests the extract_tvdbid function"""
         got = extract_tvdbid("Game of Thrones (2011) {tvdb-121361}")
         self.assertEqual(121361, got)
 
@@ -18,6 +21,7 @@ class TestUtils(unittest.TestCase):
         self.assertIsNone(baby_driver)
 
     def test_extract_seasonid(self):
+        """tests the extract_seasonid function"""
         season_1 = extract_seasonid("season 01")
         self.assertEqual(1, season_1)
 
@@ -28,6 +32,7 @@ class TestUtils(unittest.TestCase):
         self.assertIsNone(season_a)
 
     def test_extract_episodeid(self):
+        """tests the extract_episodeid function"""
         ep_1 = extract_episodeid("Game of Thrones (2011) - s01e01 - Winter Is Coming.mp4")
         self.assertEqual(1, ep_1)
 
@@ -38,6 +43,7 @@ class TestUtils(unittest.TestCase):
         self.assertIsNone(ep_x3)
 
     def test_extract_seasonid_from_episode(self):
+        """tests the extract_seasonid_from_episode function"""
         season_1 = extract_seasonid_from_episode(
             "Game of Thrones (2011) - s01e01 - Winter Is Coming.mp4"
         )
@@ -54,12 +60,14 @@ class TestUtils(unittest.TestCase):
         self.assertIsNone(season_x1)
 
     def test_is_past_date(self):
+        """tests the is_past_date function"""
         date_to_check = "2000-01-01"
         self.assertTrue(is_past_date(date_to_check))
         date_to_check = "3000-01-01"
         self.assertFalse(is_past_date(date_to_check))
 
     def test_is_future_date(self):
+        """tests the is_future_date function"""
         date_to_check = "2000-01-01"
         self.assertFalse(is_future_date(date_to_check))
         date_to_check = "3000-01-01"

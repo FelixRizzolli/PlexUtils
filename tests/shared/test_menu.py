@@ -3,6 +3,8 @@ from plexutils.shared.menu import Menu
 
 
 class TestMenu(unittest.TestCase):
+    """test class for the Menu class"""
+
     def setUp(self):
         self.menu = [
             {'id': 1, 'name': 'Option 1'},
@@ -12,14 +14,17 @@ class TestMenu(unittest.TestCase):
         self.console_menu = Menu(self.menu)
 
     def test_id_exists(self):
+        """tests the id_exists method"""
         self.assertTrue(self.console_menu.id_exists(1))
         self.assertFalse(self.console_menu.id_exists(4))
 
     def test_get_option_by_id(self):
+        """tests the get_option_by_id method"""
         self.assertEqual(self.console_menu.get_option_by_id(1), {'id': 1, 'name': 'Option 1'})
         self.assertIsNone(self.console_menu.get_option_by_id(4))
 
     def test_get_list(self):
+        """tests the get_list method"""
         self.assertEqual(self.console_menu.get_list(), self.menu)
 
 

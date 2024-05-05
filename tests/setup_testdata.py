@@ -10,6 +10,7 @@ tvshows_dir = os.path.join(data_dir, 'tvshows')
 
 
 def delete_directory(dir_path):
+    """deletes the given directory and all its contents"""
     for item in os.listdir(dir_path):
         item_path = os.path.join(dir_path, item)
         if os.path.isfile(item_path):
@@ -21,6 +22,7 @@ def delete_directory(dir_path):
 
 class SetupTestData(unittest.TestCase):
     def test_create_movie_files(self):
+        """creates the movies files for the tests"""
         movie_files = test_movie_files
 
         # clear data
@@ -39,6 +41,7 @@ class SetupTestData(unittest.TestCase):
         self.assertTrue(os.path.isdir(movies_dir))
 
     def test_create_tvshow_files(self):
+        """creates the tv show directories and files for the tests"""
         tvshow_directories = test_tvshow_files
 
         # clear data
