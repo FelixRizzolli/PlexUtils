@@ -50,7 +50,9 @@ class TestTVShowList(unittest.TestCase):
 
     def test_tvshowepisode_get_id(self) -> None:
         """tests the get_id method of the TVShowEpisode class"""
-        episode: TVShowEpisode = TVShowEpisode("Code Geass (2006) - s01e01 - The Day a New Demon Was Born")
+        episode: TVShowEpisode = TVShowEpisode(
+            "Code Geass (2006) - s01e01 - The Day a New Demon Was Born"
+        )
         self.assertEqual(1, episode.get_id())
 
     def test_tvshowseason_get_id(self) -> None:

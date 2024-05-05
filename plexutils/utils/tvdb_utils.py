@@ -95,7 +95,9 @@ class TVDBUtils:
             seasons: list[TVShowSeason] = tvshow.get_seasons()
             for season in seasons:
                 plex_episodeids: set[int] = set(season.get_episodeids())
-                tvdb_episodeids: set[int] = tvdb_tool.get_episodeids(tvshow.get_tvdbid(), season.get_id())
+                tvdb_episodeids: set[int] = tvdb_tool.get_episodeids(
+                    tvshow.get_tvdbid(), season.get_id()
+                )
 
                 missing_episodes: list[int] = list(tvdb_episodeids - plex_episodeids)
                 for missing_episode in missing_episodes:
