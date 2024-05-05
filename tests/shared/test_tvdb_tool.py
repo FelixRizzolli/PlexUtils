@@ -8,9 +8,10 @@ from plexutils.shared.plex_tvshow_crawler import PlexTvshowCrawler
 from plexutils.shared.utils import load_config
 from plexutils.shared.tvdb_tool import TVDBTool
 
+from plexutils.media.tvshow_episode import TVShowEpisode
+from plexutils.media.tvshow_season import TVShowSeason
+
 from tests.testdata import test_tvshow_files
-from tvshow_episode import TVShowEpisode
-from tvshow_season import TVShowSeason
 
 current_script_dir = os.path.dirname(os.path.realpath(__file__))
 data_dir = os.path.join(current_script_dir, '../../data')
