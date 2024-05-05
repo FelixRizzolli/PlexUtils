@@ -1,4 +1,7 @@
-from plexutils.shared.utils import extract_episodeid, extract_seasonid_from_episode
+from plexutils.shared.utils import (
+    extract_episodeid,
+    extract_seasonid_from_episode
+)
 
 
 class TVShowEpisode:

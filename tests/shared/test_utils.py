@@ -1,6 +1,13 @@
 import unittest
 
-from plexutils.shared.utils import extract_tvdbid, extract_seasonid, extract_episodeid, extract_seasonid_from_episode, is_future_date, is_past_date
+from plexutils.shared.utils import (
+    extract_tvdbid,
+    extract_seasonid,
+    extract_episodeid,
+    extract_seasonid_from_episode,
+    is_future_date,
+    is_past_date
+)
 
 
 class TestUtils(unittest.TestCase):
