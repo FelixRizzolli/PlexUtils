@@ -4,6 +4,8 @@ from plexutils.shared.plex_tvshow_crawler import PlexTvshowCrawler
 
 
 class TvshowFileUtils:
+    """represents the menu and tools for tv show files"""
+
     def __init__(self, config, gettext):
         self.gettext = gettext
         self.config = config
@@ -27,12 +29,19 @@ class TvshowFileUtils:
         ])
 
     def get_utils_name(self):
+        """returns the utils name"""
         return self.gettext("TvshowFileUtils - Tools for tvshow directories and episode files")
 
     def print_menu(self):
+        """prints the menu"""
         print_menu(self.gettext("TvshowFileUtils Menu:"), self.gettext, self.menu_list)
 
     def validate_tvshow_syntax(self):
+        """
+            validates the directory name
+                of the tv shows
+                from the initialized directory
+        """
         if 'tvshows-dir' not in self.config:
             return False
 
@@ -45,6 +54,12 @@ class TvshowFileUtils:
         input()
 
     def validate_season_syntax(self):
+        """
+            validates the directory name
+                of the seasons
+                of the tv shows
+                from the initialized directory
+        """
         if 'tvshows-dir' not in self.config:
             return False
 
@@ -57,6 +72,13 @@ class TvshowFileUtils:
         input()
 
     def validate_episode_syntax(self):
+        """
+            validates the directory name
+                of the episodes
+                of the seasons
+                of the tv shows
+                from the initialized directory
+        """
         if 'tvshows-dir' not in self.config:
             return False
 

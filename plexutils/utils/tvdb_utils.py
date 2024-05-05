@@ -5,6 +5,8 @@ from plexutils.shared.tvdb_tool import TVDBTool
 
 
 class TVDBUtils:
+    """represents the menu and tools with tvdb"""
+
     def __init__(self, config, gettext):
         self.gettext = gettext
         self.config = config
@@ -28,14 +30,20 @@ class TVDBUtils:
         ])
 
     def get_utils_name(self):
+        """returns the utils name"""
         return self.gettext(
             "TVDBUtils       - Tools to compare the plex library with tvdb or search new content"
         )
 
     def print_menu(self):
+        """prints the menu"""
         print_menu(self.gettext("TVDBUtils Menu:"), self.gettext, self.menu_list)
 
     def search_new_seasons(self):
+        """
+            searches for new seasons
+                of existing tvshows
+        """
         if 'tvshows-dir' not in self.config:
             return False
 
@@ -59,6 +67,11 @@ class TVDBUtils:
 
 
     def search_missing_episodes(self):
+        """
+            searches for missing episodes
+                of existing seasons
+                of existing tvshows
+        """
         if 'tvshows-dir' not in self.config:
             return False
 

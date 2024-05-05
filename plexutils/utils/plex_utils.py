@@ -6,6 +6,8 @@ from plexutils.shared.utils import print_menu
 
 
 class PlexUtils:
+    """represents the menu and tools for plex"""
+
     def __init__(self, config, gettext):
         self.gettext = gettext
         self.config = config
@@ -33,4 +35,5 @@ class PlexUtils:
         ])
 
     def print_menu(self):
+        """prints the menu"""
         print_menu(self.gettext("PlexUtils Menu:"), self.gettext, self.menu_list)
