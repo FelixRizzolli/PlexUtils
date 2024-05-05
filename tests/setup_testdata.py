@@ -49,7 +49,7 @@ class SetupTestData(unittest.TestCase):
 
     def test_create_tvshow_files(self) -> None:
         """creates the tv show directories and files for the tests"""
-        tvshow_directories: List[str] = test_tvshow_files
+        tvshow_directories: List[dict] = test_tvshow_files
 
         # clear data
         if os.path.isdir(tvshows_dir):
