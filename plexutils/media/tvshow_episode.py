@@ -2,6 +2,7 @@
 This module contains TVShowEpisode class.
 """
 from typing import Optional
+from dataclasses import dataclass
 
 from plexutils.shared.utils import (
     extract_episodeid,
@@ -9,6 +10,7 @@ from plexutils.shared.utils import (
 )
 
 
+@dataclass
 class TVShowEpisode:
     """
     Represents a single episode of a TV show.

@@ -2,9 +2,12 @@
 This module contains TVShowList class.
 """
 from typing import Optional
+from dataclasses import dataclass
+
 from plexutils.media.tvshow import TVShow
 
 
+@dataclass
 class TVShowList:
     """
     Represents a collection of TV shows.

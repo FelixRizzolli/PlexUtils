@@ -2,10 +2,12 @@
 This module contains Movie class.
 """
 from typing import Optional
+from dataclasses import dataclass
 
 from plexutils.shared.utils import extract_tvdbid
 
 
+@dataclass
 class Movie:
     """
     Represents a single movie.

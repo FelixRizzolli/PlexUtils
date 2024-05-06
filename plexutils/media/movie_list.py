@@ -2,10 +2,12 @@
 This module contains MovieList class.
 """
 from typing import Optional
+from dataclasses import dataclass
 
 from plexutils.media.movie import Movie
 
 
+@dataclass
 class MovieList:
     """
     Represents a collection of movies.

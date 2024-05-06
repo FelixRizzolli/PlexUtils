@@ -2,11 +2,13 @@
 This module contains TVShow class.
 """
 from typing import Optional
+from dataclasses import dataclass
 
 from plexutils.shared.utils import extract_tvdbid
 from plexutils.media.tvshow_season import TVShowSeason
 
 
+@dataclass
 class TVShow:
     """
     Represents a single TV show.
