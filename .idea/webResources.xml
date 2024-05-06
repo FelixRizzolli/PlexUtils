@@ -11,6 +11,8 @@
             <path value="file://$PROJECT_DIR$/data" />
             <path value="file://$PROJECT_DIR$/data/movies" />
             <path value="file://$PROJECT_DIR$/data/tvshows" />
+            <path value="file://$PROJECT_DIR$/locale/de_AT" />
+            <path value="file://$PROJECT_DIR$/locale/de_AT/LC_MESSAGES" />
           </resourceRoots>
         </entryData>
       </entry>
