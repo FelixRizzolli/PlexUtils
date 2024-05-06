@@ -9,8 +9,8 @@ from plexutils.media.tvshow_season import TVShowSeason
 class TestTVShowSeason(unittest.TestCase):
     """test class for the TVShowSeason class"""
 
-    def test_tvshowseason_get_id(self) -> None:
-        """tests the get_id method of the TVShowSeason class"""
+    def test_property_season_id(self) -> None:
+        """tests the season_id property of the TVShowSeason class"""
         season: TVShowSeason = TVShowSeason("season 01")
         self.assertEqual(1, season.season_id)
 
