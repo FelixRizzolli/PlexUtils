@@ -49,30 +49,21 @@
 6. change the language in the config.yaml
 7. DONE!
 ### Windows
-**Prerequisites:**
-- Python installed on your system.
-- Babel package installed (`pip install Babel`).
-- babel.cfg file with `[python: **.py]` as its content.
-  
-**Steps:**
-1. **Initialize the Babel project:**
-   Open Command Prompt (cmd) and navigate to your project directory. Run:
+1. install babel if not installed (`pip install Babel`)
+2. create `babel.cfg` with `[python: **.py]` as its content
+3. open Command Prompt (cmd) and navigate to your project directory. Run:
    ```
    pybabel extract -F babel.cfg -o messages.pot .
    ```
-2. **Generate the .po file for your desired language:**
-   Run the following command, replacing `xx_XX` with your language code (e.g., `de_DE` for German):
+4. run the following command, replacing `xx_XX` with your language code (e.g., `de_DE` for German):
    ```
    pybabel init -i messages.pot -d locale -l xx_XX
    ```
-3. **Translate the texts:**
-   Open the generated .po file in `locale/xx_XX/LC_MESSAGES/` directory with a text editor and translate the messages into your desired language.
-4. **Compile the .po file to a .mo file:**
+5. open the generated .po file in `locale/xx_XX/LC_MESSAGES/` directory with a text editor and translate the messages into your desired language
+6. compile the .po file to a .mo file:
    Execute:
    ```
    pybabel compile -d locale
    ```
-5. **Change the language in the config.yaml file:**
-   Open `config.yaml` in a text editor and update the language setting (e.g., `language: de_DE`).
-6. **Done!**
-   Save changes and restart your application to apply the new language setting.
+7. Open `config.yaml` in a text editor and update the language setting (e.g., `language: de_DE`)
+8. DONE!
