@@ -11,7 +11,8 @@
 - language
   - example `language: de_DE` for german
   - supported languages:
-    - `de_DE` german
+    - `de_DE` german (germany)
+    - `de_AT` german (tyrol)
     - `en_US` english
 - movies-dir
   - example `movies-dir: /Users/felixrizzolli/PycharmProjects/PlexUtils/data/movies`
