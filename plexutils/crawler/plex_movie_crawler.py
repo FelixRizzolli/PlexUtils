@@ -22,7 +22,7 @@ class PlexMovieCrawler:
         for movie_dir in movie_directories:
             movie: Movie = Movie(movie_dir)
 
-            if movie.get_tvdbid() is not None:
+            if movie.tvdbid is not None:
                 self.movielist.add(movie)
             else:
                 self.invalid_movies.append(f"{movie_dir}")
