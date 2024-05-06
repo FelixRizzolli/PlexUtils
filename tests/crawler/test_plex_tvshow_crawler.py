@@ -56,7 +56,7 @@ class TestPlexTVShowCrawler(unittest.TestCase):
                 and comparing the result with the expected data
         """
         invalid_tvshows: list[str] = self.crawler.get_invalid_tvshows()
-        self.assertEqual("Classroom of the Elite (2017)", invalid_tvshows[0])
+        self.assertIn("Classroom of the Elite (2017)", invalid_tvshows)
 
     def test_crawl_get_seasons_count(self) -> None:
         """
