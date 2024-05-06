@@ -1,0 +1,108 @@
+# German (Austria) translations for PLEX UTILS.
+# Copyright (C) 2024 FELIX RIZZOLLI
+# This file is distributed under the same license as the PlexUtils project.
+# FELIX PEER <FELIX@CHERRYCOMPUTER.COM>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0.0\n"
+"Report-Msgid-Bugs-To: FELIX RIZZOLLI <FELIX.RIZZOLLI@OUTLOOK.DE>\n"
+"POT-Creation-Date: 2024-05-06 13:24+0200\n"
+"PO-Revision-Date: 2024-05-06 13:25+0200\n"
+"Last-Translator: FELIX PEER <FELIX@CHERRYCOMPUTER.COM>\n"
+"Language: de_AT\n"
+"Language-Team: de_AT <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+#: plexutils/shared/utils.py:49
+msgid "E. Exit"
+msgstr "E. Exit"
+
+#: plexutils/shared/utils.py:51
+msgid "Enter your choice: "
+msgstr "Gib deine Auswohl ein: "
+
+#: plexutils/shared/utils.py:59
+msgid "Invalid choice. Please enter a valid option."
+msgstr "Ostia, des stimp mol nit. Gib eppes richtigs ein."
+
+#: plexutils/utils/movie_file_utils.py:21
+msgid "validate movie filename syntax"
+msgstr "Film-Dateinomen Syntax überprüfen"
+
+#: plexutils/utils/movie_file_utils.py:28
+msgid "MovieFileUtils  - Tools for movie files"
+msgstr "MovieFileUtils - Tools für Film-Dateien"
+
+#: plexutils/utils/movie_file_utils.py:32
+msgid "MovieFileUtils Menu:"
+msgstr "MovieFileUtils Menü:"
+
+#: plexutils/utils/movie_file_utils.py:47
+msgid "Invalid movie file: "
+msgstr "Ungülige Film-Datei: "
+
+#: plexutils/utils/plex_utils.py:45
+msgid "PlexUtils Menu:"
+msgstr "PlexUtils Menü"
+
+#: plexutils/utils/tvdb_utils.py:29
+msgid "search in tvdb for new seasons of existing tvshows"
+msgstr "Suach in TVDB noch nuie Staffeln fa existierende Serien"
+
+#: plexutils/utils/tvdb_utils.py:36
+msgid ""
+"search in tvdb for missing episodes of existing seasons of existing "
+"tvshows"
+msgstr "Suach in TVDB noch nuie Folgen fa existierende Serien"
+
+#: plexutils/utils/tvdb_utils.py:45
+msgid ""
+"TVDBUtils       - Tools to compare the plex library with tvdb or search "
+"new content"
+msgstr "TVDBUtils       - Tools zum Vergleichen far Plex-Bibliothek mit TVDB oder nuie Inholte zu suachen"
+
+#: plexutils/utils/tvdb_utils.py:51
+msgid "TVDBUtils Menu:"
+msgstr "TVDBUtils Menü"
+
+#: plexutils/utils/tvdb_utils.py:77 plexutils/utils/tvdb_utils.py:111
+msgid "Press Enter to continue..."
+msgstr "Druck Enter um weiterzugean..."
+
+#: plexutils/utils/tvshow_file_utils.py:21
+msgid "validate tvshow directory syntax"
+msgstr "Syntax fa di Serien-Ordnern überprüfen"
+
+#: plexutils/utils/tvshow_file_utils.py:26
+msgid "validate season directory syntax"
+msgstr "Syntax fa di Staffel-Ordnern überprüfen"
+
+#: plexutils/utils/tvshow_file_utils.py:31
+msgid "validate episode filename syntax"
+msgstr "Syntax fa di Episoden-Dateien überprüfen"
+
+#: plexutils/utils/tvshow_file_utils.py:38
+msgid "TvshowFileUtils - Tools for tvshow directories and episode files"
+msgstr "TvshowFileUtils - Tools für Serien-Ordner und Episoden-Dateien"
+
+#: plexutils/utils/tvshow_file_utils.py:42
+msgid "TvshowFileUtils Menu:"
+msgstr "TvshowFileUtils Menü:"
+
+#: plexutils/utils/tvshow_file_utils.py:57
+msgid "Invalid tvshow directory: "
+msgstr "Folschr Serien-Ordner: "
+
+#: plexutils/utils/tvshow_file_utils.py:75
+msgid "Invalid season directory: "
+msgstr "Folschr Staffel-Ordner: "
+
+#: plexutils/utils/tvshow_file_utils.py:94
+msgid "Invalid episode filename: "
+msgstr "Folschr Episoden-Dateinomen: "
+
