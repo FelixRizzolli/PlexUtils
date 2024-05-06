@@ -52,6 +52,7 @@
 **Prerequisites:**
 - Python installed on your system.
 - Babel package installed (`pip install Babel`).
+- babel.cfg file with `[python: **.py]` as its content.
   
 **Steps:**
 1. **Initialize the Babel project:**
