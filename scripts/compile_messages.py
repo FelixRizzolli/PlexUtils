@@ -33,9 +33,9 @@ def compile_messages() -> None:
             for po_file in os.listdir(lc_messages_dir):
                 try:
                     compile_po_file(lc_messages_dir, po_file)
-                    logging.info(f"Compiled {po_file} successfully.")
+                    logging.info("Compiled %s successfully.", po_file)
                 except subprocess.CalledProcessError as e:
-                    logging.error(f"Failed to compile {po_file}: {str(e)}")
+                    logging.error("Failed to compile %s: %s", po_file, str(e))
 
 
 def compile_po_file(po_dir: str, po_file: str) -> None:
