@@ -49,19 +49,29 @@
 6. change the language in the config.yaml
 7. DONE!
 ### Windows
-1. **Install pygettext:**
-   `pygettext` is a tool included in the Python package, so no additional installation is required.
-2. **Generate the messages.pot file:**
-   Open Command Prompt (cmd) and navigate to your project directory containing your Python files. Run the following command to generate the `messages.pot` file:
-   `pygettext -d plexutils -o messages.pot *.py`
-3. **Move the messages.pot file to locale/xx_XX/LC_MESSAGES/:**
-   Copy the `messages.pot` file to the corresponding directory for the desired language within the `locale` folder of your project. Replace `xx_XX` with the appropriate language code, e.g., `de_DE` for German.
-4. **Rename the messages.pot file to plexutils.po:**
-   After moving the `messages.pot` file to the appropriate directory, rename it to `plexutils.po`.
-5. **Compile the .po file to a .mo file using msgfmt:**
-   Open Command Prompt and navigate to the directory containing the `plexutils.po` file. Run the following command to use `msgfmt`:
-   `msgfmt plexutils.po -o plexutils.mo`
-6. **Change the language in the config.yaml file:**
-   Open the `config.yaml` file in a text editor and update the language setting to your desired language, e.g., `language: de_DE`.
-7. **Done!**
-   Save all changes and restart your application to apply the new language setting.
+**Prerequisites:**
+- Python installed on your system.
+- Babel package installed (`pip install Babel`).
+  
+**Steps:**
+1. **Initialize the Babel project:**
+   Open Command Prompt (cmd) and navigate to your project directory. Run:
+   ```
+   pybabel extract -F babel.cfg -o messages.pot .
+   ```
+2. **Generate the .po file for your desired language:**
+   Run the following command, replacing `xx_XX` with your language code (e.g., `de_DE` for German):
+   ```
+   pybabel init -i messages.pot -d locale -l xx_XX
+   ```
+3. **Translate the texts:**
+   Open the generated .po file in `locale/xx_XX/LC_MESSAGES/` directory with a text editor and translate the messages into your desired language.
+4. **Compile the .po file to a .mo file:**
+   Execute:
+   ```
+   pybabel compile -d locale
+   ```
+5. **Change the language in the config.yaml file:**
+   Open `config.yaml` in a text editor and update the language setting (e.g., `language: de_DE`).
+6. **Done!**
+   Save changes and restart your application to apply the new language setting.
