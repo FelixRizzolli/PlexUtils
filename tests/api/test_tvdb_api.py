@@ -38,7 +38,7 @@ class TestTvdbApi(unittest.TestCase):
         plex_got_episodes: list[TVShowEpisode] = (self.crawler.get_tvshowlist()
                                                   .get_tvshow(121361)
                                                   .get_season(1)
-                                                  .get_episodes())
+                                                  .episodes)
 
         self.assertEqual(len(tvdb_got_episodes), len(plex_got_episodes))
 
@@ -48,7 +48,7 @@ class TestTvdbApi(unittest.TestCase):
         tvdb_got_seasons: set[int] = tvdb_tool.get_seasonids(121361)
         plex_got_seasons: list[TVShowSeason] = (self.crawler.get_tvshowlist()
                                                 .get_tvshow(121361)
-                                                .get_seasons())
+                                                .seasons)
 
         self.assertEqual(len(tvdb_got_seasons), len(plex_got_seasons))
 
@@ -59,7 +59,7 @@ class TestTvdbApi(unittest.TestCase):
         plex_got_episodes: list[TVShowEpisode] = (self.crawler.get_tvshowlist()
                                                   .get_tvshow(121361)
                                                   .get_season(1)
-                                                  .get_episodes())
+                                                  .episodes)
 
         self.assertEqual(len(tvdb_got_episodes), len(plex_got_episodes))
 
