@@ -62,14 +62,14 @@ class TVDBUtils:
         crawler: PlexTVShowCrawler = PlexTVShowCrawler(self.config['tvshows-dir'])
         crawler.crawl()
 
-        tvshows: list[TVShow] = crawler.get_tvshowlist().get_tvshows()
+        tvshows: list[TVShow] = crawler.get_tvshowlist().tvshows
         missing_season_strings: list[str] = []
         for tvshow in tvshows:
             plex_tvshow_seasonids: set[int] = set(tvshow.get_seasonids())
-            tvdb_tvshow_seasonids: set[int] = tvdb_tool.get_seasonids(tvshow.get_tvdbid())
+            tvdb_tvshow_seasonids: set[int] = tvdb_tool.get_seasonids(tvshow.tvdbid)
             missing_seasons: list[int] = list(tvdb_tvshow_seasonids - plex_tvshow_seasonids)
             for missing_season in missing_seasons:
-                missing_season_strings.append(f"{tvshow.get_dirname()} -> {missing_season}")
+                missing_season_strings.append(f"{tvshow.dirname} -> {missing_season}")
 
         for season in missing_season_strings:
             print(season)
@@ -89,20 +89,20 @@ class TVDBUtils:
         crawler: PlexTVShowCrawler = PlexTVShowCrawler(self.config['tvshows-dir'])
         crawler.crawl()
 
-        tvshows: list[TVShow] = crawler.get_tvshowlist().get_tvshows()
+        tvshows: list[TVShow] = crawler.get_tvshowlist().tvshows
         missing_episode_strings: list[str] = []
         for tvshow in tvshows:
-            seasons: list[TVShowSeason] = tvshow.get_seasons()
+            seasons: list[TVShowSeason] = tvshow.seasons
             for season in seasons:
                 plex_episodeids: set[int] = set(season.get_episodeids())
                 tvdb_episodeids: set[int] = tvdb_tool.get_episodeids(
-                    tvshow.get_tvdbid(), season.get_id()
+                    tvshow.tvdbid, season.season_id
                 )
 
                 missing_episodes: list[int] = list(tvdb_episodeids - plex_episodeids)
                 for missing_episode in missing_episodes:
                     missing_episode_strings.append(
-                        f"{tvshow.get_dirname()} -> s{season.get_id()}e{missing_episode}"
+                        f"{tvshow.dirname} -> s{season.season_id}e{missing_episode}"
                     )
 
         for episode in missing_episode_strings:
