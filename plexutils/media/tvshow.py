@@ -79,7 +79,7 @@ class TVShow:
         Args:
             season (TVShowSeason): The season to add.
         """
-        self._seasons[season.get_id()] = season
+        self._seasons[season.season_id] = season
 
     def get_season(self, season_id: int) -> Optional[TVShowSeason]:
         """
