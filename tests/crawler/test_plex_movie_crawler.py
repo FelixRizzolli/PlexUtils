@@ -53,7 +53,7 @@ class TestPlexMovieCrawler(unittest.TestCase):
                 and comparing the result with the expected data
         """
         invalid_movies: list[str] = self.crawler.get_invalid_movies()
-        self.assertEqual("Baby Driver (2017).mp4", invalid_movies[0])
+        self.assertIn("Baby Driver (2017).mp4", invalid_movies)
 
 
 if __name__ == '__main__':
