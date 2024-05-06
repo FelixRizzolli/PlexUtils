@@ -1,9 +1,9 @@
 # Setup Project
 ## install with poetry 
 - [Poetry installation documentation](https://python-poetry.org/docs/#installation)
-- change to the project directory
-- use `poetry install` to install the dependencies
-- use `poetry run python plexutils/main.py` to run the script
+- open the terminal in the project directory
+- execute `poetry install` to install the dependencies
+- execute `poetry run python plexutils/main.py` to run the script
 
 
 ## config.yaml
