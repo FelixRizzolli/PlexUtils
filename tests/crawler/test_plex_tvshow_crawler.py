@@ -20,14 +20,13 @@ tvshows_dir = os.path.join(data_dir, 'tvshows')
 class TestPlexTVShowCrawler(unittest.TestCase):
     """test class for the PlexTvshowsCrawler class"""
 
-    def setUp(self) -> None:
-        self.tvshow_directories: list[dict] = test_tvshow_files
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.tvshow_directories: list[dict] = test_tvshow_files
 
         # initialize crawler
-        self.crawler: PlexTVShowCrawler = PlexTVShowCrawler(tvshows_dir)
-        self.crawler.crawl()
-        if self.crawler.get_tvshowlist().is_empty():
-            print("EMPTY TV SHOWS")
+        cls.crawler: PlexTVShowCrawler = PlexTVShowCrawler(tvshows_dir)
+        cls.crawler.crawl()
 
     def test_crawl_get_tvshows_count(self) -> None:
         """

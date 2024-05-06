@@ -18,12 +18,13 @@ movies_dir = os.path.join(data_dir, 'movies')
 class TestPlexMovieCrawler(unittest.TestCase):
     """test class for the PlexMovieCrawler class"""
 
-    def setUp(self) -> None:
-        self.movie_files: list[str] = test_movie_files
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.movie_files: list[str] = test_movie_files
 
         # initialize crawler
-        self.crawler: PlexMovieCrawler = PlexMovieCrawler(movies_dir)
-        self.crawler.crawl()
+        cls.crawler: PlexMovieCrawler = PlexMovieCrawler(movies_dir)
+        cls.crawler.crawl()
 
     def test_crawl_get_movies_count(self) -> None:
         """
