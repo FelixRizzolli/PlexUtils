@@ -1,5 +1,5 @@
 """
-    This module contains MovieList class.
+This module contains MovieList class.
 """
 from typing import Optional
 
@@ -7,26 +7,52 @@ from plexutils.media.movie import Movie
 
 
 class MovieList:
-    """represents a collection of movies"""
+    """
+    Represents a collection of movies.
+
+    Attributes:
+        _movies (dict[int, Movie]): A dictionary mapping TVDB IDs to movies.
+    """
 
     def __init__(self):
-        self.movies: list[Movie] = []
+        self._movies: dict[int, Movie] = {}
 
-    def add(self, movie) -> None:
-        """adds a movie to the collection"""
-        self.movies.append(movie)
+    def add(self, movie: Movie) -> None:
+        """
+        Adds a movie to the collection.
 
-    def get_movies(self) -> list[Movie]:
-        """returns all movies in the collection"""
-        return self.movies
+        Args:
+            movie (Movie): The movie to add.
+        """
+        self._movies[movie.tvdbid] = movie
 
-    def get_movie(self, movie_id) -> Optional[Movie]:
-        """returns the movie with the given id"""
-        for movie in self.movies:
-            if movie.get_tvdbid() == movie_id:
-                return movie
-        return None
+    @property
+    def movies(self) -> list[Movie]:
+        """
+        Returns all movies in the collection.
+
+        Returns:
+            list[Movie]: A list of all movies in the collection.
+        """
+        return list(self._movies.values())
+
+    def get_movie(self, movie_id: int) -> Optional[Movie]:
+        """
+        Returns the movie with the given ID.
+
+        Args:
+            movie_id (int): The TVDB ID of the movie to return.
+
+        Returns:
+            Optional[Movie]: The movie with the given ID, or None if no such movie exists.
+        """
+        return self._movies.get(movie_id)
 
     def is_empty(self) -> bool:
-        """checks if collection is empty"""
-        return len(self.movies) == 0
+        """
+        Checks if the collection is empty.
+
+        Returns:
+            bool: True if the collection is empty, False otherwise.
+        """
+        return len(self._movies) == 0

@@ -12,7 +12,7 @@ class TestTVShowSeason(unittest.TestCase):
     def test_tvshowseason_get_id(self) -> None:
         """tests the get_id method of the TVShowSeason class"""
         season: TVShowSeason = TVShowSeason("season 01")
-        self.assertEqual(1, season.get_id())
+        self.assertEqual(1, season.season_id)
 
 
 if __name__ == '__main__':

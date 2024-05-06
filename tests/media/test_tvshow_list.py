@@ -23,9 +23,9 @@ class TestTVShowList(unittest.TestCase):
         """tests the add_tvshow method of the TVShowList class"""
         tvshowlist: TVShowList = TVShowList()
         tvshowlist.add_tvshow(TVShow("Code Geass (2006) {tvdb-79525}"))
-        self.assertEqual(1, len(tvshowlist.get_tvshows()))
+        self.assertEqual(1, len(tvshowlist.tvshows))
         tvshowlist.add_tvshow(TVShow("Game of Thrones (2011) {tvdb-121361}"))
-        self.assertEqual(2, len(tvshowlist.get_tvshows()))
+        self.assertEqual(2, len(tvshowlist.tvshows))
 
     def test_get_tvshow(self) -> None:
         """tests the get_tvshow method of the TVShowList class"""
@@ -35,11 +35,11 @@ class TestTVShowList(unittest.TestCase):
 
         codegeass: TVShow = tvshowlist.get_tvshow(79525)
         self.assertTrue(codegeass.is_valid())
-        self.assertEqual("Code Geass (2006) {tvdb-79525}", codegeass.get_dirname())
+        self.assertEqual("Code Geass (2006) {tvdb-79525}", codegeass.dirname)
 
         got: TVShow = tvshowlist.get_tvshow(121361)
         self.assertTrue(got.is_valid())
-        self.assertEqual("Game of Thrones (2011) {tvdb-121361}", got.get_dirname())
+        self.assertEqual("Game of Thrones (2011) {tvdb-121361}", got.dirname)
 
 
 if __name__ == '__main__':

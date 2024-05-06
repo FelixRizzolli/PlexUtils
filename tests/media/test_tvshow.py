@@ -12,7 +12,7 @@ class TestTVShow(unittest.TestCase):
     def test_get_tvdbid(self) -> None:
         """tests the get_tvdbid method of the TVShow class"""
         tvshow: TVShow = TVShow('Code Geass (2006) {tvdb-79525}')
-        self.assertEqual(79525, tvshow.get_tvdbid())
+        self.assertEqual(79525, tvshow.tvdbid)
 
 
 if __name__ == '__main__':

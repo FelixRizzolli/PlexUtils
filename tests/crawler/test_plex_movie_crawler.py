@@ -33,7 +33,7 @@ class TestPlexMovieCrawler(unittest.TestCase):
         """
         movielist: MovieList = self.crawler.get_movielist()
         invalid_movies: list[str] = self.crawler.get_invalid_movies()
-        self.assertEqual(len(self.movie_files), len(movielist.get_movies()) + len(invalid_movies))
+        self.assertEqual(len(self.movie_files), len(movielist.movies) + len(invalid_movies))
 
     def test_crawl_get_movies_object(self) -> None:
         """
@@ -43,8 +43,8 @@ class TestPlexMovieCrawler(unittest.TestCase):
         """
         movielist: MovieList = self.crawler.get_movielist()
         matrix1: Movie = movielist.get_movie(169)
-        self.assertEqual(matrix1.get_filename(), "The Matrix (1999) {tvdb-169}.mp4")
-        self.assertEqual(matrix1.get_tvdbid(), 169)
+        self.assertEqual(matrix1.filename, "The Matrix (1999) {tvdb-169}.mp4")
+        self.assertEqual(matrix1.tvdbid, 169)
 
     def test_crawl_get_invalid_movies(self) -> None:
         """

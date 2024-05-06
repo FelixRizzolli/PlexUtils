@@ -1,5 +1,5 @@
 """
-    This module contains Movie class.
+This module contains Movie class.
 """
 from typing import Optional
 
@@ -7,15 +7,34 @@ from plexutils.shared.utils import extract_tvdbid
 
 
 class Movie:
-    """represents a single movie"""
+    """
+    Represents a single movie.
+
+    Attributes:
+        _filename (str): The filename of the movie.
+        _tvdbid (Optional[int]): The TVDB ID of the movie.
+    """
+
     def __init__(self, filename: str):
-        self.filename: str = filename
-        self.tvdbid: Optional[int] = extract_tvdbid(filename)
+        self._filename: str = filename
+        self._tvdbid: Optional[int] = extract_tvdbid(filename)
 
-    def get_tvdbid(self) -> Optional[int]:
-        """returns the tvdbid of the movie"""
-        return self.tvdbid
+    @property
+    def tvdbid(self) -> Optional[int]:
+        """
+        Returns the TVDB ID of the movie.
 
-    def get_filename(self) -> str:
-        """return the filename of the movie"""
-        return self.filename
+        Returns:
+            Optional[int]: The TVDB ID of the movie.
+        """
+        return self._tvdbid
+
+    @property
+    def filename(self) -> str:
+        """
+        Returns the filename of the movie.
+
+        Returns:
+            str: The filename of the movie.
+        """
+        return self._filename

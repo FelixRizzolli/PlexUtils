@@ -35,7 +35,7 @@ class TestPlexTVShowCrawler(unittest.TestCase):
                 by counting the number of tvshows
                 and comparing the result with the expected number of tvshows
         """
-        tvshows: list[TVShow] = self.crawler.get_tvshowlist().get_tvshows()
+        tvshows: list[TVShow] = self.crawler.get_tvshowlist().tvshows
         invalid_tvshows: list[str] = self.crawler.get_invalid_tvshows()
         self.assertEqual(len(self.tvshow_directories), len(tvshows) + len(invalid_tvshows))
 
@@ -47,8 +47,8 @@ class TestPlexTVShowCrawler(unittest.TestCase):
         """
         tvshowlist: TVShowList = self.crawler.get_tvshowlist()
         codegeass: TVShow = tvshowlist.get_tvshow(79525)
-        self.assertEqual(codegeass.get_dirname(), "Code Geass (2006) {tvdb-79525}")
-        self.assertEqual(codegeass.get_tvdbid(), 79525)
+        self.assertEqual(codegeass.dirname, "Code Geass (2006) {tvdb-79525}")
+        self.assertEqual(codegeass.tvdbid, 79525)
 
     def test_crawl_get_invalid_tvshows(self) -> None:
         """
@@ -68,7 +68,7 @@ class TestPlexTVShowCrawler(unittest.TestCase):
         """
         seasons: list[TVShowSeason] = (self.crawler.get_tvshowlist()
                                        .get_tvshow(79525)
-                                       .get_seasons())
+                                       .seasons)
         codegeass: dict = list(filter(
             lambda tvshow: tvshow["dirname"] == "Code Geass (2006) {tvdb-79525}",
             self.tvshow_directories)
@@ -86,7 +86,7 @@ class TestPlexTVShowCrawler(unittest.TestCase):
         episodes: list[TVShowEpisode] = (self.crawler.get_tvshowlist()
                                          .get_tvshow(79525)
                                          .get_season(1)
-                                         .get_episodes())
+                                         .episodes)
         codegeass: dict = list(filter(
             lambda tvshow: tvshow["dirname"] == "Code Geass (2006) {tvdb-79525}",
             self.tvshow_directories)

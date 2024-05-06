@@ -1,38 +1,77 @@
 """
-    This module contains TVShowSeason class.
+This module contains TVShowSeason class.
 """
 from typing import Optional
-
 from plexutils.shared.utils import extract_seasonid
 from plexutils.media.tvshow_episode import TVShowEpisode
 
-
 class TVShowSeason:
-    """represents a single season of a tv show"""
-    def __init__(self, dirname):
-        self.season_id: Optional[int] = extract_seasonid(dirname)
-        self.dirname: str = dirname
-        self.episodes: list[TVShowEpisode] = []
+    """
+    Represents a single season of a TV show.
 
-    def get_id(self) -> Optional[int]:
-        """returns the season id"""
-        return self.season_id
+    Attributes:
+        _dirname (str): The directory name of the season.
+        _season_id (Optional[int]): The ID of the season.
+        _episodes (dict[int, TVShowEpisode]): A dictionary mapping episode IDs to episodes.
+    """
+    def __init__(self, dirname: str):
+        self._dirname: str = dirname
+        self._season_id: Optional[int] = extract_seasonid(dirname)
+        self._episodes: dict[int, TVShowEpisode] = {}
+
+    @property
+    def season_id(self) -> Optional[int]:
+        """
+        Returns the ID of the season.
+
+        Returns:
+            Optional[int]: The ID of the season.
+        """
+        return self._season_id
+
+    @property
+    def dirname(self) -> str:
+        """
+        Returns the directory name of the season.
+
+        Returns:
+            str: The directory name of the season.
+        """
+        return self._dirname
 
     def is_valid(self) -> bool:
-        """checks if the seasons directory name is valid"""
-        return self.season_id is not None
+        """
+        Checks if the season's directory name is valid.
 
-    def get_episodes(self) -> list[TVShowEpisode]:
-        """returns all the episodes of the season"""
-        return self.episodes
+        Returns:
+            bool: True if the season's directory name is valid, False otherwise.
+        """
+        return self._season_id is not None
+
+    @property
+    def episodes(self) -> list[TVShowEpisode]:
+        """
+        Returns all the episodes of the season.
+
+        Returns:
+            list[TVShowEpisode]: A list of all episodes in the season.
+        """
+        return list(self._episodes.values())
 
     def get_episodeids(self) -> list[int]:
-        """returns all the episode ids of the season"""
-        ids: list[int] = []
-        for episode in self.episodes:
-            ids.append(episode.get_id())
-        return ids
+        """
+        Returns all the episode IDs of the season.
+
+        Returns:
+            list[int]: A list of all episode IDs in the season.
+        """
+        return list(self._episodes.keys())
 
     def add_episode(self, episode: TVShowEpisode) -> None:
-        """adds an episode to the season"""
-        self.episodes.append(episode)
+        """
+        Adds an episode to the season.
+
+        Args:
+            episode (TVShowEpisode): The episode to add.
+        """
+        self._episodes[episode.episode_id] = episode
