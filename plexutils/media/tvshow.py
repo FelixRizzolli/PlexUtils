@@ -63,7 +63,8 @@ class TVShow:
         """
         return list(self._seasons.values())
 
-    def get_seasonids(self) -> list[int]:
+    @property
+    def seasonids(self) -> list[int]:
         """
         Returns the season IDs of the TV show.
 
