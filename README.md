@@ -11,7 +11,8 @@
 - language
   - example `language: de_DE` for german
   - supported languages:
-    - `de_DE` german
+    - `de_DE` german (germany)
+    - `de_AT` german (tyrol)
     - `en_US` english
 - movies-dir
   - example `movies-dir: /Users/felixrizzolli/PycharmProjects/PlexUtils/data/movies`
@@ -60,10 +61,11 @@
    pybabel init -i messages.pot -d locale -l xx_XX
    ```
 5. open the generated .po file in `locale/xx_XX/LC_MESSAGES/` directory with a text editor and translate the messages into your desired language
-6. compile the .po file to a .mo file:
+6. rename the `messages.pot` file to `plexutils.po`
+7. compile the .po file to a .mo file:
    Execute:
    ```
    pybabel compile -d locale
    ```
-7. Open `config.yaml` in a text editor and update the language setting (e.g., `language: de_DE`)
-8. DONE!
+8. Open `config.yaml` in a text editor and update the language setting (e.g., `language: de_DE`)
+9. DONE!
