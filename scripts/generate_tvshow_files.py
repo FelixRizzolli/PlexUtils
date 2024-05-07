@@ -23,7 +23,7 @@ def generate_tvshow_directories(data_dir: str, scripts_data_dir: str) -> None:
     # Open the JSON file
     with open(os.path.join(scripts_data_dir, 'tvshow_files.json'), 'r', encoding='utf-8') as f:
         # Load the JSON data into a Python dictionary
-        tvshow_directories = json.load(f)['movie_files']
+        tvshow_directories = json.load(f)['tvshow_files']
 
     # Create data
     if not os.path.isdir(data_dir):
