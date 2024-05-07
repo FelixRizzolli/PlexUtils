@@ -17,10 +17,12 @@ jobs:
     - name: Install dependencies
       run: |
         poetry install
+    - name: Compile messages
+      run: |
+        poetry run compile-messages
+    - name: Generate test data
+      run: |
+        poetry run generate-test-data
     - name: Run tests
       run: |
-        poetry run python -m unittest tests/setup_testdata.py
-        poetry run python -m unittest discover tests/crawler
-        poetry run python -m unittest discover tests/media
-        poetry run python -m unittest discover tests/shared
-        poetry run python -m unittest discover tests/utils
+        poetry run python -m unittest discover tests
