@@ -1,7 +1,7 @@
 import os
 
-from generate_movie_files import generate_movie_files
-from generate_tvshow_files import generate_tvshow_files
+from scripts.generate_movie_files import generate_movie_files
+from scripts.generate_tvshow_files import generate_tvshow_directories
 
 
 def delete_directory(dir_path):
@@ -31,4 +31,4 @@ def generate_test_data():
 
     if os.path.isdir(data_dir):
         delete_directory(os.path.join(data_dir, 'tvshows'))
-    generate_tvshow_files(data_dir, scripts_data_dir)
+    generate_tvshow_directories(data_dir, scripts_data_dir)
