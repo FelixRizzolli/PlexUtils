@@ -3,7 +3,6 @@
 """
 import unittest
 import os
-import json
 
 from plexutils.crawler.plex_tvshow_crawler import PlexTVShowCrawler
 from plexutils.shared.utils import load_config
