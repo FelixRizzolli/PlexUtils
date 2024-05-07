@@ -3,6 +3,8 @@
 - [Poetry installation documentation](https://python-poetry.org/docs/#installation)
 - open the terminal in the project directory
 - execute `poetry install` to install the dependencies
+- execute `poetry run compile-messages` to install other languages
+- execute `poetry run generate-test-data` to generate the test data for the unittests
 - execute `poetry run python plexutils/main.py` to run the script
 
 
