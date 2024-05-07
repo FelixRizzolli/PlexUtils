@@ -1,3 +1,7 @@
+"""
+This module contains functions to generate test data for movies and TV shows.
+"""
+
 import os
 
 from scripts.generate_movie_files import generate_movie_files
@@ -5,7 +9,12 @@ from scripts.generate_tvshow_files import generate_tvshow_directories
 
 
 def delete_directory(dir_path):
-    """deletes the given directory and all its contents"""
+    """
+    Deletes the given directory and all its contents.
+
+    Args:
+        dir_path (str): The path of the directory to be deleted.
+    """
     for item in os.listdir(dir_path):
         item_path: str = os.path.join(dir_path, item)
         if os.path.isfile(item_path):
@@ -16,6 +25,12 @@ def delete_directory(dir_path):
 
 
 def generate_test_data():
+    """
+    Generates test data for movies and TV shows.
+
+    The function first deletes any existing data in the 'movies' and 'tvshows' directories.
+    Then, it generates new movie files and TV show directories.
+    """
     # Get the absolute path of the current script
     current_script_dir: str = os.path.dirname(os.path.realpath(__file__))
 

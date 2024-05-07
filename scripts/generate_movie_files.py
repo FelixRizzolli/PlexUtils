@@ -1,8 +1,22 @@
+"""
+This module contains functions to generate movie files based on a JSON file.
+"""
 import os
 import json
 
 
 def generate_movie_files(data_dir: str, scripts_data_dir: str) -> None:
+    """
+    Generates movie files based on a JSON file.
+
+    The function creates directories if they do not exist, then reads a JSON file containing
+    movie file names. It then creates these movie files in the specified directory.
+
+    Args:
+        data_dir (str): The path of the data directory where the movie files will be created.
+        scripts_data_dir (str): The path of the scripts data directory where the JSON file is
+                                located.
+    """
     movies_dir = os.path.join(data_dir, 'movies')
 
     # Open the JSON file
