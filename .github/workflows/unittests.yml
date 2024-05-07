@@ -25,4 +25,7 @@ jobs:
         poetry run generate-test-data
     - name: Run tests
       run: |
-        poetry run python -m unittest discover tests
+        poetry run python -m unittest discover tests/crawler
+        poetry run python -m unittest discover tests/media
+        poetry run python -m unittest discover tests/shared
+        poetry run python -m unittest discover tests/utils
