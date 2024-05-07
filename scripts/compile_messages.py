@@ -30,15 +30,15 @@ def compile_messages() -> None:
         # Check if the 'LC_MESSAGES' directory exists
         if os.path.isdir(lc_messages_dir):
             # Traverse through each .po file in the 'LC_MESSAGES' directory
-            for po_file in os.listdir(lc_messages_dir):
+            for po_filename in os.listdir(lc_messages_dir):
                 try:
-                    compile_po_file(lc_messages_dir, po_file)
-                    logging.info("Compiled %s successfully.", po_file)
+                    compile_po_file(lc_messages_dir, po_filename)
+                    logging.info("Compiled %s successfully.", po_filename)
                 except subprocess.CalledProcessError as e:
-                    logging.error("Failed to compile %s: %s", po_file, str(e))
+                    logging.error("Failed to compile %s: %s", po_filename, str(e))
 
 
-def compile_po_file(po_dir: str, po_file: str) -> None:
+def compile_po_file(po_dir: str, po_filename: str) -> None:
     """
     Compiles a .po file into a .mo file using the 'msgfmt' command.
 
@@ -48,14 +48,15 @@ def compile_po_file(po_dir: str, po_file: str) -> None:
 
     Args:
         po_dir (str): The directory path of the .po file.
-        po_file (str): The name of the .po file.
+        po_filename (str): The name of the .po file.
 
     Raises:
         subprocess.CalledProcessError: If the 'msgfmt' command fails.
     """
-    name, ext = os.path.splitext(po_file)
+    name, ext = os.path.splitext(po_filename)
     if ext == '.po':
         mo_file: str = os.path.join(po_dir, name + '.mo')
+        po_file: str = os.path.join(po_dir, po_filename)
 
         # Compile the .po file into a .mo file
         subprocess.run(['msgfmt', '-o', mo_file, po_file], check=True)
