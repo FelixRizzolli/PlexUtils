@@ -44,15 +44,6 @@ class TVShow:
         """
         return self._dirname
 
-    def is_valid(self) -> bool:
-        """
-        Checks if the TV show's directory name is valid.
-
-        Returns:
-            bool: True if the TV show's directory name is valid, False otherwise.
-        """
-        return self._tvdbid is not None
-
     @property
     def seasons(self) -> list[TVShowSeason]:
         """
@@ -93,3 +84,12 @@ class TVShow:
             Optional[TVShowSeason]: The season with the given ID, or None if no such season exists.
         """
         return self._seasons.get(season_id)
+
+    def is_valid(self) -> bool:
+        """
+        Checks if the TV show's directory name is valid.
+
+        Returns:
+            bool: True if the TV show's directory name is valid, False otherwise.
+        """
+        return self._tvdbid is not None

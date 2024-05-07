@@ -43,15 +43,6 @@ class TVShowSeason:
         """
         return self._dirname
 
-    def is_valid(self) -> bool:
-        """
-        Checks if the season's directory name is valid.
-
-        Returns:
-            bool: True if the season's directory name is valid, False otherwise.
-        """
-        return self._season_id is not None
-
     @property
     def episodes(self) -> list[TVShowEpisode]:
         """
@@ -80,3 +71,12 @@ class TVShowSeason:
             episode (TVShowEpisode): The episode to add.
         """
         self._episodes[episode.episode_id] = episode
+
+    def is_valid(self) -> bool:
+        """
+        Checks if the season's directory name is valid.
+
+        Returns:
+            bool: True if the season's directory name is valid, False otherwise.
+        """
+        return self._season_id is not None

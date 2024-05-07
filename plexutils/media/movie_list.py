@@ -19,15 +19,6 @@ class MovieList:
     def __init__(self):
         self._movies: dict[int, Movie] = {}
 
-    def add(self, movie: Movie) -> None:
-        """
-        Adds a movie to the collection.
-
-        Args:
-            movie (Movie): The movie to add.
-        """
-        self._movies[movie.tvdbid] = movie
-
     @property
     def movies(self) -> list[Movie]:
         """
@@ -37,6 +28,15 @@ class MovieList:
             list[Movie]: A list of all movies in the collection.
         """
         return list(self._movies.values())
+
+    def add(self, movie: Movie) -> None:
+        """
+        Adds a movie to the collection.
+
+        Args:
+            movie (Movie): The movie to add.
+        """
+        self._movies[movie.tvdbid] = movie
 
     def get_movie(self, movie_id: int) -> Optional[Movie]:
         """

@@ -19,15 +19,6 @@ class TVShowList:
     def __init__(self):
         self._tvshows: dict[int, TVShow] = {}
 
-    def add_tvshow(self, tvshow: TVShow) -> None:
-        """
-        Adds a TV show to the list.
-
-        Args:
-            tvshow (TVShow): The TV show to add.
-        """
-        self._tvshows[tvshow.tvdbid] = tvshow
-
     @property
     def tvshows(self) -> list[TVShow]:
         """
@@ -37,6 +28,15 @@ class TVShowList:
             list[TVShow]: A list of all TV shows in the collection.
         """
         return list(self._tvshows.values())
+
+    def add_tvshow(self, tvshow: TVShow) -> None:
+        """
+        Adds a TV show to the list.
+
+        Args:
+            tvshow (TVShow): The TV show to add.
+        """
+        self._tvshows[tvshow.tvdbid] = tvshow
 
     def get_tvshow(self, tvshow_id: int) -> Optional[TVShow]:
         """
