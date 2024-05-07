@@ -3,6 +3,7 @@
 """
 import unittest
 import os
+import json
 
 from plexutils.crawler.plex_tvshow_crawler import PlexTVShowCrawler
 from plexutils.shared.utils import load_config
@@ -11,25 +12,23 @@ from plexutils.api.tvdb_api import TvdbApi
 from plexutils.media.tvshow_episode import TVShowEpisode
 from plexutils.media.tvshow_season import TVShowSeason
 
-from tests.testdata import test_tvshow_files
-
-current_script_dir = os.path.dirname(os.path.realpath(__file__))
-data_dir = os.path.join(current_script_dir, '../../data')
-tvshows_dir = os.path.join(data_dir, 'tvshows')
-
 
 class TestTvdbApi(unittest.TestCase):
     """test class for the TVDBTool class"""
 
-    def setUp(self) -> None:
-        self.tvshow_directories: list[dict] = test_tvshow_files
-        self.config: dict = load_config(os.path.join(current_script_dir, '../../config.yaml'))
+    @classmethod
+    def setUpClass(cls) -> None:
+        # Define directory paths
+        current_script_dir: str = os.path.dirname(os.path.realpath(__file__))
+        data_dir: str = os.path.join(current_script_dir, '../../data')
+        tvshows_dir: str = os.path.join(data_dir, 'tvshows')
 
-        # initialize crawler
-        self.crawler: PlexTVShowCrawler = PlexTVShowCrawler(tvshows_dir)
-        self.crawler.crawl()
-        if self.crawler.get_tvshowlist().is_empty():
-            print("EMPTY TV SHOWS")
+        # Load congig.yaml
+        cls.config: dict = load_config(os.path.join(current_script_dir, '../../config.yaml'))
+
+        # Initialize crawler
+        cls.crawler: PlexTVShowCrawler = PlexTVShowCrawler(tvshows_dir)
+        cls.crawler.crawl()
 
     def test_get_episodes(self) -> None:
         """test the get_episodes method"""

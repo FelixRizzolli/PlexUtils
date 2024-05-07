@@ -3,6 +3,7 @@
 """
 import unittest
 import os
+import json
 
 from plexutils.crawler.plex_tvshow_crawler import PlexTVShowCrawler
 from plexutils.media.tvshow import TVShow
@@ -10,11 +11,6 @@ from plexutils.media.tvshow_episode import TVShowEpisode
 from plexutils.media.tvshow_list import TVShowList
 from plexutils.media.tvshow_season import TVShowSeason
 
-from tests.testdata import test_tvshow_files
-
-current_script_dir = os.path.dirname(os.path.realpath(__file__))
-data_dir = os.path.join(current_script_dir, '../../data')
-tvshows_dir = os.path.join(data_dir, 'tvshows')
 
 
 class TestPlexTVShowCrawler(unittest.TestCase):
@@ -22,7 +18,16 @@ class TestPlexTVShowCrawler(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        cls.tvshow_directories: list[dict] = test_tvshow_files
+        # Define directory paths
+        current_script_dir: str = os.path.dirname(os.path.realpath(__file__))
+        data_dir: str = os.path.join(current_script_dir, '../../data')
+        scripts_data_dir: str = os.path.join(current_script_dir, '../../scripts/data')
+        tvshows_dir: str = os.path.join(data_dir, 'tvshows')
+
+        # Open the JSON file
+        with open(os.path.join(scripts_data_dir, 'tvshow_files.json'), 'r', encoding='utf-8') as f:
+            # Load the JSON data into a Python dictionary
+            cls.tvshow_directories: dict = json.load(f)['tvshow_files']
 
         # initialize crawler
         cls.crawler: PlexTVShowCrawler = PlexTVShowCrawler(tvshows_dir)

@@ -3,16 +3,11 @@
 """
 import unittest
 import os
+import json
 
 from plexutils.media.movie import Movie
 from plexutils.media.movie_list import MovieList
 from plexutils.crawler.plex_movie_crawler import PlexMovieCrawler
-
-from tests.testdata import test_movie_files
-
-current_script_dir = os.path.dirname(os.path.realpath(__file__))
-data_dir = os.path.join(current_script_dir, '../../data')
-movies_dir = os.path.join(data_dir, 'movies')
 
 
 class TestPlexMovieCrawler(unittest.TestCase):
@@ -20,9 +15,18 @@ class TestPlexMovieCrawler(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        cls.movie_files: list[str] = test_movie_files
+        # Define directory paths
+        current_script_dir: str = os.path.dirname(os.path.realpath(__file__))
+        data_dir: str = os.path.join(current_script_dir, '../../data')
+        scripts_data_dir: str = os.path.join(current_script_dir, '../../scripts/data')
+        movies_dir: str = os.path.join(data_dir, 'movies')
 
-        # initialize crawler
+        # Open the JSON file
+        with open(os.path.join(scripts_data_dir, 'movie_files.json'), 'r', encoding='utf-8') as f:
+            # Load the JSON data into a Python dictionary
+            cls.movie_files: dict = json.load(f)['movie_files']
+
+        # Initialize crawler
         cls.crawler: PlexMovieCrawler = PlexMovieCrawler(movies_dir)
         cls.crawler.crawl()
 
