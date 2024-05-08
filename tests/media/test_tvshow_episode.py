@@ -27,6 +27,23 @@ class TestTVShowEpisode(unittest.TestCase):
         )
 
 
+    def test_is_valid(self) -> None:
+        """tests the is_valid method of the TVShowEpisode class"""
+        episode: TVShowEpisode = TVShowEpisode(
+            "Code Geass (2006) - s01e01 - The Day a New Demon Was Born.mp4"
+        )
+        self.assertTrue(episode.is_valid())
+
+        episode_invalid_episodeid: TVShowEpisode = TVShowEpisode(
+            "Code Geass (2006) - s01ex1 - The Day a New Demon Was Born.mp4"
+        )
+        self.assertFalse(episode_invalid_episodeid.is_valid())
+
+        episode_invalid_seasonid: TVShowEpisode = TVShowEpisode(
+            "Code Geass (2006) - sx1e01 - The Day a New Demon Was Born.mp4"
+        )
+        self.assertFalse(episode_invalid_seasonid.is_valid())
+
 
 if __name__ == '__main__':
     unittest.main()
