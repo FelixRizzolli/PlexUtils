@@ -47,6 +47,14 @@ class TestTVShow(unittest.TestCase):
         tvshow_invalid_tvdbid_2: TVShow = TVShow('Code Geass (2006)')
         self.assertFalse(tvshow_invalid_tvdbid_2.is_valid())
 
+    def test_add_season(self) -> None:
+        """tests the add_season method of the TVShow class"""
+        tvshow: TVShow = TVShow('Code Geass (2006) {tvdb-79525}')
+        tvshow.add_season(TVShowSeason('season 01'))
+        self.assertEqual(1, len(tvshow.seasons))
+        tvshow.add_season(TVShowSeason('season 02'))
+        self.assertEqual(2, len(tvshow.seasons))
+
 
 if __name__ == '__main__':
     unittest.main()
