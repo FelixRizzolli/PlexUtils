@@ -25,7 +25,7 @@
 - tvdb-key and tvdb-pin
   - example `tvdb-key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`
   - example `tvdb-pin: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`
-  - you net to get them from [thetvdb.com](https://thetvdb.com/api-information)
+  - you need to get them from [thetvdb.com](https://thetvdb.com/api-information)
 
 # Features
 ## MovieFileUtils
