@@ -42,6 +42,9 @@ def compile_messages() -> None:
     current_script_dir: str = os.path.dirname(os.path.realpath(__file__))
     locale_dir: str = os.path.join(current_script_dir, '../locale')
 
+    # Check if the compiler is installed
+    check_compiler()
+
     # Traverse through each language directory in the 'locale' directory
     for language in os.listdir(locale_dir):
         language_dir: str = os.path.join(locale_dir, language)
@@ -104,3 +107,91 @@ def run_compile_process(mo_file: str, po_file: str) -> None:
         subprocess.run(['msgfmt', '-o', mo_file, po_file], check=True)
     else:
         print(f"Operating system not supported: {platform.system()}.")
+
+
+def check_compiler() -> bool:
+    """
+    Checks if the necessary compiler is installed on the system.
+
+    This function checks the operating system using platform.system() and then checks if
+    the necessary compiler (pybabel for Windows, msgfmt for macOS and Linux) is installed.
+    If the compiler is not installed, it prints instructions on how to install the compiler
+    for the specific operating system.
+    If the operating system is not supported, it prints an error message.
+
+    Returns:
+        bool: True if the necessary compiler is installed or the operating system is not supported,
+              False otherwise.
+    """
+    if platform.system() == OS.WINDOWS and not is_pybabel_installed():
+        print("pybabel is not installed. Please install pybabel first.")
+        print("If you are using Windows, you can install it with: "
+              + "pip install Babel")
+        return False
+
+    if platform.system() == OS.MACOS and not is_msgfmt_installed():
+        print("msgfmt is not installed. Please install msgfmt first.")
+        print("If you are using macOS, you can install it with: "
+              + "brew install gettext")
+        print("Then, you might need to link gettext to make msgfmt available"
+              + "brew link --force gettext")
+        return False
+
+    if platform.system() == OS.LINUX and not is_msgfmt_installed():
+        print("msgfmt is not installed. Please install msgfmt first.")
+        print("If you are using Ubuntu or debian, you can install it with: "
+              + "sudo apt-get install gettext")
+        return False
+
+    if not (platform.system() == OS.WINDOWS
+            or platform.system() == OS.MACOS
+            or platform.system() == OS.LINUX):
+        print(f"Operating system not supported: {platform.system()}.")
+
+    return True
+
+
+def is_msgfmt_installed() -> bool:
+    """
+    Checks if msgfmt is installed on the system.
+
+    This function attempts to run the 'msgfmt --version' command using the subprocess module.
+    If the command succeeds, it means msgfmt is installed. If the command fails, it means
+    msgfmt is not installed.
+
+    Returns:
+        bool: True if msgfmt is installed, False otherwise.
+    """
+    try:
+        subprocess.run(
+            ['msgfmt', '--version'],
+            check=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
+        return True
+    except subprocess.CalledProcessError:
+        return False
+
+
+def is_pybabel_installed() -> bool:
+    """
+    Checks if PyBabel is installed on the system.
+
+    This function attempts to run the 'pybabel --version' command using the subprocess module.
+    If the command succeeds, it means PyBabel is installed. If the command fails, it means
+    PyBabel is not installed.
+
+    Returns:
+        bool: True if PyBabel is installed, False otherwise.
+    """
+    try:
+        subprocess.run(
+            ['pybabel', '--version'],
+            check=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
+        return True
+    except subprocess.CalledProcessError:
+        return False
