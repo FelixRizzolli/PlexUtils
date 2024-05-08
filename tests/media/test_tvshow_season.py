@@ -48,6 +48,14 @@ class TestTVShowSeason(unittest.TestCase):
         ))
         self.assertEqual([1, 2, 3], season.episodeids)
 
+    def test_is_valid(self) -> None:
+        """tests the is_valid method of the TVShowSeason class"""
+        season: TVShowSeason = TVShowSeason("season 01")
+        self.assertTrue(season.is_valid())
+
+        season_invalid_seasonid: TVShowSeason = TVShowSeason("season 0x1")
+        self.assertFalse(season_invalid_seasonid.is_valid())
+
 
 if __name__ == '__main__':
     unittest.main()
