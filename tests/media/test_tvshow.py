@@ -69,6 +69,15 @@ class TestTVShow(unittest.TestCase):
         self.assertTrue(season_02.is_valid())
         self.assertEqual('season 02', season_02.dirname)
 
+    def test_is_empty(self) -> None:
+        """tests the is_empty method of the TVShow class"""
+        tvshow: TVShow = TVShow('Code Geass (2006) {tvdb-79525}')
+        self.assertTrue(tvshow.is_empty())
+        tvshow.add_season(TVShowSeason('season 01'))
+        self.assertFalse(tvshow.is_empty())
+        tvshow.add_season(TVShowSeason('season 02'))
+        self.assertFalse(tvshow.is_empty())
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -93,3 +93,12 @@ class TVShow:
             bool: True if the TV show's directory name is valid, False otherwise.
         """
         return self._tvdbid is not None
+
+    def is_empty(self) -> bool:
+        """
+        Checks if the TV show has any seasons.
+
+        Returns:
+            bool: True if the TV show has no seasons, False otherwise.
+        """
+        return len(self._seasons) == 0
