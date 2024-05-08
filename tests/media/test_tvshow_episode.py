@@ -26,7 +26,6 @@ class TestTVShowEpisode(unittest.TestCase):
             episode.filename
         )
 
-
     def test_is_valid(self) -> None:
         """tests the is_valid method of the TVShowEpisode class"""
         episode: TVShowEpisode = TVShowEpisode(
