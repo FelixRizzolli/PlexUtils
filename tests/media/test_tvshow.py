@@ -29,6 +29,13 @@ class TestTVShow(unittest.TestCase):
         tvshow.add_season(TVShowSeason('season 02'))
         self.assertEqual(2, len(tvshow.seasons))
 
+    def test_property_seasonids(self) -> None:
+        """tests the seasonids property of the TVShow class"""
+        tvshow: TVShow = TVShow('Code Geass (2006) {tvdb-79525}')
+        tvshow.add_season(TVShowSeason('season 01'))
+        tvshow.add_season(TVShowSeason('season 02'))
+        self.assertEqual([1, 2], tvshow.seasonids)
+
 
 if __name__ == '__main__':
     unittest.main()
