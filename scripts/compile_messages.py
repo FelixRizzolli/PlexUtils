@@ -4,6 +4,26 @@ This module provides a function to compile internationalized messages.
 import os
 import subprocess
 import logging
+import platform
+from enum import Enum
+
+
+class OS(Enum):
+    """
+    An enumeration representing common operating systems.
+
+    This Enum is used to standardize the representation of the most common
+    operating systems. Each operating system is represented by a string that
+    `platform.system()` returns.
+
+    Attributes:
+        LINUX (str): Represents the Linux operating system.
+        MACOS (str): Represents the macOS operating system.
+        WINDOWS (str): Represents the Windows operating system.
+    """
+    LINUX = 'Linux'
+    MACOS = 'Darwin'
+    WINDOWS = 'Windows'
 
 
 def compile_messages() -> None:
@@ -59,4 +79,28 @@ def compile_po_file(po_dir: str, po_filename: str) -> None:
         po_file: str = os.path.join(po_dir, po_filename)
 
         # Compile the .po file into a .mo file
+        run_compile_process(mo_file, po_file)
+
+
+def run_compile_process(mo_file: str, po_file: str) -> None:
+    """
+    Executes the compilation process for given mo and po files.
+
+    The function uses the 'msgfmt' tool to perform the compilation.
+    The operating system is checked to ensure the correct command is executed.
+
+    Args:
+        mo_file (str): The path to the output file (.mo).
+        po_file (str): The path to the input file (.po).
+
+    Raises:
+        subprocess.CalledProcessError: If the compilation process fails.
+    """
+    if platform.system() == OS.WINDOWS:
+        subprocess.run(['pybabel', 'compile', '-d', 'locale'], check=True)
+    elif platform.system() == OS.MACOS:
         subprocess.run(['msgfmt', '-o', mo_file, po_file], check=True)
+    elif platform.system() == OS.LINUX:
+        subprocess.run(['msgfmt', '-o', mo_file, po_file], check=True)
+    else:
+        print(f"Operating system not supported: {platform.system()}.")
