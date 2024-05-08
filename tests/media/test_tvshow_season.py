@@ -53,7 +53,7 @@ class TestTVShowSeason(unittest.TestCase):
         season: TVShowSeason = TVShowSeason("season 01")
         self.assertTrue(season.is_valid())
 
-        season_invalid_seasonid: TVShowSeason = TVShowSeason("season 0x1")
+        season_invalid_seasonid: TVShowSeason = TVShowSeason("season x")
         self.assertFalse(season_invalid_seasonid.is_valid())
 
     def test_add_episode(self) -> None:
