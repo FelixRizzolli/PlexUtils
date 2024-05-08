@@ -14,6 +14,11 @@ class TestTVShow(unittest.TestCase):
         tvshow: TVShow = TVShow('Code Geass (2006) {tvdb-79525}')
         self.assertEqual(79525, tvshow.tvdbid)
 
+    def test_property_dirname(self) -> None:
+        """tests the dirname property of the TVShow class"""
+        tvshow: TVShow = TVShow('Code Geass (2006) {tvdb-79525}')
+        self.assertEqual('Code Geass (2006) {tvdb-79525}', tvshow.dirname)
+
 
 if __name__ == '__main__':
     unittest.main()
