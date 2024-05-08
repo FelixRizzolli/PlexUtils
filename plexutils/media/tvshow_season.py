@@ -80,3 +80,12 @@ class TVShowSeason:
             bool: True if the season's directory name is valid, False otherwise.
         """
         return self._season_id is not None
+
+    def is_empty(self) -> bool:
+        """
+        Checks if the season has no episodes.
+
+        Returns:
+            bool: True if the season has no episodes, False otherwise.
+        """
+        return len(self._episodes) == 0

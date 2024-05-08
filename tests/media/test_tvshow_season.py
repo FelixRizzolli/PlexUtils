@@ -64,6 +64,15 @@ class TestTVShowSeason(unittest.TestCase):
         ))
         self.assertEqual(1, len(season.episodes))
 
+    def test_is_empty(self) -> None:
+        """tests the is_empty method of the TVShowSeason class"""
+        season: TVShowSeason = TVShowSeason("season 01")
+        self.assertTrue(season.is_empty())
+        season.add_episode(TVShowEpisode(
+            "Code Geass (2006) - s01e01 - The Day a New Demon Was Born.mp4"
+        ))
+        self.assertFalse(season.is_empty())
+
 
 if __name__ == '__main__':
     unittest.main()
