@@ -35,6 +35,15 @@ class TestMovieList(unittest.TestCase):
         self.assertEqual("Happy Death Day (2017) {tvdb-475}.mp4", movie.filename)
         self.assertEqual(475, movie.tvdbid)
 
+    def test_is_empty(self):
+        """tests the is_empty method of the MovieList class"""
+        movie_list = MovieList()
+        self.assertTrue(movie_list.is_empty())
+        movie_list.add(Movie("Happy Death Day (2017) {tvdb-475}.mp4"))
+        self.assertFalse(movie_list.is_empty())
+        movie_list.add(Movie("The Matrix Reloaded (2003) {tvdb-553}.mp4"))
+        self.assertFalse(movie_list.is_empty())
+
 
 if __name__ == '__main__':
     unittest.main()
