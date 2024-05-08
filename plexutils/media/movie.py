@@ -40,3 +40,12 @@ class Movie:
             str: The filename of the movie.
         """
         return self._filename
+
+    def is_valid(self) -> bool:
+        """
+        Checks if the movie has a valid filename.
+
+        Returns:
+            bool: True if the movie has a valid filename, False otherwise.
+        """
+        return self._tvdbid is not None
