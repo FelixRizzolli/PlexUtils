@@ -21,9 +21,9 @@ class OS(Enum):
         MACOS (str): Represents the macOS operating system.
         WINDOWS (str): Represents the Windows operating system.
     """
-    LINUX = 'Linux'
-    MACOS = 'Darwin'
-    WINDOWS = 'Windows'
+    LINUX = 'Linux'.upper()
+    MACOS = 'Darwin'.upper()
+    WINDOWS = 'Windows'.upper()
 
 
 def compile_messages() -> None:
@@ -99,11 +99,12 @@ def run_compile_process(mo_file: str, po_file: str) -> None:
     Raises:
         subprocess.CalledProcessError: If the compilation process fails.
     """
-    if platform.system() == OS.WINDOWS:
+    operating_system: str = platform.system().upper()
+    if operating_system == OS.WINDOWS:
         subprocess.run(['pybabel', 'compile', '-d', 'locale'], check=True)
-    elif platform.system() == OS.MACOS:
+    elif operating_system == OS.MACOS:
         subprocess.run(['msgfmt', '-o', mo_file, po_file], check=True)
-    elif platform.system() == OS.LINUX:
+    elif operating_system == OS.LINUX:
         subprocess.run(['msgfmt', '-o', mo_file, po_file], check=True)
     else:
         print(f"Operating system not supported: {platform.system()}.")
@@ -123,13 +124,14 @@ def check_compiler() -> bool:
         bool: True if the necessary compiler is installed or the operating system is not supported,
               False otherwise.
     """
-    if platform.system() == OS.WINDOWS and not is_pybabel_installed():
+    operating_system: str = platform.system().upper()
+    if operating_system == OS.WINDOWS and not is_pybabel_installed():
         print("pybabel is not installed. Please install pybabel first.")
         print("If you are using Windows, you can install it with: "
               + "pip install Babel")
         return False
 
-    if platform.system() == OS.MACOS and not is_msgfmt_installed():
+    if operating_system == OS.MACOS and not is_msgfmt_installed():
         print("msgfmt is not installed. Please install msgfmt first.")
         print("If you are using macOS, you can install it with: "
               + "brew install gettext")
@@ -137,15 +139,13 @@ def check_compiler() -> bool:
               + "brew link --force gettext")
         return False
 
-    if platform.system() == OS.LINUX and not is_msgfmt_installed():
+    if operating_system == OS.LINUX and not is_msgfmt_installed():
         print("msgfmt is not installed. Please install msgfmt first.")
         print("If you are using Ubuntu or debian, you can install it with: "
               + "sudo apt-get install gettext")
         return False
 
-    if not (platform.system() == OS.WINDOWS
-            or platform.system() == OS.MACOS
-            or platform.system() == OS.LINUX):
+    if operating_system not in [OS.WINDOWS, OS.MACOS,  OS.LINUX]:
         print(f"Operating system not supported: {platform.system()}.")
 
     return True
