@@ -100,12 +100,20 @@ def run_compile_process(mo_file: str, po_file: str) -> None:
         subprocess.CalledProcessError: If the compilation process fails.
     """
     operating_system: str = platform.system().upper()
-    if operating_system == OS.WINDOWS:
+    if operating_system == OS.WINDOWS.value:
+        print("Compiling on Windows...")
         subprocess.run(['pybabel', 'compile', '-d', 'locale'], check=True)
-    elif operating_system in [OS.MACOS, OS.LINUX]:
+        print("Compiled successfully.")
+    elif operating_system in [OS.MACOS.value, OS.LINUX.value]:
+        print(
+            "Compiling on ",
+            'macOS' if operating_system == OS.MACOS.value else operating_system,
+            "..."
+        )
         subprocess.run(['msgfmt', '-o', mo_file, po_file], check=True)
+        print("Compiled successfully.")
     else:
-        print(f"Operating system not supported: {platform.system()}.")
+        print("Operating system not supported: ", operating_system, ".")
 
 
 def check_compiler() -> bool:
@@ -123,13 +131,14 @@ def check_compiler() -> bool:
               False otherwise.
     """
     operating_system: str = platform.system().upper()
+    print(f"Operating system: {operating_system}")
     if operating_system == OS.WINDOWS and not is_pybabel_installed():
         print("pybabel is not installed. Please install pybabel first.")
         print("If you are using Windows, you can install it with: "
               + "pip install Babel")
         return False
 
-    if operating_system == OS.MACOS and not is_msgfmt_installed():
+    if operating_system == OS.MACOS.value and not is_msgfmt_installed():
         print("msgfmt is not installed. Please install msgfmt first.")
         print("If you are using macOS, you can install it with: "
               + "brew install gettext")
@@ -137,13 +146,13 @@ def check_compiler() -> bool:
               + "brew link --force gettext")
         return False
 
-    if operating_system == OS.LINUX and not is_msgfmt_installed():
+    if operating_system == OS.LINUX.value and not is_msgfmt_installed():
         print("msgfmt is not installed. Please install msgfmt first.")
         print("If you are using Ubuntu or debian, you can install it with: "
               + "sudo apt-get install gettext")
         return False
 
-    if operating_system not in [OS.WINDOWS, OS.MACOS,  OS.LINUX]:
+    if operating_system not in [OS.WINDOWS.value, OS.MACOS.value,  OS.LINUX.value]:
         print(f"Operating system not supported: {platform.system()}.")
 
     return True
