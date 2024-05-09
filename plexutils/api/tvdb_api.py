@@ -1,5 +1,5 @@
 """
-    This module contains TVDBTool class.
+    This module contains TvdbApi class.
 """
 import ssl
 
