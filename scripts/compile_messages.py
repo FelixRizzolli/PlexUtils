@@ -102,9 +102,7 @@ def run_compile_process(mo_file: str, po_file: str) -> None:
     operating_system: str = platform.system().upper()
     if operating_system == OS.WINDOWS:
         subprocess.run(['pybabel', 'compile', '-d', 'locale'], check=True)
-    elif operating_system == OS.MACOS:
-        subprocess.run(['msgfmt', '-o', mo_file, po_file], check=True)
-    elif operating_system == OS.LINUX:
+    elif operating_system in [OS.MACOS, OS.LINUX]:
         subprocess.run(['msgfmt', '-o', mo_file, po_file], check=True)
     else:
         print(f"Operating system not supported: {platform.system()}.")
