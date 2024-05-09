@@ -100,20 +100,33 @@ def run_compile_process(mo_file: str, po_file: str) -> None:
         subprocess.CalledProcessError: If the compilation process fails.
     """
     operating_system: str = platform.system().upper()
-    if operating_system == OS.WINDOWS.value:
-        print("Compiling on Windows...")
-        subprocess.run(['pybabel', 'compile', '-d', 'locale'], check=True)
-        print("Compiled successfully.")
-    elif operating_system in [OS.MACOS.value, OS.LINUX.value]:
-        print(
-            "Compiling on ",
-            'macOS' if operating_system == OS.MACOS.value else operating_system,
-            "..."
-        )
-        subprocess.run(['msgfmt', '-o', mo_file, po_file], check=True)
-        print("Compiled successfully.")
-    else:
+
+    if operating_system not in [OS.WINDOWS.value, OS.MACOS.value, OS.LINUX.value]:
         print("Operating system not supported: ", operating_system, ".")
+        return
+
+    if operating_system == OS.WINDOWS.value:
+        try:
+            subprocess.run(
+                ['pybabel', 'compile', '-d', 'locale'],
+                check=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE
+            )
+            print(f"Command executed successfully. {mo_file} created.")
+        except subprocess.CalledProcessError as e:
+            print(f"Command failed with error:\n{e.stderr.decode('utf-8')}")
+    elif operating_system in [OS.MACOS.value, OS.LINUX.value]:
+        try:
+            subprocess.run(
+                ['msgfmt', '-o', mo_file, po_file],
+                check=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE
+            )
+            print(f"Command executed successfully. {mo_file} created.")
+        except subprocess.CalledProcessError as e:
+            print(f"Command failed with error:\n{e.stderr.decode('utf-8')}")
 
 
 def check_compiler() -> bool:
