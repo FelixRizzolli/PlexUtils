@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 1.0.0\n"
 "Report-Msgid-Bugs-To: FELIX RIZZOLLI <FELIX.RIZZOLLI@OUTLOOK.DE>\n"
 "POT-Creation-Date: 2024-05-06 13:24+0200\n"
-"PO-Revision-Date: 2024-05-09 10:57+0200\n"
+"PO-Revision-Date: 2024-05-09 11:02+0200\n"
 "Last-Translator: ANDREAS CODALONGA <A.CODALONGA@ALPOITRONIC.IT>\n"
 "Language: de_AT\n"
 "Language-Team: de_AT <LL@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: plexutils/shared/utils.py:49
 msgid "E. Exit"
-msgstr "E. Exit"
+msgstr "E. Ausi"
 
 #: plexutils/shared/utils.py:51
 msgid "Enter your choice: "
