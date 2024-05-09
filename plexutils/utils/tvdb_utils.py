@@ -58,15 +58,15 @@ class TVDBUtils:
         if 'tvshows-dir' not in self.config:
             return
 
-        tvdb_tool: TvdbApi = TvdbApi(self.tvdb_key, self.tvdb_pin)
+        tvdb_api: TvdbApi = TvdbApi(self.tvdb_key, self.tvdb_pin)
         crawler: PlexTVShowCrawler = PlexTVShowCrawler(self.config['tvshows-dir'])
         crawler.crawl()
 
         tvshows: list[TVShow] = crawler.get_tvshowlist().tvshows
         missing_season_strings: list[str] = []
         for tvshow in tvshows:
-            plex_tvshow_seasonids: set[int] = set(tvshow.get_seasonids())
-            tvdb_tvshow_seasonids: set[int] = tvdb_tool.get_seasonids(tvshow.tvdbid)
+            plex_tvshow_seasonids: set[int] = set(tvshow.seasonids)
+            tvdb_tvshow_seasonids: set[int] = tvdb_api.get_seasonids(tvshow.tvdbid)
             missing_seasons: list[int] = list(tvdb_tvshow_seasonids - plex_tvshow_seasonids)
             for missing_season in missing_seasons:
                 missing_season_strings.append(f"{tvshow.dirname} -> {missing_season}")
@@ -85,7 +85,7 @@ class TVDBUtils:
         if 'tvshows-dir' not in self.config:
             return
 
-        tvdb_tool: TvdbApi = TvdbApi(self.tvdb_key, self.tvdb_pin)
+        tvdb_api: TvdbApi = TvdbApi(self.tvdb_key, self.tvdb_pin)
         crawler: PlexTVShowCrawler = PlexTVShowCrawler(self.config['tvshows-dir'])
         crawler.crawl()
 
@@ -94,8 +94,8 @@ class TVDBUtils:
         for tvshow in tvshows:
             seasons: list[TVShowSeason] = tvshow.seasons
             for season in seasons:
-                plex_episodeids: set[int] = set(season.get_episodeids())
-                tvdb_episodeids: set[int] = tvdb_tool.get_episodeids(
+                plex_episodeids: set[int] = set(season.episodeids)
+                tvdb_episodeids: set[int] = tvdb_api.get_episodeids(
                     tvshow.tvdbid, season.season_id
                 )
 
