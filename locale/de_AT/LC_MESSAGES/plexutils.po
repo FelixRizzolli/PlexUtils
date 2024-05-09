@@ -58,7 +58,7 @@ msgstr "Suach in TVDB noch nuie Staffeln fa existierende Serien"
 msgid ""
 "search in tvdb for missing episodes of existing seasons of existing "
 "tvshows"
-msgstr "Suach in TVDB noch nuie Folgen fa existierende Serien"
+msgstr "Suach in TVDB noch fahlende Folgen fa existierende Serien"
 
 #: plexutils/utils/tvdb_utils.py:45
 msgid ""
