@@ -190,7 +190,7 @@ def is_msgfmt_installed() -> bool:
             stderr=subprocess.DEVNULL
         )
         return True
-    except subprocess.CalledProcessError:
+    except Exception:
         return False
 
 
@@ -213,5 +213,5 @@ def is_pybabel_installed() -> bool:
             stderr=subprocess.DEVNULL
         )
         return True
-    except subprocess.CalledProcessError:
+    except Exception:
         return False
