@@ -43,8 +43,14 @@ def generate_test_data():
     scripts_data_dir: str = os.path.join(current_script_dir, 'data')
 
     # Delete the 'data' directory
+    print("Delete the 'data' directory")
     if os.path.exists(data_dir):
         delete_directory(os.path.join(data_dir))
+
+    # Create the 'data' directory
+    print("Create the 'data' directory")
+    if not os.path.isdir(data_dir):
+        os.mkdir(data_dir)
 
     # Generate the data
     generate_movie_files(data_dir, scripts_data_dir)
