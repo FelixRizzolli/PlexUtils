@@ -21,25 +21,29 @@ def generate_tvshow_directories(data_dir: str, scripts_data_dir: str) -> None:
     tvshows_dir = os.path.join(data_dir, 'tvshows')
 
     # Open the JSON file
+    print("\nRead tvshow_files.json")
     with open(os.path.join(scripts_data_dir, 'tvshow_files.json'), 'r', encoding='utf-8') as f:
         # Load the JSON data into a Python dictionary
         tvshow_directories = json.load(f)['tvshow_files']
 
-    # Create data
-    if not os.path.isdir(data_dir):
-        os.mkdir(data_dir)
+    # Create 'tvshows' directory
+    print("Create 'tvshows' directory")
     if not os.path.isdir(tvshows_dir):
         os.mkdir(tvshows_dir)
 
     # Create tvshow directories
+    print("Create tvshow files")
     for tvshow in tvshow_directories:
         tvshow_dirname: str = tvshow["dirname"]
         tvshow_dir: str = os.path.join(tvshows_dir, tvshow_dirname)
+        print(f"Create files for: {tvshow_dirname}")
 
         if not os.path.isdir(tvshow_dir):
             os.mkdir(tvshow_dir)
 
         generate_tvshow_season_directories(tvshow_dir, tvshow)
+
+    print("Generate tvshow files: DONE!")
 
 
 def generate_tvshow_season_directories(tvshow_dir: str, tvshow: dict) -> None:
