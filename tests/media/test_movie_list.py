@@ -1,10 +1,11 @@
 """
     This module contains unit tests for the MovieList class.
 """
+
 import unittest
 
-from plexutils.media.movie_list import MovieList
 from plexutils.media.movie import Movie
+from plexutils.media.movie_list import MovieList
 
 
 class TestMovieList(unittest.TestCase):
@@ -45,5 +46,5 @@ class TestMovieList(unittest.TestCase):
         self.assertFalse(movie_list.is_empty())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

@@ -1,11 +1,12 @@
 """
 This module contains TVShowSeason class.
 """
-from typing import Optional
-from dataclasses import dataclass
 
-from plexutils.shared.utils import extract_seasonid
+from dataclasses import dataclass
+from typing import Optional
+
 from plexutils.media.tvshow_episode import TVShowEpisode
+from plexutils.shared.utils import extract_seasonid
 
 
 @dataclass
@@ -18,6 +19,7 @@ class TVShowSeason:
         _season_id (Optional[int]): The ID of the season.
         _episodes (dict[int, TVShowEpisode]): A dictionary mapping episode IDs to episodes.
     """
+
     def __init__(self, dirname: str):
         self._dirname: str = dirname
         self._season_id: Optional[int] = extract_seasonid(dirname)

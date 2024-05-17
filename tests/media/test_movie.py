@@ -1,6 +1,7 @@
 """
     This module contains unit tests for the Movie class.
 """
+
 import unittest
 
 from plexutils.media.movie import Movie
@@ -31,5 +32,5 @@ class TestMovie(unittest.TestCase):
         self.assertFalse(movie_invalid_tvdbid_2.is_valid())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

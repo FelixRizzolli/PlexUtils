@@ -1,13 +1,11 @@
 """
 This module contains TVShowEpisode class.
 """
-from typing import Optional
-from dataclasses import dataclass
 
-from plexutils.shared.utils import (
-    extract_episodeid,
-    extract_seasonid_from_episode
-)
+from dataclasses import dataclass
+from typing import Optional
+
+from plexutils.shared.utils import extract_episodeid, extract_seasonid_from_episode
 
 
 @dataclass

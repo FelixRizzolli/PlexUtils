@@ -1,8 +1,9 @@
 """
 This module contains functions to generate movie files based on a JSON file.
 """
-import os
+
 import json
+import os
 
 
 def generate_movie_files(data_dir: str, scripts_data_dir: str) -> None:
@@ -17,13 +18,15 @@ def generate_movie_files(data_dir: str, scripts_data_dir: str) -> None:
         scripts_data_dir (str): The path of the scripts data directory where the JSON file is
                                 located.
     """
-    movies_dir = os.path.join(data_dir, 'movies')
+    movies_dir = os.path.join(data_dir, "movies")
 
     # Open the JSON file
     print("\nRead movie_files.json")
-    with open(os.path.join(scripts_data_dir, 'movie_files.json'), 'r', encoding='utf-8') as f:
+    with open(
+        os.path.join(scripts_data_dir, "movie_files.json"), "r", encoding="utf-8"
+    ) as f:
         # Load the JSON data into a Python dictionary
-        movie_files = json.load(f)['movie_files']
+        movie_files = json.load(f)["movie_files"]
 
     # Create 'movies' directory
     print("Create 'movies' directory")
@@ -33,7 +36,7 @@ def generate_movie_files(data_dir: str, scripts_data_dir: str) -> None:
     # Create movie files
     print("Create movie files")
     for movie_file in movie_files:
-        with open(os.path.join(movies_dir, movie_file), 'a', encoding='utf-8'):
+        with open(os.path.join(movies_dir, movie_file), "a", encoding="utf-8"):
             pass
 
     print("Generate movie files: DONE!")

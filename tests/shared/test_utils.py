@@ -1,16 +1,17 @@
 """
     This module contains unit tests for the functions in utils.py.
 """
+
 import unittest
 from typing import Optional
 
 from plexutils.shared.utils import (
-    extract_tvdbid,
-    extract_seasonid,
     extract_episodeid,
+    extract_seasonid,
     extract_seasonid_from_episode,
+    extract_tvdbid,
     is_future_date,
-    is_past_date
+    is_past_date,
 )
 
 
@@ -91,5 +92,5 @@ class TestUtils(unittest.TestCase):
         self.assertTrue(is_future_date(date_to_check))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

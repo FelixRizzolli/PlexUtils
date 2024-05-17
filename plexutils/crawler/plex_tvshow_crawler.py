@@ -1,12 +1,13 @@
 """
     This module contains PlexTvshowCrawler class.
 """
+
 import os
 
-from plexutils.media.tvshow_list import TVShowList
 from plexutils.media.tvshow import TVShow
-from plexutils.media.tvshow_season import TVShowSeason
 from plexutils.media.tvshow_episode import TVShowEpisode
+from plexutils.media.tvshow_list import TVShowList
+from plexutils.media.tvshow_season import TVShowSeason
 
 
 class PlexTVShowCrawler:
@@ -57,7 +58,9 @@ class PlexTVShowCrawler:
     def crawl_episodes(self, tvshow_dir, season_dir) -> list[TVShowEpisode]:
         """crawls the episodes from the given tvshow and season directory"""
         episodes: list[TVShowEpisode] = []
-        episode_directories: list[str] = os.listdir(os.path.join(self.path, tvshow_dir, season_dir))
+        episode_directories: list[str] = os.listdir(
+            os.path.join(self.path, tvshow_dir, season_dir)
+        )
 
         for episode_dir in episode_directories:
             episode: TVShowEpisode = TVShowEpisode(episode_dir)
@@ -65,7 +68,9 @@ class PlexTVShowCrawler:
             if episode.is_valid():
                 episodes.append(episode)
             else:
-                self.invalid_episodes.append(f"{tvshow_dir} -> {season_dir} -> {episode_dir}")
+                self.invalid_episodes.append(
+                    f"{tvshow_dir} -> {season_dir} -> {episode_dir}"
+                )
 
         return episodes
 

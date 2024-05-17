@@ -1,6 +1,7 @@
 """
     This module contains PlexMovieCrawler class.
 """
+
 import os
 
 from plexutils.media.movie import Movie

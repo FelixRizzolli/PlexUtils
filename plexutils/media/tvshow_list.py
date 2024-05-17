@@ -1,8 +1,9 @@
 """
 This module contains TVShowList class.
 """
-from typing import Optional
+
 from dataclasses import dataclass
+from typing import Optional
 
 from plexutils.media.tvshow import TVShow
 

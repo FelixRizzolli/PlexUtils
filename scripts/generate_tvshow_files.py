@@ -1,8 +1,9 @@
 """
 This module contains functions to generate TV show directories based on a JSON file.
 """
-import os
+
 import json
+import os
 
 
 def generate_tvshow_directories(data_dir: str, scripts_data_dir: str) -> None:
@@ -18,13 +19,15 @@ def generate_tvshow_directories(data_dir: str, scripts_data_dir: str) -> None:
         scripts_data_dir (str): The path of the scripts data directory where the JSON file is
                                 located.
     """
-    tvshows_dir = os.path.join(data_dir, 'tvshows')
+    tvshows_dir = os.path.join(data_dir, "tvshows")
 
     # Open the JSON file
     print("\nRead tvshow_files.json")
-    with open(os.path.join(scripts_data_dir, 'tvshow_files.json'), 'r', encoding='utf-8') as f:
+    with open(
+        os.path.join(scripts_data_dir, "tvshow_files.json"), "r", encoding="utf-8"
+    ) as f:
         # Load the JSON data into a Python dictionary
-        tvshow_directories = json.load(f)['tvshow_files']
+        tvshow_directories = json.load(f)["tvshow_files"]
 
     # Create 'tvshows' directory
     print("Create 'tvshows' directory")
@@ -80,5 +83,5 @@ def generate_tvshow_episode_files(season_dir: str, season: dict) -> None:
     for episode in season["episodes"]:
         episode_dir: str = os.path.join(season_dir, episode)
 
-        with open(episode_dir, 'a', encoding='utf-8'):
+        with open(episode_dir, "a", encoding="utf-8"):
             pass

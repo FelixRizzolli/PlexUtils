@@ -1,10 +1,11 @@
 """
 This module provides a function to compile internationalized messages.
 """
-import os
-import subprocess
+
 import logging
+import os
 import platform
+import subprocess
 from enum import Enum
 
 
@@ -21,9 +22,10 @@ class OS(Enum):
         MACOS (str): Represents the macOS operating system.
         WINDOWS (str): Represents the Windows operating system.
     """
-    LINUX = 'Linux'.upper()
-    MACOS = 'Darwin'.upper()
-    WINDOWS = 'Windows'.upper()
+
+    LINUX = "Linux".upper()
+    MACOS = "Darwin".upper()
+    WINDOWS = "Windows".upper()
 
 
 def compile_messages() -> None:
@@ -40,7 +42,7 @@ def compile_messages() -> None:
         subprocess.CalledProcessError: If the 'msgfmt' command fails.
     """
     current_script_dir: str = os.path.dirname(os.path.realpath(__file__))
-    locale_dir: str = os.path.join(current_script_dir, '../locale')
+    locale_dir: str = os.path.join(current_script_dir, "../locale")
 
     # Check if the compiler is installed
     check_compiler()
@@ -48,7 +50,7 @@ def compile_messages() -> None:
     # Traverse through each language directory in the 'locale' directory
     for language in os.listdir(locale_dir):
         language_dir: str = os.path.join(locale_dir, language)
-        lc_messages_dir: str = os.path.join(language_dir, 'LC_MESSAGES')
+        lc_messages_dir: str = os.path.join(language_dir, "LC_MESSAGES")
 
         # Check if the 'LC_MESSAGES' directory exists
         if os.path.isdir(lc_messages_dir):
@@ -77,8 +79,8 @@ def compile_po_file(po_dir: str, po_filename: str) -> None:
         subprocess.CalledProcessError: If the 'msgfmt' command fails.
     """
     name, ext = os.path.splitext(po_filename)
-    if ext == '.po':
-        mo_file: str = os.path.join(po_dir, name + '.mo')
+    if ext == ".po":
+        mo_file: str = os.path.join(po_dir, name + ".mo")
         po_file: str = os.path.join(po_dir, po_filename)
 
         # Compile the .po file into a .mo file
@@ -108,10 +110,10 @@ def run_compile_process(mo_file: str, po_file: str) -> None:
     if operating_system == OS.WINDOWS.value:
         try:
             subprocess.run(
-                ['pybabel', 'compile', '-d', 'locale'],
+                ["pybabel", "compile", "-d", "locale"],
                 check=True,
                 stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE
+                stderr=subprocess.PIPE,
             )
             print(f"Command executed successfully. {mo_file} created.")
         except subprocess.CalledProcessError as e:
@@ -119,10 +121,10 @@ def run_compile_process(mo_file: str, po_file: str) -> None:
     elif operating_system in [OS.MACOS.value, OS.LINUX.value]:
         try:
             subprocess.run(
-                ['msgfmt', '-o', mo_file, po_file],
+                ["msgfmt", "-o", mo_file, po_file],
                 check=True,
                 stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE
+                stderr=subprocess.PIPE,
             )
             print(f"Command executed successfully. {mo_file} created.")
         except subprocess.CalledProcessError as e:
@@ -147,25 +149,31 @@ def check_compiler() -> bool:
     print(f"Operating system: {operating_system}")
     if operating_system == OS.WINDOWS and not is_pybabel_installed():
         print("pybabel is not installed. Please install pybabel first.")
-        print("If you are using Windows, you can install it with: "
-              + "pip install Babel")
+        print(
+            "If you are using Windows, you can install it with: " + "pip install Babel"
+        )
         return False
 
     if operating_system == OS.MACOS.value and not is_msgfmt_installed():
         print("msgfmt is not installed. Please install msgfmt first.")
-        print("If you are using macOS, you can install it with: "
-              + "brew install gettext")
-        print("Then, you might need to link gettext to make msgfmt available"
-              + "brew link --force gettext")
+        print(
+            "If you are using macOS, you can install it with: " + "brew install gettext"
+        )
+        print(
+            "Then, you might need to link gettext to make msgfmt available"
+            + "brew link --force gettext"
+        )
         return False
 
     if operating_system == OS.LINUX.value and not is_msgfmt_installed():
         print("msgfmt is not installed. Please install msgfmt first.")
-        print("If you are using Ubuntu or debian, you can install it with: "
-              + "sudo apt-get install gettext")
+        print(
+            "If you are using Ubuntu or debian, you can install it with: "
+            + "sudo apt-get install gettext"
+        )
         return False
 
-    if operating_system not in [OS.WINDOWS.value, OS.MACOS.value,  OS.LINUX.value]:
+    if operating_system not in [OS.WINDOWS.value, OS.MACOS.value, OS.LINUX.value]:
         print(f"Operating system not supported: {platform.system()}.")
 
     return True
@@ -184,10 +192,10 @@ def is_msgfmt_installed() -> bool:
     """
     try:
         subprocess.run(
-            ['msgfmt', '--version'],
+            ["msgfmt", "--version"],
             check=True,
             stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL
+            stderr=subprocess.DEVNULL,
         )
         return True
     except Exception:
@@ -207,10 +215,10 @@ def is_pybabel_installed() -> bool:
     """
     try:
         subprocess.run(
-            ['pybabel', '--version'],
+            ["pybabel", "--version"],
             check=True,
             stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL
+            stderr=subprocess.DEVNULL,
         )
         return True
     except Exception:

@@ -4,6 +4,7 @@ This module provides functionality to measure and report test coverage for a Pyt
 
 import os
 import unittest
+
 from coverage import Coverage
 
 
@@ -26,12 +27,12 @@ def test_coverage():
     current_script_dir: str = os.path.dirname(os.path.realpath(__file__))
 
     # Start the coverage measurement
-    sources_dir = os.path.join(current_script_dir, '../plexutils')
+    sources_dir = os.path.join(current_script_dir, "../plexutils")
     cov = Coverage(source=[sources_dir])
     cov.start()
 
     # Discover and run tests
-    tests_dir = os.path.join(current_script_dir, '../tests')
+    tests_dir = os.path.join(current_script_dir, "../tests")
     loader = unittest.TestLoader()
     suite = loader.discover(tests_dir)
     runner = unittest.TextTestRunner()
@@ -45,28 +46,30 @@ def test_coverage():
     cov.report()
 
     # Generate an HTML report in the 'htmlcov' directory
-    html_report_dir = os.path.join(current_script_dir, '..', 'reports', 'coverage', 'html')
+    html_report_dir = os.path.join(
+        current_script_dir, "..", "reports", "coverage", "html"
+    )
     cov.html_report(directory=html_report_dir)
 
     # Optionally, you can generate an XML report
     xml_report_dir = os.path.join(
-        current_script_dir, '..', 'reports', 'coverage', 'xml', 'coverage.xml'
+        current_script_dir, "..", "reports", "coverage", "xml", "coverage.xml"
     )
     cov.xml_report(outfile=xml_report_dir)
 
     # Generate an LCOV report
     lcov_report_dir = os.path.join(
-        current_script_dir, '..', 'reports', 'coverage', 'lcov', 'lcov.info'
+        current_script_dir, "..", "reports", "coverage", "lcov", "lcov.info"
     )
     cov.lcov_report(outfile=lcov_report_dir)
 
     # Generate a JSON report
     json_report_dir = os.path.join(
-        current_script_dir, '..', 'reports', 'coverage', 'json', 'coverage.json'
+        current_script_dir, "..", "reports", "coverage", "json", "coverage.json"
     )
     cov.json_report(outfile=json_report_dir)
 
 
 # Call the test_coverage function
-if __name__ == '__main__':
+if __name__ == "__main__":
     test_coverage()

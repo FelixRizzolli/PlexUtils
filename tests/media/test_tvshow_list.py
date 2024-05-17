@@ -1,10 +1,11 @@
 """
     This module contains unit tests for the TVShowList class.
 """
+
 import unittest
 
-from plexutils.media.tvshow_list import TVShowList
 from plexutils.media.tvshow import TVShow
+from plexutils.media.tvshow_list import TVShowList
 
 
 class TestTVShowList(unittest.TestCase):
@@ -51,5 +52,5 @@ class TestTVShowList(unittest.TestCase):
         self.assertFalse(tvshowlist.is_empty())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

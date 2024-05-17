@@ -1,6 +1,7 @@
 """
     This module contains unit tests for the TVShowEpisode class.
 """
+
 import unittest
 
 from plexutils.media.tvshow_episode import TVShowEpisode
@@ -23,7 +24,7 @@ class TestTVShowEpisode(unittest.TestCase):
         )
         self.assertEqual(
             "Code Geass (2006) - s01e01 - The Day a New Demon Was Born.mp4",
-            episode.filename
+            episode.filename,
         )
 
     def test_is_valid(self) -> None:
@@ -44,5 +45,5 @@ class TestTVShowEpisode(unittest.TestCase):
         self.assertFalse(episode_invalid_seasonid.is_valid())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

@@ -37,10 +37,10 @@ def generate_test_data():
     current_script_dir: str = os.path.dirname(os.path.realpath(__file__))
 
     # Define the path to the 'data' directory
-    data_dir: str = os.path.join(current_script_dir, '../data')
+    data_dir: str = os.path.join(current_script_dir, "../data")
 
     # Define the path to the 'scripts/data' directory
-    scripts_data_dir: str = os.path.join(current_script_dir, 'data')
+    scripts_data_dir: str = os.path.join(current_script_dir, "data")
 
     # Delete the 'data' directory
     print("Delete the 'data' directory")
