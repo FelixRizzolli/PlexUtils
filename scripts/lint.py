@@ -1,23 +1,27 @@
 """
 This module automates the code formatting and linting process for a Python project.
 
-It uses the `isort` tool to sort import statements, `black` to enforce consistent code formatting,
-and `pylint` to identify coding errors and enforce coding standards. The script is designed to be
-run from the command line and will process the specified directories: 'plexutils', 'scripts', and 'tests'.
+It uses the `isort` tool to sort import statements, `black` to enforce consistent
+code formatting,and `pylint` to identify coding errors and enforce coding standards.
+The script is designed to be run from the command line and will process the specified
+directories: 'plexutils', 'scripts', and 'tests'.
 """
 
 import os
 import subprocess
 
+
 def lint():
     """
     Run formatting and linting tools on the project's directories.
 
-    This function retrieves the absolute paths for the 'plexutils', 'scripts', and 'tests' directories,
-    and sequentially runs `isort`, `black`, and `pylint` on them. It ensures that the code adheres to
-    Python's PEP 8 style guide and is free from common coding issues.
+    This function retrieves the absolute paths for the 'plexutils', 'scripts', and
+    'tests' directories, and sequentially runs `isort`, `black`, and `pylint` on them.
+    It ensures that the code adheres to Python's PEP 8 style guide and is free from
+    common coding issues.
 
-    The function assumes that `isort`, `black`, and `pylint` are installed in the current environment.
+    The function assumes that `isort`, `black`, and `pylint` are installed in the
+    current environment.
     """
     # Get the absolute path of the current script
     current_script_dir: str = os.path.dirname(os.path.realpath(__file__))
