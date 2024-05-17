@@ -14,6 +14,10 @@ pylint = "^3.1.0"
 [tool.poetry.scripts]
 compile-messages = "scripts.compile_messages:compile_messages"
 generate-test-data = "scripts.generate_test_data:generate_test_data"
+test-coverage = "scripts.test_coverage:test_coverage"
+
+[tool.poetry.group.dev.dependencies]
+coverage = "^7.5.1"
 
 [build-system]
 requires = ["poetry-core"]
