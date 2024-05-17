@@ -36,7 +36,8 @@ class TVDBUtils:
                 {
                     "id": "2",
                     "name": self.gettext(
-                        "search in tvdb for missing episodes of existing seasons of existing tvshows"
+                        "search in tvdb for missing episodes of existing seasons of"
+                        + " existing tvshows"
                     ),
                     "action": self.search_missing_episodes,
                 },
