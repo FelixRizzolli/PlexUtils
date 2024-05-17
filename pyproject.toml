@@ -9,15 +9,18 @@ readme = "README.md"
 python = "^3.9"
 tvdb-v4-official = "^1.1.0"
 pyyaml = "^6.0.1"
-pylint = "^3.1.0"
 
 [tool.poetry.scripts]
 compile-messages = "scripts.compile_messages:compile_messages"
 generate-test-data = "scripts.generate_test_data:generate_test_data"
 test-coverage = "scripts.test_coverage:test_coverage"
+lint = "scripts.lint:lint"
 
 [tool.poetry.group.dev.dependencies]
 coverage = "^7.5.1"
+pylint = "^3.2.0"
+black = "^24.4.2"
+isort = "^5.13.2"
 
 [build-system]
 requires = ["poetry-core"]
