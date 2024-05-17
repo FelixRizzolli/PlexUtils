@@ -6,6 +6,7 @@ import logging
 import os
 import platform
 import subprocess
+from subprocess import CalledProcessError
 from enum import Enum
 
 
@@ -127,7 +128,7 @@ def run_compile_process(mo_file: str, po_file: str) -> None:
                 stderr=subprocess.PIPE,
             )
             print(f"Command executed successfully. {mo_file} created.")
-        except subprocess.CalledProcessError as e:
+        except CalledProcessError as e:
             print(f"Command failed with error:\n{e.stderr.decode('utf-8')}")
 
 
@@ -198,7 +199,7 @@ def is_msgfmt_installed() -> bool:
             stderr=subprocess.DEVNULL,
         )
         return True
-    except Exception:
+    except CalledProcessError:
         return False
 
 
@@ -221,5 +222,5 @@ def is_pybabel_installed() -> bool:
             stderr=subprocess.DEVNULL,
         )
         return True
-    except Exception:
+    except CalledProcessError:
         return False
