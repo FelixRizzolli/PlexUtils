@@ -6,8 +6,8 @@ import logging
 import os
 import platform
 import subprocess
-from subprocess import CalledProcessError
 from enum import Enum
+from subprocess import CalledProcessError
 
 
 class OS(Enum):
