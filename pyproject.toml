@@ -11,6 +11,7 @@ tvdb-v4-official = "^1.1.0"
 pyyaml = "^6.0.1"
 
 [tool.poetry.scripts]
+generate-authors-md = "scripts.generate_authors_md:main"
 compile-messages = "scripts.compile_messages:compile_messages"
 generate-test-data = "scripts.generate_test_data:generate_test_data"
 test-coverage = "scripts.test_coverage:test_coverage"
