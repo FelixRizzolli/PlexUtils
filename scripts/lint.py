@@ -35,15 +35,50 @@ def lint():
     tests_dir = os.path.join(project_dir, "tests")
     directories: str = f"{source_dir} {scripts_dir} {tests_dir}"
 
-    # Run isort
+    # Run the formatting and linting tools
+    run_isort(directories)
+    run_black(directories)
+    run_pylint(directories)
+
+
+def run_isort(directories):
+    """
+    Runs the isort tool on the specified directories.
+
+    isort is a Python utility / library to sort imports alphabetically, and
+    automatically separated into sections.
+
+    Args:
+        directories (str): The directories to run isort on.
+    """
     print("Running isort...")
     subprocess.run(f"isort {directories}", shell=True, check=True)
 
-    # Run black
+
+def run_black(directories):
+    """
+    Runs the black tool on the specified directories.
+
+    Black is the uncompromising Python code formatter. By using it, you agree
+    to cede control over minutiae of hand-formatting.
+
+    Args:
+        directories (str): The directories to run black on.
+    """
     print("Running black...")
     subprocess.run(f"black {directories}", shell=True, check=True)
 
-    # Run pylint
+
+def run_pylint(directories):
+    """
+    Runs the pylint tool on the specified directories.
+
+    Pylint is a tool that checks for errors in Python code, tries to enforce
+    a coding standard and looks for code smells.
+
+    Args:
+        directories (str): The directories to run pylint on.
+    """
     print("Running pylint...")
     subprocess.run(f"pylint {directories}", shell=True, check=True)
 
