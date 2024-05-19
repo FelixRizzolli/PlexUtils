@@ -29,6 +29,7 @@ generate-test-data = "scripts.generate_test_data:generate_test_data"
 latest-version = "scripts.changelog:print_current_version"
 changes = "scripts.changelog:print_change"
 test-coverage = "scripts.test_coverage:test_coverage"
+tests = "scripts.tests:run_tests"
 lint = "scripts.lint:lint"
 
 [tool.poetry.group.dev.dependencies]
