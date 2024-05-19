@@ -4,7 +4,7 @@ This module contains functions to generate test data for movies and TV shows.
 
 import os
 
-from scripts.generate_movie_files import generate_movie_files
+from scripts.generate_movie_test_data import generate_movie_libraries
 from scripts.generate_tvshow_files import generate_tvshow_directories
 
 
@@ -53,5 +53,5 @@ def generate_test_data():
         os.mkdir(data_dir)
 
     # Generate the data
-    generate_movie_files(data_dir, scripts_data_dir)
+    generate_movie_libraries(data_dir, scripts_data_dir)
     generate_tvshow_directories(data_dir, scripts_data_dir)
