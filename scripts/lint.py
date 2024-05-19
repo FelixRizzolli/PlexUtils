@@ -14,7 +14,7 @@ from scripts.changelog import get_current_version as get_version_from_changelog
 from scripts.changelog import get_version_from_pyproject
 
 
-def lint():
+def lint() -> None:
     """
     Run formatting and linting tools on the project's directories.
 
@@ -33,9 +33,9 @@ def lint():
     project_dir: str = os.path.join(current_script_dir, "..")
 
     # Define the directories to lint
-    source_dir = os.path.join(project_dir, "plexutils")
-    scripts_dir = os.path.join(project_dir, "scripts")
-    tests_dir = os.path.join(project_dir, "tests")
+    source_dir: str = os.path.join(project_dir, "plexutils")
+    scripts_dir: str = os.path.join(project_dir, "scripts")
+    tests_dir: str = os.path.join(project_dir, "tests")
     directories: str = f"{source_dir} {scripts_dir} {tests_dir}"
 
     # Run the formatting and linting tools
@@ -45,7 +45,7 @@ def lint():
     check_version()
 
 
-def run_isort(directories):
+def run_isort(directories: str) -> None:
     """
     Runs the isort tool on the specified directories.
 
@@ -59,7 +59,7 @@ def run_isort(directories):
     subprocess.run(f"isort {directories}", shell=True, check=True)
 
 
-def run_black(directories):
+def run_black(directories: str) -> None:
     """
     Runs the black tool on the specified directories.
 
@@ -73,7 +73,7 @@ def run_black(directories):
     subprocess.run(f"black {directories}", shell=True, check=True)
 
 
-def run_pylint(directories):
+def run_pylint(directories: str) -> None:
     """
     Runs the pylint tool on the specified directories.
 
@@ -87,7 +87,7 @@ def run_pylint(directories):
     subprocess.run(f"pylint {directories}", shell=True, check=True)
 
 
-def check_version():
+def check_version() -> None:
     """
     Compares the version number from the changelog and the pyproject.toml file.
 
@@ -101,8 +101,8 @@ def check_version():
     print("Comparing versions...")
 
     # Get the version from the changelog and pyproject.toml
-    version_changelog = get_version_from_changelog()
-    version_pyproject = get_version_from_pyproject()
+    version_changelog: str = get_version_from_changelog()
+    version_pyproject: str = get_version_from_pyproject()
 
     if version_changelog == version_pyproject:
         print("Versions match.")
