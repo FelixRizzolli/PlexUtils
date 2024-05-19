@@ -22,12 +22,13 @@ class TestPlexTVShowCrawler(unittest.TestCase):
         current_script_dir: str = os.path.dirname(os.path.realpath(__file__))
         data_dir: str = os.path.join(current_script_dir, "../../data")
         scripts_data_dir: str = os.path.join(current_script_dir, "../../scripts/data")
-        tvshows_dir: str = os.path.join(data_dir, "tvshows")
+        tvshows_dir: str = os.path.join(data_dir, "tvshows", "animes")
 
         # Open the JSON file
-        with open(
-            os.path.join(scripts_data_dir, "tvshow_files.json"), "r", encoding="utf-8"
-        ) as f:
+        tvshows_data_file: str = os.path.join(
+            scripts_data_dir, "tvshows", "anime_tvshow_files.json"
+        )
+        with open(tvshows_data_file, "r", encoding="utf-8") as f:
             # Load the JSON data into a Python dictionary
             cls.tvshow_directories: dict = json.load(f)["tvshow_files"]
 
