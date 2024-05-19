@@ -17,7 +17,7 @@ def generate_movie_libraries(data_dir: str, scripts_data_dir: str) -> None:
     """
     libraries = [
         {"name": "movies", "source_file": "movie_files.json"},
-        {"name": "animes", "source_file": "anime_movie_files.json"}
+        {"name": "animes", "source_file": "anime_movie_files.json"},
     ]
 
     movies_dir = os.path.join(data_dir, "movies")

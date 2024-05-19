@@ -18,7 +18,7 @@ def generate_tvshow_libaries(data_dir: str, scripts_data_dir: str) -> None:
     """
     libraries = [
         {"name": "tvshows", "source_file": "tvshow_files.json"},
-        {"name": "animes", "source_file": "anime_tvshow_files.json"}
+        {"name": "animes", "source_file": "anime_tvshow_files.json"},
     ]
 
     tvshows_dir = os.path.join(data_dir, "tvshows")
