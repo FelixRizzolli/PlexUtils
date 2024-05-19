@@ -17,7 +17,6 @@ classifiers = [
 python = "^3.9"
 tvdb-v4-official = "^1.1.0"
 pyyaml = "^6.0.1"
-toml = "^0.10.2"
 
 [project.urls]
 Repository = "https://github.com/FelixRizzolli/PlexUtils.git"
@@ -37,6 +36,8 @@ coverage = "^7.5.1"
 pylint = "^3.2.0"
 black = "^24.4.2"
 isort = "^5.13.2"
+mypy = "^1.10.0"
+toml = "^0.10.2"
 
 [build-system]
 requires = ["poetry-core"]

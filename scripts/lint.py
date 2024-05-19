@@ -42,6 +42,7 @@ def lint() -> None:
     run_isort(directories)
     run_black(directories)
     run_pylint(directories)
+    run_mypy(directories)
     check_version()
 
 
@@ -85,6 +86,21 @@ def run_pylint(directories: str) -> None:
     """
     print("Running pylint...")
     subprocess.run(f"pylint {directories}", shell=True, check=True)
+
+
+def run_mypy(directories: str) -> None:
+    """
+    Runs the mypy tool on the specified directories.
+
+    Mypy is an optional static type checker for Python. You can add type hints
+    to your Python programs using the standard Python type hint syntax and
+    then use mypy to type check them.
+
+    Args:
+        directories (str): The directories to run mypy on.
+    """
+    print("Running mypy...")
+    subprocess.run(f"mypy {directories}", shell=True, check=True)
 
 
 def check_version() -> None:
