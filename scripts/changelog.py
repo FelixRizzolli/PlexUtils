@@ -5,6 +5,7 @@ This module provides functions to extract changelog information from a markdown 
 import os
 import re
 import sys
+
 import toml
 
 
@@ -15,8 +16,8 @@ def print_current_version():
     Returns:
         None
     """
-    print(f"CHANGELOG.md....: {get_current_version()}")
-    print(f"pyproject.toml..: {get_version_from_pyproject()}")
+    print(f"Changelog version: {get_current_version()}")
+    print(f"Pyproject version: {get_version_from_pyproject()}")
 
 
 def get_current_version():
@@ -93,7 +94,7 @@ def print_change(version=None):
     change = get_change(changelog, version)
 
     # Print the title
-    if change['version'] == "unreleased":
+    if change["version"] == "unreleased":
         print("Unreleased Changes:")
     else:
         print(f"Version: {change['version']} ({change['date']})")
@@ -126,7 +127,9 @@ def parse_changelog(changelog_file_content):
             changelog.append(change)
             current_version = change["version"]
 
-        vh_match = re.search(r"^## \[(\d+)\.(\d+)\.(\d+)\] - (\d{4})-(\d{2})-(\d{2})", line)
+        vh_match = re.search(
+            r"^## \[(\d+)\.(\d+)\.(\d+)\] - (\d{4})-(\d{2})-(\d{2})", line
+        )
         if vh_match:
             change = build_change(line)
             changelog.append(change)

@@ -10,6 +10,9 @@ directories: 'plexutils', 'scripts', and 'tests'.
 import os
 import subprocess
 
+from scripts.changelog import get_current_version as get_version_from_changelog
+from scripts.changelog import get_version_from_pyproject
+
 
 def lint():
     """
@@ -39,6 +42,7 @@ def lint():
     run_isort(directories)
     run_black(directories)
     run_pylint(directories)
+    check_version()
 
 
 def run_isort(directories):
@@ -81,6 +85,31 @@ def run_pylint(directories):
     """
     print("Running pylint...")
     subprocess.run(f"pylint {directories}", shell=True, check=True)
+
+
+def check_version():
+    """
+    Compares the version number from the changelog and the pyproject.toml file.
+
+    This function retrieves the version number from the changelog and the pyproject.toml file.
+    It then compares these two version numbers and prints a message indicating whether they
+    match or not.
+
+    Returns:
+        None
+    """
+    print("Comparing versions...")
+
+    # Get the version from the changelog and pyproject.toml
+    version_changelog = get_version_from_changelog()
+    version_pyproject = get_version_from_pyproject()
+
+    if version_changelog == version_pyproject:
+        print("Versions match.")
+    else:
+        print(f"Changelog version: {version_changelog}")
+        print(f"Pyproject version: {version_pyproject}")
+        print("Versions do not match!")
 
 
 if __name__ == "__main__":
