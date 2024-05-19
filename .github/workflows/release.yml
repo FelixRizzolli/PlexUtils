@@ -1,0 +1,54 @@
+name: PlexUtils Release Workflow
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+
+      - name: Install dependencies
+        run: |
+          poetry install
+
+      - name: Install gettext
+        run: |
+          sudo apt-get install -y gettext
+
+      - name: Compile messages
+        run: |
+          poetry run compile-messages
+
+      - name: Build and publish to GitHub Releases
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          poetry build
+          poetry version
+          version=$(poetry version -s)
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          asset_path=$(ls dist/*.tar.gz)
+          asset_name=$(basename $asset_path)
+          gh release create v$version $asset_path --title "v$version" --notes "Release v$version"
+
+      - name: Build and publish to pypi
+        uses: JRubics/poetry-publish@v2.0
+        with:
+          pypi_token: ${{ secrets.POETRY_PYPI_TOKEN_PYPI }}
