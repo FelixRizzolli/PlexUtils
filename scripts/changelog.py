@@ -5,11 +5,12 @@ This module provides functions to extract changelog information from a markdown 
 import os
 import re
 import sys
+from re import Match
 
 import toml
 
 
-def print_current_version():
+def print_current_version() -> None:
     """
     Prints the version number of the latest/next release in the changelog.
 
@@ -20,7 +21,7 @@ def print_current_version():
     print(f"Pyproject version: {get_version_from_pyproject()}")
 
 
-def get_current_version():
+def get_current_version() -> str:
     """
     Returns the version number of the latest release in the changelog.
 
@@ -32,16 +33,16 @@ def get_current_version():
 
     # Read the changelog from the file
     with open(changelog_file, "r", encoding="utf-8") as file:
-        changelog = file.read()
+        changelog_file_content: str = file.read()
 
     # Parse and sort the changelog
-    changelog = sort_changelog(parse_changelog(changelog))
+    changelog: list = sort_changelog(parse_changelog(changelog_file_content))
 
     # Get the current version
     return changelog[0]["version"]
 
 
-def get_version_from_pyproject():
+def get_version_from_pyproject() -> str:
     """
     Extracts the version number from a pyproject.toml file.
 
@@ -59,12 +60,12 @@ def get_version_from_pyproject():
     pyproject = toml.load(pyproject_file)
 
     # Get the version number
-    version = pyproject.get("tool", {}).get("poetry", {}).get("version", "")
+    version: str = pyproject.get("tool", {}).get("poetry", {}).get("version", "")
 
     return version
 
 
-def print_change(version=None):
+def print_change(version: str = None) -> None:
     """
     Prints the changes made in a specific version or the latest version.
 
@@ -79,19 +80,19 @@ def print_change(version=None):
 
     # Get the version number from the command line arguments, if provided
     if version is None:
-        version = sys.argv[1] if len(sys.argv) > 1 else None
+        version: str = sys.argv[1] if len(sys.argv) > 1 else None
 
     # Read the changelog from the file
     with open(changelog_file, "r", encoding="utf-8") as file:
-        changelog_file_content = file.read()
+        changelog_file_content: str = file.read()
 
     # Parse and sort the changelog
-    changelog = sort_changelog(parse_changelog(changelog_file_content))
+    changelog: list = sort_changelog(parse_changelog(changelog_file_content))
 
     # Get the changes for the specified version or the latest version
     if version is None:
-        version = changelog[0]["version"]
-    change = get_change(changelog, version)
+        version: str = changelog[0]["version"]
+    change: dict = get_change(changelog, version)
 
     # Print the title
     if change["version"] == "unreleased":
@@ -106,7 +107,7 @@ def print_change(version=None):
             print(f"- {item}")
 
 
-def parse_changelog(changelog_file_content):
+def parse_changelog(changelog_file_content: str) -> list:
     """
     Parses the changelog content and returns a list of changes.
 
@@ -116,29 +117,29 @@ def parse_changelog(changelog_file_content):
     Returns:
         list: A list of dictionaries, each representing a change.
     """
-    lines = changelog_file_content.split("\n")
-    current_version = None
-    current_change_category = None
-    changelog = []
+    lines: list = changelog_file_content.split("\n")
+    current_version: str = ""
+    current_change_category: str = ""
+    changelog: list = []
     for line in lines:
-        uh_match = line.startswith("## [Unreleased]")
+        uh_match: bool = line.startswith("## [Unreleased]")
         if uh_match:
             change = {"version": "unreleased", "changes": []}
             changelog.append(change)
             current_version = change["version"]
 
-        vh_match = re.search(
+        vh_match: Match[str] = re.search(
             r"^## \[(\d+)\.(\d+)\.(\d+)\] - (\d{4})-(\d{2})-(\d{2})", line
         )
         if vh_match:
-            change = build_change(line)
+            change: dict = build_change(line)
             changelog.append(change)
             current_version = change["version"]
 
-        cc_match = re.search(r"^### (.+)", line)
+        cc_match: Match[str] = re.search(r"^### (.+)", line)
         if cc_match:
             current_change_category = cc_match.group(1)
-            change = get_change(changelog, current_version)
+            change: dict = get_change(changelog, current_version)
 
             if change["changes"] is None:
                 change["changes"] = []
@@ -147,11 +148,11 @@ def parse_changelog(changelog_file_content):
                 {"category": current_change_category, "changes": []}
             )
 
-        ci_match = re.search(r"^- (.+)", line)
+        ci_match: Match[str] = re.search(r"^- (.+)", line)
         if ci_match:
-            change_item = ci_match.group(1)
-            change = get_change(changelog, current_version)
-            change_category = get_change_category(change, current_change_category)
+            change_item: str = ci_match.group(1)
+            change: dict = get_change(changelog, current_version)
+            change_category: dict = get_change_category(change, current_change_category)
 
             if change_category["changes"] is None:
                 change_category["changes"] = []
@@ -161,7 +162,7 @@ def parse_changelog(changelog_file_content):
     return changelog
 
 
-def build_change(title):
+def build_change(title: str) -> dict:
     """
     Builds a change dictionary from a title line.
 
@@ -171,14 +172,16 @@ def build_change(title):
     Returns:
         dict: A dictionary representing a change.
     """
-    match = re.search(r"^## \[(\d+)\.(\d+)\.(\d+)\] - (\d{4})-(\d{2})-(\d{2})", title)
+    match: Match[str] = re.search(
+        r"^## \[(\d+)\.(\d+)\.(\d+)\] - (\d{4})-(\d{2})-(\d{2})", title
+    )
 
-    major = match.group(1)
-    minor = match.group(2)
-    bugfix = match.group(3)
-    year = match.group(4)
-    month = match.group(5)
-    day = match.group(6)
+    major: str = match.group(1)
+    minor: str = match.group(2)
+    bugfix: str = match.group(3)
+    year: str = match.group(4)
+    month: str = match.group(5)
+    day: str = match.group(6)
 
     return {
         "version": f"{major}.{minor}.{bugfix}",
@@ -187,7 +190,7 @@ def build_change(title):
     }
 
 
-def get_change(changelog, version):
+def get_change(changelog: list, version: str) -> dict:
     """
     Gets a change from the changelog by version.
 
@@ -203,7 +206,7 @@ def get_change(changelog, version):
     return next((c for c in changelog if c["version"] == version), None)
 
 
-def get_change_category(change, category):
+def get_change_category(change: dict, category: str) -> dict:
     """
     Gets a change category from a change.
 
@@ -217,7 +220,7 @@ def get_change_category(change, category):
     return next((c for c in change["changes"] if c["category"] == category), None)
 
 
-def sort_changelog(changelog):
+def sort_changelog(changelog: list) -> list:
     """
     Sorts the changelog list by version number in descending order.
     The "unreleased" version, if it exists, is always placed at the beginning of the list.
@@ -228,8 +231,12 @@ def sort_changelog(changelog):
     Returns:
         list: The sorted changelog list.
     """
-    unreleased = [change for change in changelog if change["version"] == "unreleased"]
-    released = [change for change in changelog if change["version"] != "unreleased"]
+    unreleased: list = [
+        change for change in changelog if change["version"] == "unreleased"
+    ]
+    released: list = [
+        change for change in changelog if change["version"] != "unreleased"
+    ]
 
     released.sort(
         key=lambda change: list(map(int, change["version"].split("."))), reverse=True
