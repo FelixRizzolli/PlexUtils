@@ -20,12 +20,11 @@ class TestPlexMovieCrawler(unittest.TestCase):
         current_script_dir: str = os.path.dirname(os.path.realpath(__file__))
         data_dir: str = os.path.join(current_script_dir, "../../data")
         scripts_data_dir: str = os.path.join(current_script_dir, "../../scripts/data")
-        movies_dir: str = os.path.join(data_dir, "movies")
+        movies_dir: str = os.path.join(data_dir, "movies", "movies")
 
         # Open the JSON file
-        with open(
-            os.path.join(scripts_data_dir, "movie_files.json"), "r", encoding="utf-8"
-        ) as f:
+        movies_data_file = os.path.join(scripts_data_dir, "movies", "movie_files.json")
+        with open(movies_data_file, "r", encoding="utf-8") as f:
             # Load the JSON data into a Python dictionary
             cls.movie_files: dict = json.load(f)["movie_files"]
 
