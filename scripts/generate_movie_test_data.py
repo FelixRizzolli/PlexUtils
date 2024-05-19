@@ -19,8 +19,13 @@ def generate_movie_libraries(data_dir: str, scripts_data_dir: str) -> None:
         {"name": "movies", "source_file": "movie_files.json"},
         {"name": "animes", "source_file": "anime_movie_files.json"}
     ]
+
+    movies_dir = os.path.join(data_dir, "movies")
+    if not os.path.isdir(movies_dir):
+        os.mkdir(movies_dir)
+
     for lib in libraries:
-        library_dir = os.path.join(data_dir, "movies", lib["name"])
+        library_dir = os.path.join(movies_dir, lib["name"])
         source_file = os.path.join(scripts_data_dir, "movies", lib["source_file"])
         generate_movie_librarie(library_dir, source_file)
 
@@ -44,8 +49,8 @@ def generate_movie_librarie(library_dir: str, source_file: str) -> None:
         # Load the JSON data into a Python dictionary
         movie_files = json.load(f)["movie_files"]
 
-    # Create 'movies' directory
-    print("Create 'movies' directory")
+    # Create library directory
+    print(f"Create {library_dir} directory")
     if not os.path.isdir(library_dir):
         os.mkdir(library_dir)
 

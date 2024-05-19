@@ -20,8 +20,13 @@ def generate_tvshow_libaries(data_dir: str, scripts_data_dir: str) -> None:
         {"name": "tvshows", "source_file": "tvshow_files.json"},
         {"name": "animes", "source_file": "anime_tvshow_files.json"}
     ]
+
+    tvshows_dir = os.path.join(data_dir, "tvshows")
+    if not os.path.isdir(tvshows_dir):
+        os.mkdir(tvshows_dir)
+
     for lib in libraries:
-        library_dir = os.path.join(data_dir, "tvshows", lib["name"])
+        library_dir = os.path.join(tvshows_dir, lib["name"])
         source_file = os.path.join(scripts_data_dir, "tvshows", lib["source_file"])
         generate_tvshow_library(library_dir, source_file)
 
@@ -46,8 +51,8 @@ def generate_tvshow_library(library_dir: str, source_file: str) -> None:
         # Load the JSON data into a Python dictionary
         tvshow_directories = json.load(f)["tvshow_files"]
 
-    # Create 'tvshows' directory
-    print("Create 'tvshows' directory")
+    # Create library directory
+    print(f"Create {library_dir} directory")
     if not os.path.isdir(library_dir):
         os.mkdir(library_dir)
 
