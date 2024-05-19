@@ -6,7 +6,29 @@ import json
 import os
 
 
-def generate_tvshow_directories(data_dir: str, scripts_data_dir: str) -> None:
+def generate_tvshow_libaries(data_dir: str, scripts_data_dir: str) -> None:
+    """
+    Generates TV show libraries based on JSON files.
+
+    Args:
+        data_dir (str): The path of the data directory where the TV show directories will be
+                        created.
+        scripts_data_dir (str): The path of the scripts data directory where the JSON files
+                                are located.
+    """
+    libraries = [
+        {"name": "tvshows", "source_file": "tvshow_files.json"},
+        {"name": "animes", "source_file": "anime_tvshow_files.json"}
+    ]
+    for lib in libraries:
+        library_dir = os.path.join(data_dir, "tvshows", lib["name"])
+        source_file = os.path.join(scripts_data_dir, "tvshows", lib["source_file"])
+        generate_tvshow_library(library_dir, source_file)
+
+    print("Generate tvshow libraries: DONE!")
+
+
+def generate_tvshow_library(library_dir: str, source_file: str) -> None:
     """
     Generates TV show directories based on a JSON file.
 
@@ -14,31 +36,26 @@ def generate_tvshow_directories(data_dir: str, scripts_data_dir: str) -> None:
     TV show directory names. It then creates these TV show directories in the specified directory.
 
     Args:
-        data_dir (str): The path of the data directory where the TV show directories will be
-                        created.
-        scripts_data_dir (str): The path of the scripts data directory where the JSON file is
-                                located.
+        library_dir (str): The path of the library directory where the TV show directories
+                           will be created.
+        source_file (str): The path of the source file where the JSON file is located.
     """
-    tvshows_dir = os.path.join(data_dir, "tvshows")
-
     # Open the JSON file
     print("\nRead tvshow_files.json")
-    with open(
-        os.path.join(scripts_data_dir, "tvshow_files.json"), "r", encoding="utf-8"
-    ) as f:
+    with open(source_file, "r", encoding="utf-8") as f:
         # Load the JSON data into a Python dictionary
         tvshow_directories = json.load(f)["tvshow_files"]
 
     # Create 'tvshows' directory
     print("Create 'tvshows' directory")
-    if not os.path.isdir(tvshows_dir):
-        os.mkdir(tvshows_dir)
+    if not os.path.isdir(library_dir):
+        os.mkdir(library_dir)
 
     # Create tvshow directories
     print("Create tvshow files")
     for tvshow in tvshow_directories:
         tvshow_dirname: str = tvshow["dirname"]
-        tvshow_dir: str = os.path.join(tvshows_dir, tvshow_dirname)
+        tvshow_dir: str = os.path.join(library_dir, tvshow_dirname)
         print(f"Create files for: {tvshow_dirname}")
 
         if not os.path.isdir(tvshow_dir):
