@@ -1,5 +1,25 @@
 language: de_DE
-movies-dir: /**/movies
-tvshows-dir: /**/tvshows
-tvdb-key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-tvdb-pin: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+movies_directories:
+  - name: Movies
+    lang:
+      dub: de_DE
+      sub: de_DE
+    path: /**/movies/movies
+  - name: Anime Movies
+    lang:
+      dub: de_DE
+      sub: de_DE
+    path: /**/movies/anime
+tvshows_directories:
+  - name: TV Shows
+    lang:
+      dub: de_DE
+      sub: de_DE
+    path: /**/tvshows/tvshows
+  - name: Anime TV Shows
+    lang:
+      dub: de_DE
+      sub: de_DE
+    path: /**/tvahows/anime
+tvdb_key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+tvdb_pin: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
