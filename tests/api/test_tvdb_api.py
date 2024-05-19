@@ -20,7 +20,7 @@ class TestTvdbApi(unittest.TestCase):
         # Define directory paths
         current_script_dir: str = os.path.dirname(os.path.realpath(__file__))
         data_dir: str = os.path.join(current_script_dir, "../../data")
-        tvshows_dir: str = os.path.join(data_dir, "tvshows")
+        tvshows_dir: str = os.path.join(data_dir, "tvshows", "tvshows")
 
         # Load congig.yaml
         cls.config: dict = load_config(
@@ -33,7 +33,7 @@ class TestTvdbApi(unittest.TestCase):
 
     def test_get_episodes(self) -> None:
         """test the get_episodes method"""
-        tvdb_tool: TvdbApi = TvdbApi(self.config["tvdb-key"], self.config["tvdb-pin"])
+        tvdb_tool: TvdbApi = TvdbApi(self.config["tvdb_key"], self.config["tvdb_pin"])
         tvdb_got_episodes: list[dict] = tvdb_tool.get_episodes(121361, 1)
         plex_got_episodes: list[TVShowEpisode] = (
             self.crawler.get_tvshowlist().get_tvshow(121361).get_season(1).episodes
@@ -43,7 +43,7 @@ class TestTvdbApi(unittest.TestCase):
 
     def test_get_seasons(self) -> None:
         """test the get_seasons method"""
-        tvdb_tool = TvdbApi(self.config["tvdb-key"], self.config["tvdb-pin"])
+        tvdb_tool = TvdbApi(self.config["tvdb_key"], self.config["tvdb_pin"])
         tvdb_got_seasons: set[int] = tvdb_tool.get_seasonids(121361)
         plex_got_seasons: list[TVShowSeason] = (
             self.crawler.get_tvshowlist().get_tvshow(121361).seasons
@@ -53,7 +53,7 @@ class TestTvdbApi(unittest.TestCase):
 
     def test_get_episodeids(self) -> None:
         """test the get_episodeids method"""
-        tvdb_tool = TvdbApi(self.config["tvdb-key"], self.config["tvdb-pin"])
+        tvdb_tool = TvdbApi(self.config["tvdb_key"], self.config["tvdb_pin"])
         tvdb_got_episodes: set[int] = tvdb_tool.get_episodeids(121361, 1)
         plex_got_episodes: list[TVShowEpisode] = (
             self.crawler.get_tvshowlist().get_tvshow(121361).get_season(1).episodes
