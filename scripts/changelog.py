@@ -5,6 +5,18 @@ This module provides functions to extract changelog information from a markdown 
 import os
 import re
 import sys
+import toml
+
+
+def print_current_version():
+    """
+    Prints the version number of the latest/next release in the changelog.
+
+    Returns:
+        None
+    """
+    print(f"CHANGELOG.md....: {get_current_version()}")
+    print(f"pyproject.toml..: {get_version_from_pyproject()}")
 
 
 def get_current_version():
@@ -26,6 +38,29 @@ def get_current_version():
 
     # Get the current version
     return changelog[0]["version"]
+
+
+def get_version_from_pyproject():
+    """
+    Extracts the version number from a pyproject.toml file.
+
+    This function loads the pyproject.toml file, navigates to the 'version' field
+    under 'tool.poetry', and returns the version number.
+
+    Returns:
+        str: The version number as a string. If the version number is not found,
+             an empty string is returned.
+    """
+    current_script_dir: str = os.path.dirname(os.path.realpath(__file__))
+    pyproject_file: str = os.path.join(current_script_dir, "..", "pyproject.toml")
+
+    # Load the pyproject.toml file
+    pyproject = toml.load(pyproject_file)
+
+    # Get the version number
+    version = pyproject.get("tool", {}).get("poetry", {}).get("version", "")
+
+    return version
 
 
 def print_change(version=None):
