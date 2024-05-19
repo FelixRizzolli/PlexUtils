@@ -7,6 +7,27 @@ import re
 import sys
 
 
+def get_current_version():
+    """
+    Returns the version number of the latest release in the changelog.
+
+    Returns:
+        str: The version number of the latest release.
+    """
+    current_script_dir: str = os.path.dirname(os.path.realpath(__file__))
+    changelog_file: str = os.path.join(current_script_dir, "..", "CHANGELOG.md")
+
+    # Read the changelog from the file
+    with open(changelog_file, "r", encoding="utf-8") as file:
+        changelog = file.read()
+
+    # Parse and sort the changelog
+    changelog = sort_changelog(parse_changelog(changelog))
+
+    # Get the current version
+    return changelog[0]["version"]
+
+
 def print_change(version=None):
     """
     Prints the changes made in a specific version or the latest version.
