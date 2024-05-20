@@ -186,7 +186,7 @@ def read_version_headline(line: str, changelog: list) -> Optional[str]:
     )
 
     if match:
-        change: Optional[dict[str, Any]] = build_change(line)
+        change: dict[str, Any] = build_change(line)
         changelog.append(change)
         current_version = str(change["version"])
         return current_version
@@ -215,7 +215,7 @@ def read_category_headline(
         current_change_category = match.group(1)
         cc_change: dict = get_change(changelog, current_version)
 
-        if cc_change["changes"] is None:
+        if not isinstance(cc_change["changes"], list):
             cc_change["changes"] = []
 
         cc_change["changes"].append(
@@ -249,13 +249,13 @@ def read_change_item(
         ci_change: dict = get_change(changelog, current_version)
         change_category: dict = get_change_category(ci_change, current_change_category)
 
-        if change_category["changes"] is None:
+        if not isinstance(change_category["changes"], list):
             change_category["changes"] = []
 
         change_category["changes"].append(change_item)
 
 
-def build_change(title: str) -> Optional[dict[str, Any]]:
+def build_change(title: str) -> dict[str, Any]:
     """
     Builds a change dictionary from a title line.
 
@@ -283,7 +283,7 @@ def build_change(title: str) -> Optional[dict[str, Any]]:
             "changes": [],
         }
 
-    return None
+    return {}
 
 
 def get_change(changelog: list, version: str) -> dict:
@@ -299,7 +299,7 @@ def get_change(changelog: list, version: str) -> dict:
     """
     if version is None:
         return changelog[0]
-    return next((c for c in changelog if c["version"] == version), None)
+    return next((c for c in changelog if c["version"] == version), {})
 
 
 def get_change_category(change: dict, category: str) -> dict:
@@ -313,7 +313,7 @@ def get_change_category(change: dict, category: str) -> dict:
     Returns:
         dict: The change category for the given category.
     """
-    return next((c for c in change["changes"] if c["category"] == category), None)
+    return next((c for c in change["changes"] if c["category"] == category), {})
 
 
 def sort_changelog(changelog: list) -> list:
