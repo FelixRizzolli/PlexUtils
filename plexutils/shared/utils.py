@@ -57,7 +57,16 @@ def print_menu(title: str, gettext: Callable[[str], str], menu_list: Menu) -> No
             return
 
         if menu_list.id_exists(choice):
-            menu_list.get_option_by_id(choice)["action"]()
+            menu_option: Optional[dict] = menu_list.get_option_by_id(choice)
+
+            if menu_option is None:
+                raise ValueError("The menu option does not exist.")
+            if "action" not in menu_option:
+                raise ValueError("The menu option does not have an action.")
+            if not callable(menu_option["action"]):
+                raise ValueError("The action is not a callable function.")
+
+            menu_option["action"]()
         else:
             print("\n" + gettext("Invalid choice. Please enter a valid option."))
 
@@ -84,7 +93,12 @@ def print_library_menu(gettext: Callable[[str], str], menu_list: Menu) -> str:
         choice: str = input("\n" + gettext("Enter your choice: "))
 
         if menu_list.id_exists(choice):
-            return menu_list.get_option_by_id(choice)["path"]
+            menu_option: Optional[dict] = menu_list.get_option_by_id(choice)
+
+            if menu_option is None:
+                raise ValueError("The menu option does not exist.")
+
+            return menu_option["path"]
 
         print("\n" + gettext("Invalid choice. Please enter a valid option."))
 
