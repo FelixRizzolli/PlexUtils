@@ -46,7 +46,14 @@ class MovieFileUtils:
         crawler: PlexMovieCrawler = PlexMovieCrawler(library_path)
         crawler.crawl()
 
-        for movie in crawler.get_invalid_movies():
+        invalid_movies: list[str] = crawler.get_invalid_movies()
+
+        if len(invalid_movies) == 0:
+            self.gettext("No invalid movie files found")
+            input()
+            return
+
+        for movie in invalid_movies:
             print(self.gettext("Invalid movie file: ") + movie)
 
         input()

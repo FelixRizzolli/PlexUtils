@@ -65,7 +65,14 @@ class TvshowFileUtils:
         crawler: PlexTVShowCrawler = PlexTVShowCrawler(library_path)
         crawler.crawl()
 
-        for tvshow in crawler.get_invalid_tvshows():
+        invalid_tvshows: list[str] = crawler.get_invalid_tvshows()
+
+        if len(invalid_tvshows) == 0:
+            self.gettext("No invalid tvshows found")
+            input()
+            return
+
+        for tvshow in invalid_tvshows:
             print(self.gettext("Invalid tvshow directory: ") + tvshow)
 
         input()
@@ -81,7 +88,14 @@ class TvshowFileUtils:
         crawler: PlexTVShowCrawler = PlexTVShowCrawler(library_path)
         crawler.crawl()
 
-        for season in crawler.get_invalid_seasons():
+        invalid_seasons: list[str] = crawler.get_invalid_seasons()
+
+        if len(invalid_seasons) == 0:
+            self.gettext("No invalid seasons found")
+            input()
+            return
+
+        for season in invalid_seasons:
             print(self.gettext("Invalid season directory: ") + season)
 
         input()
@@ -98,7 +112,14 @@ class TvshowFileUtils:
         crawler: PlexTVShowCrawler = PlexTVShowCrawler(library_path)
         crawler.crawl()
 
-        for episode in crawler.get_invalid_episodes():
+        invalid_episodes: list[str] = crawler.get_invalid_episodes()
+
+        if len(invalid_episodes) == 0:
+            self.gettext("No invalid episodes found")
+            input()
+            return
+
+        for episode in invalid_episodes:
             print(self.gettext("Invalid episode filename: ") + episode)
 
         input()
