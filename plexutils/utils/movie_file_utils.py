@@ -42,8 +42,6 @@ class MovieFileUtils:
             of the movies
             from the initialized directory
         """
-        if "movies-dir" not in self.config:
-            return
 
         crawler: PlexMovieCrawler = PlexMovieCrawler(library_path)
         crawler.crawl()

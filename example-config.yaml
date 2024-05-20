@@ -9,7 +9,7 @@ movie_libraries:
     lang:
       dub: de_DE
       sub: de_DE
-    path: /**/movies/anime
+    path: /**/movies/animes
 tvshow_libraries:
   - name: TV Shows
     lang:
@@ -20,6 +20,6 @@ tvshow_libraries:
     lang:
       dub: de_DE
       sub: de_DE
-    path: /**/tvahows/anime
+    path: /**/tvahows/animes
 tvdb_key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 tvdb_pin: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
