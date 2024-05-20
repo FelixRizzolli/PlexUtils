@@ -6,7 +6,7 @@ import os
 import re
 import sys
 from re import Match
-from typing import Optional
+from typing import Any, Optional
 
 import toml
 
@@ -113,62 +113,149 @@ def print_change(ver: str = "") -> None:
 
 def parse_changelog(changelog_file_content: str) -> list:
     """
-    Parses the changelog content and returns a list of changes.
+    Parses the content of a changelog file and returns a list of changes.
 
-    Args:
-        changelog_file_content (str): The content of the changelog file.
+    Parameters:
+        changelog_file_content (str): The content of the changelog file as a string.
 
     Returns:
         list: A list of dictionaries, each representing a change.
     """
+
     lines: list = changelog_file_content.split("\n")
     current_version: str = ""
     current_change_category: str = ""
     changelog: list = []
     for line in lines:
-        uh_match: bool = line.startswith("## [Unreleased]")
-        if uh_match:
-            uh_change = {"version": "unreleased", "changes": []}
-            changelog.append(uh_change)
-            current_version = str(uh_change["version"])
+        uh_current_version = read_unreleased_headline(line, changelog)
+        if uh_current_version:
+            current_version = uh_current_version
 
-        vh_match: Optional[Match[str]] = re.search(
-            r"^## \[(\d+)\.(\d+)\.(\d+)\] - (\d{4})-(\d{2})-(\d{2})", line
+        vh_current_version = read_version_headline(line, changelog)
+        if vh_current_version:
+            current_version = vh_current_version
+
+        ch_current_change_category = read_category_headline(
+            line, current_version, changelog
         )
-        if vh_match:
-            vh_change: dict = build_change(line)
-            changelog.append(vh_change)
-            current_version = str(vh_change["version"])
+        if ch_current_change_category:
+            current_change_category = ch_current_change_category
 
-        cc_match: Optional[Match[str]] = re.search(r"^### (.+)", line)
-        if cc_match:
-            current_change_category = cc_match.group(1)
-            cc_change: dict = get_change(changelog, current_version)
-
-            if cc_change["changes"] is None:
-                cc_change["changes"] = []
-
-            cc_change["changes"].append(
-                {"category": current_change_category, "changes": []}
-            )
-
-        ci_match: Optional[Match[str]] = re.search(r"^- (.+)", line)
-        if ci_match:
-            change_item: str = ci_match.group(1)
-            ci_change: dict = get_change(changelog, current_version)
-            change_category: dict = get_change_category(
-                ci_change, current_change_category
-            )
-
-            if change_category["changes"] is None:
-                change_category["changes"] = []
-
-            change_category["changes"].append(change_item)
+        read_change_item(line, current_version, current_change_category, changelog)
 
     return changelog
 
 
-def build_change(title: str) -> dict:
+def read_unreleased_headline(line: str, changelog: list) -> Optional[str]:
+    """
+    Reads a line from the changelog and checks if it starts with "## [Unreleased]".
+
+    Parameters:
+        line (str): The line to check.
+        changelog (list): The current changelog list.
+
+    Returns:
+        str: The version if the line starts with "## [Unreleased]", None otherwise.
+    """
+
+    match: bool = line.startswith("## [Unreleased]")
+
+    if match:
+        change = {"version": "unreleased", "changes": []}
+        changelog.append(change)
+        current_version = str(change["version"])
+        return current_version
+
+    return None
+
+
+def read_version_headline(line: str, changelog: list) -> Optional[str]:
+    """
+    Reads a line from the changelog and checks if it matches the version headline pattern.
+
+    Parameters:
+        line (str): The line to check.
+        changelog (list): The current changelog list.
+
+    Returns:
+        str: The version if the line matches the pattern, None otherwise.
+    """
+
+    match: Optional[Match[str]] = re.search(
+        r"^## \[(\d+)\.(\d+)\.(\d+)\] - (\d{4})-(\d{2})-(\d{2})", line
+    )
+
+    if match:
+        change: Optional[dict[str, Any]] = build_change(line)
+        changelog.append(change)
+        current_version = str(change["version"])
+        return current_version
+
+    return None
+
+
+def read_category_headline(
+    line: str, current_version: str, changelog: list
+) -> Optional[str]:
+    """
+    Reads a line from the changelog and checks if it matches the category headline pattern.
+
+    Parameters:
+        line (str): The line to check.
+        current_version (str): The current version.
+        changelog (list): The current changelog list.
+
+    Returns:
+        str: The category if the line matches the pattern, None otherwise.
+    """
+
+    match: Optional[Match[str]] = re.search(r"^### (.+)", line)
+
+    if match:
+        current_change_category = match.group(1)
+        cc_change: dict = get_change(changelog, current_version)
+
+        if cc_change["changes"] is None:
+            cc_change["changes"] = []
+
+        cc_change["changes"].append(
+            {"category": current_change_category, "changes": []}
+        )
+        return current_change_category
+
+    return None
+
+
+def read_change_item(
+    line: str, current_version: str, current_change_category: str, changelog: list
+) -> None:
+    """
+    Reads a line from the changelog and checks if it matches the change item pattern.
+
+    Parameters:
+        line (str): The line to check.
+        current_version (str): The current version.
+        current_change_category (str): The current change category.
+        changelog (list): The current changelog list.
+
+    Returns:
+        None
+    """
+
+    ci_match: Optional[Match[str]] = re.search(r"^- (.+)", line)
+
+    if ci_match:
+        change_item: str = ci_match.group(1)
+        ci_change: dict = get_change(changelog, current_version)
+        change_category: dict = get_change_category(ci_change, current_change_category)
+
+        if change_category["changes"] is None:
+            change_category["changes"] = []
+
+        change_category["changes"].append(change_item)
+
+
+def build_change(title: str) -> Optional[dict[str, Any]]:
     """
     Builds a change dictionary from a title line.
 
@@ -182,18 +269,21 @@ def build_change(title: str) -> dict:
         r"^## \[(\d+)\.(\d+)\.(\d+)\] - (\d{4})-(\d{2})-(\d{2})", title
     )
 
-    major: str = match.group(1)
-    minor: str = match.group(2)
-    bugfix: str = match.group(3)
-    year: str = match.group(4)
-    month: str = match.group(5)
-    day: str = match.group(6)
+    if match:
+        major: str = match.group(1)
+        minor: str = match.group(2)
+        bugfix: str = match.group(3)
+        year: str = match.group(4)
+        month: str = match.group(5)
+        day: str = match.group(6)
 
-    return {
-        "version": f"{major}.{minor}.{bugfix}",
-        "date": f"{year}-{month}-{day}",
-        "changes": [],
-    }
+        return {
+            "version": f"{major}.{minor}.{bugfix}",
+            "date": f"{year}-{month}-{day}",
+            "changes": [],
+        }
+
+    return None
 
 
 def get_change(changelog: list, version: str) -> dict:
