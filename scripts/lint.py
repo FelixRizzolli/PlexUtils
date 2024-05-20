@@ -9,6 +9,9 @@ directories: 'plexutils', 'scripts', and 'tests'.
 
 import os
 import subprocess
+import tempfile
+
+import mypy.api
 
 from scripts.changelog import get_current_version as get_version_from_changelog
 from scripts.changelog import get_version_from_pyproject
@@ -100,7 +103,31 @@ def run_mypy(directories: str) -> None:
         directories (str): The directories to run mypy on.
     """
     print("Running mypy...")
-    subprocess.run(f"mypy {directories}", shell=True, check=True)
+
+    # Create a temporary mypy.ini file
+    with tempfile.NamedTemporaryFile(mode="w", delete=False) as temp:
+        temp.write("[mypy]\n")
+        temp.write(f"files = {', '.join(directories.split(' '))}\n")
+        temp.write("check_untyped_defs = True\n")
+        temp.write("[mypy-tvdb_v4_official.*]\n")
+        temp.write("ignore_missing_imports = True\n")
+
+    # The mypy options you want to use
+    mypy_options = ["--config-file", temp.name]
+
+    # Run mypy and capture the result
+    result = mypy.api.run(mypy_options)
+
+    # If the result contains any output, print it
+    if result[0]:  # stdout
+        print(result[0])
+
+    # If the result contains any error messages, print them
+    if result[1]:  # stderr
+        print(result[1])
+
+    # Delete the temporary mypy.ini file
+    os.unlink(temp.name)
 
 
 def check_version() -> None:
