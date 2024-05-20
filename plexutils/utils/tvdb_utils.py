@@ -74,6 +74,9 @@ class TVDBUtils:
         tvshows: list[TVShow] = crawler.get_tvshowlist().tvshows
         missing_season_strings: list[str] = []
         for tvshow in tvshows:
+            if tvshow.tvdbid is None:
+                raise ValueError()
+
             plex_tvshow_seasonids: set[int] = set(tvshow.seasonids)
             tvdb_tvshow_seasonids: set[int] = tvdb_api.get_seasonids(tvshow.tvdbid)
             missing_seasons: list[int] = list(
@@ -101,8 +104,14 @@ class TVDBUtils:
         tvshows: list[TVShow] = crawler.get_tvshowlist().tvshows
         missing_episode_strings: list[str] = []
         for tvshow in tvshows:
+            if tvshow.tvdbid is None:
+                raise ValueError()
+
             seasons: list[TVShowSeason] = tvshow.seasons
             for season in seasons:
+                if season.season_id is None:
+                    raise ValueError()
+
                 plex_episodeids: set[int] = set(season.episodeids)
                 tvdb_episodeids: set[int] = tvdb_api.get_episodeids(
                     tvshow.tvdbid, season.season_id
