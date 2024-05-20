@@ -14,8 +14,7 @@ from plexutils.media.movie_list import MovieList
 class TestPlexMovieCrawler(unittest.TestCase):
     """test class for the PlexMovieCrawler class"""
 
-    config: dict = {}
-    crawler: PlexMovieCrawler = None
+    crawler: PlexMovieCrawler
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -32,7 +31,7 @@ class TestPlexMovieCrawler(unittest.TestCase):
             cls.movie_files: dict = json.load(f)["movie_files"]
 
         # Initialize crawler
-        cls.crawler: PlexMovieCrawler = PlexMovieCrawler(movies_dir)
+        cls.crawler = PlexMovieCrawler(movies_dir)
         cls.crawler.crawl()
 
     def test_crawl_get_movies_count(self) -> None:

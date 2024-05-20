@@ -16,8 +16,7 @@ from plexutils.media.tvshow_season import TVShowSeason
 class TestPlexTVShowCrawler(unittest.TestCase):
     """test class for the PlexTvshowsCrawler class"""
 
-    config: dict = {}
-    crawler: PlexTVShowCrawler = None
+    crawler: PlexTVShowCrawler
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -36,7 +35,7 @@ class TestPlexTVShowCrawler(unittest.TestCase):
             cls.tvshow_directories: dict = json.load(f)["tvshow_files"]
 
         # initialize crawler
-        cls.crawler: PlexTVShowCrawler = PlexTVShowCrawler(tvshows_dir)
+        cls.crawler = PlexTVShowCrawler(tvshows_dir)
         cls.crawler.crawl()
 
     def test_crawl_get_tvshows_count(self) -> None:
