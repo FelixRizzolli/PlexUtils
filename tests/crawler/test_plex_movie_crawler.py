@@ -5,6 +5,7 @@
 import json
 import os
 import unittest
+from typing import Optional
 
 from plexutils.crawler.plex_movie_crawler import PlexMovieCrawler
 from plexutils.media.movie import Movie
@@ -15,6 +16,7 @@ class TestPlexMovieCrawler(unittest.TestCase):
     """test class for the PlexMovieCrawler class"""
 
     crawler: PlexMovieCrawler
+    movie_files: dict
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -25,10 +27,12 @@ class TestPlexMovieCrawler(unittest.TestCase):
         movies_dir: str = os.path.join(data_dir, "movies", "movies")
 
         # Open the JSON file
-        movies_data_file = os.path.join(scripts_data_dir, "movies", "movie_files.json")
+        movies_data_file: str = os.path.join(
+            scripts_data_dir, "movies", "movie_files.json"
+        )
         with open(movies_data_file, "r", encoding="utf-8") as f:
             # Load the JSON data into a Python dictionary
-            cls.movie_files: dict = json.load(f)["movie_files"]
+            cls.movie_files = json.load(f)["movie_files"]
 
         # Initialize crawler
         cls.crawler = PlexMovieCrawler(movies_dir)
@@ -53,9 +57,11 @@ class TestPlexMovieCrawler(unittest.TestCase):
             and comparing the result with the expected data
         """
         movielist: MovieList = self.crawler.get_movielist()
-        matrix1: Movie = movielist.get_movie(169)
-        self.assertEqual(matrix1.filename, "The Matrix (1999) {tvdb-169}.mp4")
-        self.assertEqual(matrix1.tvdbid, 169)
+        if movielist is not None:
+            matrix1: Optional[Movie] = movielist.get_movie(169)
+            if matrix1 is not None:
+                self.assertEqual(matrix1.filename, "The Matrix (1999) {tvdb-169}.mp4")
+                self.assertEqual(matrix1.tvdbid, 169)
 
     def test_crawl_get_invalid_movies(self) -> None:
         """

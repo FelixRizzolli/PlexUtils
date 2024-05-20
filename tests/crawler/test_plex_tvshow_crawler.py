@@ -46,7 +46,7 @@ class TestPlexTVShowCrawler(unittest.TestCase):
             by counting the number of tvshows
             and comparing the result with the expected number of tvshows
         """
-        tvshowlist = self.crawler.get_tvshowlist()
+        tvshowlist: TVShowList = self.crawler.get_tvshowlist()
         if tvshowlist is not None:
             tvshows: list[TVShow] = tvshowlist.tvshows
             invalid_tvshows: list[str] = self.crawler.get_invalid_tvshows()
@@ -60,7 +60,7 @@ class TestPlexTVShowCrawler(unittest.TestCase):
             by selecting a specific tvshow
             and comparing the result with the expected data
         """
-        tvshowlist: Optional[TVShowList] = self.crawler.get_tvshowlist()
+        tvshowlist: TVShowList = self.crawler.get_tvshowlist()
         if tvshowlist is not None:
             codegeass: Optional[TVShow] = tvshowlist.get_tvshow(79525)
             if codegeass is not None:

@@ -8,7 +8,9 @@ from typing import Optional
 
 from plexutils.api.tvdb_api import TvdbApi
 from plexutils.crawler.plex_tvshow_crawler import PlexTVShowCrawler
+from plexutils.media.tvshow import TVShow
 from plexutils.media.tvshow_episode import TVShowEpisode
+from plexutils.media.tvshow_list import TVShowList
 from plexutils.media.tvshow_season import TVShowSeason
 from plexutils.shared.utils import load_config
 
@@ -38,9 +40,9 @@ class TestTvdbApi(unittest.TestCase):
         tvdb_tool: TvdbApi = TvdbApi(self.config["tvdb_key"], self.config["tvdb_pin"])
         tvdb_got_episodes: list[dict] = tvdb_tool.get_episodes(121361, 1)
 
-        tvshowlist = self.crawler.get_tvshowlist()
+        tvshowlist: TVShowList = self.crawler.get_tvshowlist()
         if tvshowlist is not None:
-            tvshow = tvshowlist.get_tvshow(121361)
+            tvshow: Optional[TVShow] = tvshowlist.get_tvshow(121361)
             if tvshow is not None:
                 plex_got_season_1: Optional[TVShowSeason] = tvshow.get_season(1)
                 if plex_got_season_1 is not None:
@@ -52,9 +54,9 @@ class TestTvdbApi(unittest.TestCase):
         tvdb_tool = TvdbApi(self.config["tvdb_key"], self.config["tvdb_pin"])
         tvdb_got_seasons: set[int] = tvdb_tool.get_seasonids(121361)
 
-        tvshowlist = self.crawler.get_tvshowlist()
+        tvshowlist: TVShowList = self.crawler.get_tvshowlist()
         if tvshowlist is not None:
-            tvshow = tvshowlist.get_tvshow(121361)
+            tvshow: Optional[TVShow] = tvshowlist.get_tvshow(121361)
             if tvshow is not None:
                 plex_got_seasons: list[TVShowSeason] = tvshow.seasons
                 self.assertEqual(len(tvdb_got_seasons), len(plex_got_seasons))
@@ -64,9 +66,9 @@ class TestTvdbApi(unittest.TestCase):
         tvdb_tool = TvdbApi(self.config["tvdb_key"], self.config["tvdb_pin"])
         tvdb_got_episodes: set[int] = tvdb_tool.get_episodeids(121361, 1)
 
-        tvshowlist = self.crawler.get_tvshowlist()
+        tvshowlist: TVShowList = self.crawler.get_tvshowlist()
         if tvshowlist is not None:
-            tvshow = tvshowlist.get_tvshow(121361)
+            tvshow: Optional[TVShow] = tvshowlist.get_tvshow(121361)
             if tvshow is not None:
                 plex_got_season_1: Optional[TVShowSeason] = tvshow.get_season(1)
                 if plex_got_season_1 is not None:
