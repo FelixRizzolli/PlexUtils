@@ -37,6 +37,11 @@ class MovieList:
         Args:
             movie (Movie): The movie to add.
         """
+        if movie.tvdbid is None:
+            raise ValueError("Movie TVDB ID is required")
+        if movie.tvdbid in self._movies:
+            raise ValueError(f"Movie with TVDB ID {movie.tvdbid} already exists")
+
         self._movies[movie.tvdbid] = movie
 
     def get_movie(self, movie_id: int) -> Optional[Movie]:

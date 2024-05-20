@@ -72,6 +72,11 @@ class TVShow:
         Args:
             season (TVShowSeason): The season to add.
         """
+        if season.season_id is None:
+            raise ValueError("Season ID is required")
+        if season.season_id in self._seasons:
+            raise ValueError(f"Season with ID {season.season_id} already exists")
+
         self._seasons[season.season_id] = season
 
     def get_season(self, season_id: int) -> Optional[TVShowSeason]:

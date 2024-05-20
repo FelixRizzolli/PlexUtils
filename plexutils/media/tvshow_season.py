@@ -72,6 +72,11 @@ class TVShowSeason:
         Args:
             episode (TVShowEpisode): The episode to add.
         """
+        if episode.episode_id is None:
+            raise ValueError("Episode ID is required")
+        if episode.episode_id in self._episodes:
+            raise ValueError(f"Episode with ID {episode.episode_id} already exists")
+
         self._episodes[episode.episode_id] = episode
 
     def is_valid(self) -> bool:

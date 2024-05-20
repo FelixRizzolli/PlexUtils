@@ -37,6 +37,11 @@ class TVShowList:
         Args:
             tvshow (TVShow): The TV show to add.
         """
+        if tvshow.tvdbid is None:
+            raise ValueError("TV show TVDB ID is required")
+        if tvshow.tvdbid in self._tvshows:
+            raise ValueError(f"TV show with TVDB ID {tvshow.tvdbid} already exists")
+
         self._tvshows[tvshow.tvdbid] = tvshow
 
     def get_tvshow(self, tvshow_id: int) -> Optional[TVShow]:
