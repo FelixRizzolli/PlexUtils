@@ -3,6 +3,7 @@
 """
 
 import unittest
+from typing import Optional
 
 from plexutils.media.tvshow import TVShow
 from plexutils.media.tvshow_list import TVShowList
@@ -34,13 +35,19 @@ class TestTVShowList(unittest.TestCase):
         tvshowlist.add_tvshow(TVShow("Code Geass (2006) {tvdb-79525}"))
         tvshowlist.add_tvshow(TVShow("Game of Thrones (2011) {tvdb-121361}"))
 
-        codegeass: TVShow = tvshowlist.get_tvshow(79525)
-        self.assertTrue(codegeass.is_valid())
-        self.assertEqual("Code Geass (2006) {tvdb-79525}", codegeass.dirname)
+        codegeass: Optional[TVShow] = tvshowlist.get_tvshow(79525)
+        self.assertIsNotNone(codegeass)
 
-        got: TVShow = tvshowlist.get_tvshow(121361)
-        self.assertTrue(got.is_valid())
-        self.assertEqual("Game of Thrones (2011) {tvdb-121361}", got.dirname)
+        if codegeass is not None:
+            self.assertTrue(codegeass.is_valid())
+            self.assertEqual("Code Geass (2006) {tvdb-79525}", codegeass.dirname)
+
+        got: Optional[TVShow] = tvshowlist.get_tvshow(121361)
+        self.assertIsNotNone(got)
+
+        if got is not None:
+            self.assertTrue(got.is_valid())
+            self.assertEqual("Game of Thrones (2011) {tvdb-121361}", got.dirname)
 
     def test_is_empty(self) -> None:
         """tests the is_empty method of the TVShowList class"""

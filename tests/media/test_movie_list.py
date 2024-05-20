@@ -3,6 +3,7 @@
 """
 
 import unittest
+from typing import Optional
 
 from plexutils.media.movie import Movie
 from plexutils.media.movie_list import MovieList
@@ -31,10 +32,14 @@ class TestMovieList(unittest.TestCase):
         movie_list.add(Movie("Happy Death Day (2017) {tvdb-475}.mp4"))
         movie_list.add(Movie("The Matrix Reloaded (2003) {tvdb-553}.mp4"))
         movie_list.add(Movie("The Matrix Revolutions (2003) {tvdb-554}.mp4"))
-        movie: Movie = movie_list.get_movie(475)
-        self.assertTrue(movie.is_valid())
-        self.assertEqual("Happy Death Day (2017) {tvdb-475}.mp4", movie.filename)
-        self.assertEqual(475, movie.tvdbid)
+
+        movie: Optional[Movie] = movie_list.get_movie(475)
+        self.assertIsNotNone(movie)
+
+        if movie is not None:
+            self.assertTrue(movie.is_valid())
+            self.assertEqual("Happy Death Day (2017) {tvdb-475}.mp4", movie.filename)
+            self.assertEqual(475, movie.tvdbid)
 
     def test_is_empty(self):
         """tests the is_empty method of the MovieList class"""

@@ -3,6 +3,7 @@
 """
 
 import unittest
+from typing import Optional
 
 from plexutils.media.tvshow import TVShow
 from plexutils.media.tvshow_season import TVShowSeason
@@ -62,13 +63,19 @@ class TestTVShow(unittest.TestCase):
         tvshow.add_season(TVShowSeason("season 01"))
         tvshow.add_season(TVShowSeason("season 02"))
 
-        season_01: TVShowSeason = tvshow.get_season(1)
-        self.assertTrue(season_01.is_valid())
-        self.assertEqual("season 01", season_01.dirname)
+        season_01: Optional[TVShowSeason] = tvshow.get_season(1)
+        self.assertIsNotNone(season_01)
 
-        season_02: TVShowSeason = tvshow.get_season(2)
-        self.assertTrue(season_02.is_valid())
-        self.assertEqual("season 02", season_02.dirname)
+        if season_01 is not None:
+            self.assertTrue(season_01.is_valid())
+            self.assertEqual("season 01", season_01.dirname)
+
+        season_02: Optional[TVShowSeason] = tvshow.get_season(2)
+        self.assertIsNotNone(season_02)
+
+        if season_02 is not None:
+            self.assertTrue(season_02.is_valid())
+            self.assertEqual("season 02", season_02.dirname)
 
     def test_is_empty(self) -> None:
         """tests the is_empty method of the TVShow class"""
