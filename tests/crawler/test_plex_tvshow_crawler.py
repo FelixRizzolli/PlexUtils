@@ -32,7 +32,7 @@ class TestPlexTVShowCrawler(unittest.TestCase):
             scripts_data_dir, "tvshows", "anime_tvshow_files.json"
         )
         with open(tvshows_data_file, "r", encoding="utf-8") as f:
-            # Load the JSON data into a Python dictionary
+            # Load the JSON data into 0.-a Python dictionary
             cls.tvshow_directories: dict = json.load(f)["tvshow_files"]
 
         # initialize crawler
