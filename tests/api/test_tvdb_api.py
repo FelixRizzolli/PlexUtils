@@ -15,6 +15,9 @@ from plexutils.shared.utils import load_config
 class TestTvdbApi(unittest.TestCase):
     """test class for the TVDBTool class"""
 
+    config: dict = {}
+    crawler: PlexTVShowCrawler = None
+
     @classmethod
     def setUpClass(cls) -> None:
         # Define directory paths

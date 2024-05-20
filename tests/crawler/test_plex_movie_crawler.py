@@ -14,6 +14,9 @@ from plexutils.media.movie_list import MovieList
 class TestPlexMovieCrawler(unittest.TestCase):
     """test class for the PlexMovieCrawler class"""
 
+    config: dict = {}
+    crawler: PlexMovieCrawler = None
+
     @classmethod
     def setUpClass(cls) -> None:
         # Define directory paths

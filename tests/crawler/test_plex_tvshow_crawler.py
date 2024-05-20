@@ -16,6 +16,9 @@ from plexutils.media.tvshow_season import TVShowSeason
 class TestPlexTVShowCrawler(unittest.TestCase):
     """test class for the PlexTvshowsCrawler class"""
 
+    config: dict = {}
+    crawler: PlexTVShowCrawler = None
+
     @classmethod
     def setUpClass(cls) -> None:
         # Define directory paths
