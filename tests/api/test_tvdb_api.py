@@ -4,6 +4,7 @@
 
 import os
 import unittest
+from typing import Optional
 
 from plexutils.api.tvdb_api import TvdbApi
 from plexutils.crawler.plex_tvshow_crawler import PlexTVShowCrawler
@@ -15,8 +16,8 @@ from plexutils.shared.utils import load_config
 class TestTvdbApi(unittest.TestCase):
     """test class for the TVDBTool class"""
 
-    config: dict = {}
-    crawler: PlexTVShowCrawler = None
+    config: dict
+    crawler: Optional[PlexTVShowCrawler]
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -26,43 +27,61 @@ class TestTvdbApi(unittest.TestCase):
         tvshows_dir: str = os.path.join(data_dir, "tvshows", "tvshows")
 
         # Load congig.yaml
-        cls.config: dict = load_config(
-            os.path.join(current_script_dir, "../../config.yaml")
-        )
+        cls.config = load_config(os.path.join(current_script_dir, "../../config.yaml"))
 
         # Initialize crawler
-        cls.crawler: PlexTVShowCrawler = PlexTVShowCrawler(tvshows_dir)
+        cls.crawler = PlexTVShowCrawler(tvshows_dir)
         cls.crawler.crawl()
 
     def test_get_episodes(self) -> None:
         """test the get_episodes method"""
         tvdb_tool: TvdbApi = TvdbApi(self.config["tvdb_key"], self.config["tvdb_pin"])
         tvdb_got_episodes: list[dict] = tvdb_tool.get_episodes(121361, 1)
-        plex_got_episodes: list[TVShowEpisode] = (
-            self.crawler.get_tvshowlist().get_tvshow(121361).get_season(1).episodes
-        )
 
-        self.assertEqual(len(tvdb_got_episodes), len(plex_got_episodes))
+        if self.crawler is not None:
+            tvshowlist = self.crawler.get_tvshowlist()
+            if tvshowlist is not None:
+                tvshow = tvshowlist.get_tvshow(121361)
+                if tvshow is not None:
+                    plex_got_season_1: Optional[TVShowSeason] = tvshow.get_season(1)
+                    if plex_got_season_1 is not None:
+                        plex_got_episodes: list[TVShowEpisode] = (
+                            plex_got_season_1.episodes
+                        )
+                        self.assertEqual(len(tvdb_got_episodes), len(plex_got_episodes))
 
     def test_get_seasons(self) -> None:
         """test the get_seasons method"""
         tvdb_tool = TvdbApi(self.config["tvdb_key"], self.config["tvdb_pin"])
         tvdb_got_seasons: set[int] = tvdb_tool.get_seasonids(121361)
-        plex_got_seasons: list[TVShowSeason] = (
-            self.crawler.get_tvshowlist().get_tvshow(121361).seasons
-        )
 
-        self.assertEqual(len(tvdb_got_seasons), len(plex_got_seasons))
+        if self.crawler is not None:
+            tvshowlist = self.crawler.get_tvshowlist()
+            if tvshowlist is not None:
+                tvshow = tvshowlist.get_tvshow(121361)
+                if tvshow is not None:
+                    plex_got_seasons: list[TVShowSeason] = tvshow.seasons
+                    self.assertEqual(len(tvdb_got_seasons), len(plex_got_seasons))
 
     def test_get_episodeids(self) -> None:
         """test the get_episodeids method"""
         tvdb_tool = TvdbApi(self.config["tvdb_key"], self.config["tvdb_pin"])
         tvdb_got_episodes: set[int] = tvdb_tool.get_episodeids(121361, 1)
-        plex_got_episodes: list[TVShowEpisode] = (
-            self.crawler.get_tvshowlist().get_tvshow(121361).get_season(1).episodes
-        )
 
-        self.assertEqual(len(tvdb_got_episodes), len(plex_got_episodes))
+        if self.crawler is not None:
+            tvshowlist = self.crawler.get_tvshowlist()
+            if tvshowlist is not None:
+                tvshow = tvshowlist.get_tvshow(121361)
+                if tvshow is not None:
+                    plex_got_season_1: Optional[TVShowSeason] = tvshow.get_season(1)
+                    if plex_got_season_1 is not None:
+                        plex_got_episodes: list[TVShowEpisode] = (
+                            plex_got_season_1.episodes
+                        )
+                        plex_got_episodeids: set[Optional[int]] = {
+                            episode.episode_id for episode in plex_got_episodes
+                        }
+                        self.assertEqual(tvdb_got_episodes, plex_got_episodeids)
 
 
 if __name__ == "__main__":
