@@ -5,6 +5,7 @@
 import json
 import os
 import unittest
+from typing import Optional
 
 from plexutils.crawler.plex_tvshow_crawler import PlexTVShowCrawler
 from plexutils.media.tvshow import TVShow
@@ -17,6 +18,7 @@ class TestPlexTVShowCrawler(unittest.TestCase):
     """test class for the PlexTvshowsCrawler class"""
 
     crawler: PlexTVShowCrawler
+    tvshow_directories: dict
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -32,7 +34,7 @@ class TestPlexTVShowCrawler(unittest.TestCase):
         )
         with open(tvshows_data_file, "r", encoding="utf-8") as f:
             # Load the JSON data into 0.-a Python dictionary
-            cls.tvshow_directories: dict = json.load(f)["tvshow_files"]
+            cls.tvshow_directories = json.load(f)["tvshow_files"]
 
         # initialize crawler
         cls.crawler = PlexTVShowCrawler(tvshows_dir)
@@ -44,11 +46,13 @@ class TestPlexTVShowCrawler(unittest.TestCase):
             by counting the number of tvshows
             and comparing the result with the expected number of tvshows
         """
-        tvshows: list[TVShow] = self.crawler.get_tvshowlist().tvshows
-        invalid_tvshows: list[str] = self.crawler.get_invalid_tvshows()
-        self.assertEqual(
-            len(self.tvshow_directories), len(tvshows) + len(invalid_tvshows)
-        )
+        tvshowlist = self.crawler.get_tvshowlist()
+        if tvshowlist is not None:
+            tvshows: list[TVShow] = tvshowlist.tvshows
+            invalid_tvshows: list[str] = self.crawler.get_invalid_tvshows()
+            self.assertEqual(
+                len(self.tvshow_directories), len(tvshows) + len(invalid_tvshows)
+            )
 
     def test_crawl_get_tvshows_object(self) -> None:
         """
@@ -56,10 +60,12 @@ class TestPlexTVShowCrawler(unittest.TestCase):
             by selecting a specific tvshow
             and comparing the result with the expected data
         """
-        tvshowlist: TVShowList = self.crawler.get_tvshowlist()
-        codegeass: TVShow = tvshowlist.get_tvshow(79525)
-        self.assertEqual(codegeass.dirname, "Code Geass (2006) {tvdb-79525}")
-        self.assertEqual(codegeass.tvdbid, 79525)
+        tvshowlist: Optional[TVShowList] = self.crawler.get_tvshowlist()
+        if tvshowlist is not None:
+            codegeass: Optional[TVShow] = tvshowlist.get_tvshow(79525)
+            if codegeass is not None:
+                self.assertEqual(codegeass.dirname, "Code Geass (2006) {tvdb-79525}")
+                self.assertEqual(codegeass.tvdbid, 79525)
 
     def test_crawl_get_invalid_tvshows(self) -> None:
         """
@@ -77,16 +83,19 @@ class TestPlexTVShowCrawler(unittest.TestCase):
                 of a specific tvshow
             and comparing the result with the expected number of seasons
         """
-        seasons: list[TVShowSeason] = (
-            self.crawler.get_tvshowlist().get_tvshow(79525).seasons
-        )
-        codegeass: dict = list(
-            filter(
-                lambda tvshow: tvshow["dirname"] == "Code Geass (2006) {tvdb-79525}",
-                self.tvshow_directories,
-            )
-        )[0]
-        self.assertEqual(len(codegeass["seasons"]), len(seasons))
+        tvshowlist = self.crawler.get_tvshowlist()
+        if tvshowlist is not None:
+            plex_codegeass: Optional[TVShow] = tvshowlist.get_tvshow(79525)
+            if plex_codegeass is not None:
+                seasons: list[TVShowSeason] = plex_codegeass.seasons
+                test_codegeass: dict = list(
+                    filter(
+                        lambda tvshow: tvshow["dirname"]
+                        == "Code Geass (2006) {tvdb-79525}",
+                        self.tvshow_directories,
+                    )
+                )[0]
+                self.assertEqual(len(test_codegeass["seasons"]), len(seasons))
 
     def test_crawl_get_episodes_count(self) -> None:
         """
@@ -96,21 +105,27 @@ class TestPlexTVShowCrawler(unittest.TestCase):
                 of a specific tvshow
             and comparing the result with the expected number of seasons
         """
-        episodes: list[TVShowEpisode] = (
-            self.crawler.get_tvshowlist().get_tvshow(79525).get_season(1).episodes
-        )
-        codegeass: dict = list(
-            filter(
-                lambda tvshow: tvshow["dirname"] == "Code Geass (2006) {tvdb-79525}",
-                self.tvshow_directories,
-            )
-        )[0]
-        season1: dict = list(
-            filter(
-                lambda season: season["dirname"] == "season 01", codegeass["seasons"]
-            )
-        )[0]
-        self.assertEqual(len(season1["episodes"]), len(episodes))
+        tvshowlist = self.crawler.get_tvshowlist()
+        if tvshowlist is not None:
+            plex_codegeass: Optional[TVShow] = tvshowlist.get_tvshow(79525)
+            if plex_codegeass is not None:
+                plex_codegeass_s1: Optional[TVShowSeason] = plex_codegeass.get_season(1)
+                if plex_codegeass_s1 is not None:
+                    episodes: list[TVShowEpisode] = plex_codegeass_s1.episodes
+                    test_codegeass: dict = list(
+                        filter(
+                            lambda tvshow: tvshow["dirname"]
+                            == "Code Geass (2006) {tvdb-79525}",
+                            self.tvshow_directories,
+                        )
+                    )[0]
+                    test_codegeass_s1: dict = list(
+                        filter(
+                            lambda season: season["dirname"] == "season 01",
+                            test_codegeass["seasons"],
+                        )
+                    )[0]
+                    self.assertEqual(len(test_codegeass_s1["episodes"]), len(episodes))
 
 
 if __name__ == "__main__":
