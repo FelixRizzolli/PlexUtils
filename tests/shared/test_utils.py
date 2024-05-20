@@ -77,17 +77,23 @@ class TestUtils(unittest.TestCase):
         )
         self.assertIsNone(season_x1)
 
-    def test_is_past_date(self) -> None:
+    def test_is_past_date_with_past_date(self) -> None:
         """tests the is_past_date function"""
         date_to_check: str = "2000-01-01"
         self.assertTrue(is_past_date(date_to_check))
+
+    def test_is_past_date_with_furure_date(self) -> None:
+        """tests the is_past_date function"""
         date_to_check: str = "3000-01-01"
         self.assertFalse(is_past_date(date_to_check))
 
-    def test_is_future_date(self) -> None:
+    def test_is_future_date_with_past_date(self) -> None:
         """tests the is_future_date function"""
         date_to_check: str = "2000-01-01"
         self.assertFalse(is_future_date(date_to_check))
+
+    def test_is_future_date_with_furure_date(self) -> None:
+        """tests the is_future_date function"""
         date_to_check: str = "3000-01-01"
         self.assertTrue(is_future_date(date_to_check))
 
