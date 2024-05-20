@@ -15,7 +15,6 @@ Functions:
     create_json_report: Creates a JSON coverage report.
 """
 
-
 import os
 import subprocess
 import unittest
@@ -31,7 +30,9 @@ def run_tests() -> None:
     The tests are run using the  'poetry run python -m unittest discover tests' command,
     which ensures that the tests are run in the virtual environment managed by Poetry.
     """
-    subprocess.run("poetry run python -m unittest discover tests", shell=True, check=True)
+    subprocess.run(
+        "poetry run python -m unittest discover tests", shell=True, check=True
+    )
 
 
 def run_test_coverage():

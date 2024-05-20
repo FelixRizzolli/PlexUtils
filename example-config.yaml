@@ -1,5 +1,5 @@
 language: de_DE
-movies_directories:
+movie_libraries:
   - name: Movies
     lang:
       dub: de_DE
@@ -10,7 +10,7 @@ movies_directories:
       dub: de_DE
       sub: de_DE
     path: /**/movies/anime
-tvshows_directories:
+tvshow_libraries:
   - name: TV Shows
     lang:
       dub: de_DE

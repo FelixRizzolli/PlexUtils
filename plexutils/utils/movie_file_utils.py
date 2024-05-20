@@ -6,7 +6,7 @@ from typing import Callable
 
 from plexutils.crawler.plex_movie_crawler import PlexMovieCrawler
 from plexutils.shared.menu import Menu
-from plexutils.shared.utils import print_menu
+from plexutils.shared.utils import library_menu_wrapper, print_menu
 
 
 class MovieFileUtils:
@@ -21,7 +21,9 @@ class MovieFileUtils:
                 {
                     "id": "1",
                     "name": self.gettext("validate movie filename syntax"),
-                    "action": self.validate_movie_syntax,
+                    "action": lambda: library_menu_wrapper(
+                        self.gettext, self.config, "movie", self.validate_movie_syntax
+                    ),
                 },
             ]
         )
@@ -34,7 +36,7 @@ class MovieFileUtils:
         """prints the menu"""
         print_menu(self.gettext("MovieFileUtils Menu:"), self.gettext, self.menu_list)
 
-    def validate_movie_syntax(self) -> None:
+    def validate_movie_syntax(self, library_path: str) -> None:
         """
         validates the filenames
             of the movies
@@ -43,7 +45,7 @@ class MovieFileUtils:
         if "movies-dir" not in self.config:
             return
 
-        crawler: PlexMovieCrawler = PlexMovieCrawler(self.config["movies-dir"])
+        crawler: PlexMovieCrawler = PlexMovieCrawler(library_path)
         crawler.crawl()
 
         for movie in crawler.get_invalid_movies():
