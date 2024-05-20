@@ -17,8 +17,8 @@ class TvdbApi:
 
     def __init__(self, key: str, pin: str):
         self.tvdb: TVDB = TVDB(key, pin)
-        self.cached_episodes = []
-        self.cached_episodes_tvdbid = None
+        self.cached_episodes: list[dict] = []
+        self.cached_tvshow_tvdbid: int
 
     def get_movie(self, movie_id: int) -> dict:
         """
@@ -69,11 +69,9 @@ class TvdbApi:
             from the tvdb api
             for the given tvdbid and the season of the tvshow
         """
-        if self.cached_episodes_tvdbid is None or self.cached_episodes_tvdbid != tvdbid:
-            self.cached_episodes: list[dict] = self.tvdb.get_series_episodes(tvdbid)[
-                "episodes"
-            ]
-            self.cached_episodes_tvdbid: int = tvdbid
+        if self.cached_tvshow_tvdbid is None or self.cached_tvshow_tvdbid != tvdbid:
+            self.cached_episodes = self.tvdb.get_series_episodes(tvdbid)["episodes"]
+            self.cached_tvshow_tvdbid = tvdbid
 
         episodes = self.cached_episodes
 
