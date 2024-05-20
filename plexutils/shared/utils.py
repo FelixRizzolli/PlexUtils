@@ -41,7 +41,7 @@ def clear_console() -> None:
     os.system(command)
 
 
-def print_menu(title, gettext, menu_list) -> None:
+def print_menu(title: str, gettext: Callable[[str], str], menu_list: Menu) -> None:
     """prints the menu of the given menu list and handles the user input"""
     while True:
         clear_console()
@@ -62,7 +62,7 @@ def print_menu(title, gettext, menu_list) -> None:
             print("\n" + gettext("Invalid choice. Please enter a valid option."))
 
 
-def print_library_menu(gettext, menu_list) -> str:
+def print_library_menu(gettext: Callable[[str], str], menu_list: Menu) -> str:
     """
     This function prints a library menu and prompts the user to make a choice.
     It keeps prompting until a valid choice is made.
@@ -112,9 +112,6 @@ def library_menu_wrapper(
     """
     library_menu = Menu([])
 
-    print(config)
-    input()
-
     option_id: int = 0
     for lib in config[library_type + "_libraries"]:
         option_id += 1
@@ -125,8 +122,6 @@ def library_menu_wrapper(
             ),
             "path": lib["path"],
         }
-        print(lib_obj)
-        input()
         library_menu.add_item(lib_obj)
 
     selected_library = print_library_menu(gettext, library_menu)
@@ -134,7 +129,7 @@ def library_menu_wrapper(
     fun(selected_library)
 
 
-def extract_tvdbid(dirname) -> Optional[int]:
+def extract_tvdbid(dirname: str) -> Optional[int]:
     """extracts the tvdb id from the given directory string"""
     tvdbid_pattern: str = r"{tvdb-(\d+)}"
 
@@ -145,7 +140,7 @@ def extract_tvdbid(dirname) -> Optional[int]:
     return None
 
 
-def extract_episodeid(filename) -> Optional[int]:
+def extract_episodeid(filename: str) -> Optional[int]:
     """extracts the episode id from the given filename"""
     episodeid_pattern: str = r"- s(\d+)e(\d+)"
 
@@ -156,7 +151,7 @@ def extract_episodeid(filename) -> Optional[int]:
     return None
 
 
-def extract_seasonid_from_episode(filename) -> Optional[int]:
+def extract_seasonid_from_episode(filename: str) -> Optional[int]:
     """extracts the season id from the given filename"""
     seasonid_pattern: str = r"- s(\d+)e(\d+)"
 
@@ -167,7 +162,7 @@ def extract_seasonid_from_episode(filename) -> Optional[int]:
     return None
 
 
-def extract_seasonid(dirname) -> Optional[int]:
+def extract_seasonid(dirname: str) -> Optional[int]:
     """extracts the season id from the given directory string"""
     seasonid_pattern: str = r"season (\d+)"
 
@@ -215,12 +210,12 @@ def get_library_name(name: str, dub_lang: str, sub_lang: str) -> str:
     return library_name
 
 
-def is_past_date(iso_date_string) -> bool:
+def is_past_date(iso_date_string: str) -> bool:
     """checks if the given date string is in the past"""
     return not is_future_date(iso_date_string)
 
 
-def is_future_date(iso_date_string) -> bool:
+def is_future_date(iso_date_string: str) -> bool:
     """checks if the given date string is in the future"""
     # Parse the ISO date string into a datetime object
     date: datetime = datetime.fromisoformat(iso_date_string)

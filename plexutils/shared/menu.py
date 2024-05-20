@@ -74,7 +74,7 @@ class Menu:
 
         return self.menu_list
 
-    def add_item(self, item) -> None:
+    def add_item(self, item: dict) -> None:
         """
         Adds a new item to the menu.
 
