@@ -15,6 +15,8 @@
       <sourceFolder url="file://$MODULE_DIR$/tests/crawler" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/tests/media" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/scripts" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/plexutils/config" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tests/config" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
     </content>
     <orderEntry type="jdk" jdkName="Poetry (PlexUtils)" jdkType="Python SDK" />
