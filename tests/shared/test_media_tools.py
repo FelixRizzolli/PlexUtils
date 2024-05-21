@@ -1,11 +1,9 @@
 """
-    This module contains unit tests for the functions in utils.py.
+This module contains unit tests for the functions in the media_tools.py module.
 """
-
 import unittest
 from typing import Optional
 
-from plexutils.shared.date_tools import is_future_date, is_past_date
 from plexutils.shared.media_tools import (
     extract_episodeid,
     extract_seasonid,
@@ -13,12 +11,16 @@ from plexutils.shared.media_tools import (
     extract_tvdbid,
 )
 
-
-class TestUtils(unittest.TestCase):
-    """test class for the functions in utils.py"""
+class TestMediaTools(unittest.TestCase):
+    """
+    This class contains unit tests for the functions in the media_tools.py module.
+    """
 
     def test_extract_tvdbid(self) -> None:
-        """tests the extract_tvdbid function"""
+        """
+        Test case for the `extract_tvdbid` function. It tests the function with
+        different directory names.
+        """
         got: Optional[int] = extract_tvdbid("Game of Thrones (2011) {tvdb-121361}")
         self.assertEqual(121361, got)
 
@@ -32,7 +34,10 @@ class TestUtils(unittest.TestCase):
         self.assertIsNone(baby_driver)
 
     def test_extract_seasonid(self) -> None:
-        """tests the extract_seasonid function"""
+        """
+        Test case for the `extract_seasonid` function. It tests the function with
+        different directory names.
+        """
         season_1: Optional[int] = extract_seasonid("season 01")
         self.assertEqual(1, season_1)
 
@@ -43,7 +48,10 @@ class TestUtils(unittest.TestCase):
         self.assertIsNone(season_a)
 
     def test_extract_episodeid(self) -> None:
-        """tests the extract_episodeid function"""
+        """
+        Test case for the `extract_episodeid` function. It tests the function with
+        different file names.
+        """
         ep_1: Optional[int] = extract_episodeid(
             "Game of Thrones (2011) - s01e01 - Winter Is Coming.mp4"
         )
@@ -60,7 +68,10 @@ class TestUtils(unittest.TestCase):
         self.assertIsNone(ep_x3)
 
     def test_extract_seasonid_from_episode(self) -> None:
-        """tests the extract_seasonid_from_episode function"""
+        """
+        Test case for the `extract_seasonid_from_episode` function. It tests the function
+        with different file names.
+        """
         season_1: Optional[int] = extract_seasonid_from_episode(
             "Game of Thrones (2011) - s01e01 - Winter Is Coming.mp4"
         )
@@ -76,26 +87,6 @@ class TestUtils(unittest.TestCase):
         )
         self.assertIsNone(season_x1)
 
-    def test_is_past_date_with_past_date(self) -> None:
-        """tests the is_past_date function"""
-        date_to_check: str = "2000-01-01"
-        self.assertTrue(is_past_date(date_to_check))
 
-    def test_is_past_date_with_furure_date(self) -> None:
-        """tests the is_past_date function"""
-        date_to_check: str = "3000-01-01"
-        self.assertFalse(is_past_date(date_to_check))
-
-    def test_is_future_date_with_past_date(self) -> None:
-        """tests the is_future_date function"""
-        date_to_check: str = "2000-01-01"
-        self.assertFalse(is_future_date(date_to_check))
-
-    def test_is_future_date_with_furure_date(self) -> None:
-        """tests the is_future_date function"""
-        date_to_check: str = "3000-01-01"
-        self.assertTrue(is_future_date(date_to_check))
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()
