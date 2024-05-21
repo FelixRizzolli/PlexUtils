@@ -6,7 +6,7 @@ from typing import Callable
 
 from plexutils.crawler.plex_movie_crawler import PlexMovieCrawler
 from plexutils.shared.menu import Menu
-from plexutils.shared.utils import library_menu_wrapper, print_menu
+from plexutils.shared.menu_tools import library_menu_wrapper, print_menu
 
 
 class MovieFileUtils:

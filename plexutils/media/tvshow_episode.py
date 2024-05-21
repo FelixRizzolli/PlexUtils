@@ -5,7 +5,10 @@ This module contains TVShowEpisode class.
 from dataclasses import dataclass
 from typing import Optional
 
-from plexutils.shared.utils import extract_episodeid, extract_seasonid_from_episode
+from plexutils.shared.media_tools import (
+    extract_episodeid,
+    extract_seasonid_from_episode,
+)
 
 
 @dataclass

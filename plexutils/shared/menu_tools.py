@@ -1,55 +1,47 @@
 """
-    This module provides some utility functions.
+This module contains utility functions for handling console menus in a Plex server setup.
+These functions are primarily used for displaying menus, handling user input, and executing
+associated actions.
 """
 
-import gettext as _
 import os
-import re
-from datetime import datetime
 from typing import Callable, Optional
-
-import yaml
 
 from plexutils.shared.menu import Menu
 
 
-def load_config(config_file: str) -> dict:
-    """loads the config file from the given directory and returns it as a dict"""
-    config: dict = {}
-    with open(config_file, "r", encoding="utf-8") as f:
-        config = yaml.safe_load(f)
-    return config
-
-
-def setup_i18n(pj_path: str, config: dict) -> Callable[[str], str]:
-    """returns the configured gettext"""
-    locale_dir: str = os.path.join(pj_path, "locale")
-
-    language: str = "en_US"
-    if (config is not None) and ("language" in config):
-        language = config["language"]
-
-    trans = _.translation("plexutils", locale_dir, [language], fallback=True)
-    trans.install()
-    return trans.gettext
-
-
 def clear_console() -> None:
-    """clears the console screen for windows and unix - this doesn't wor in ides like pycharm"""
+    """
+    Clears the console screen. This function doesn't work in IDEs like PyCharm.
+
+    Returns:
+        None
+    """
     print("clear_console()")
     command: str = "cls" if os.name == "nt" else "clear"
     os.system(command)
 
 
 def print_menu(title: str, gettext: Callable[[str], str], menu_list: Menu) -> None:
-    """prints the menu of the given menu list and handles the user input"""
+    """
+    Prints the menu of the given menu list and handles the user input.
+
+    Parameters:
+        title (str): The title of the menu.
+        gettext (Callable[[str], str]): A function to translate a string into the user's language.
+        menu_list (Menu): A Menu object that contains the menu options.
+
+    Returns:
+        None
+    """
     while True:
         clear_console()
         print("\n" + title)
         for option in menu_list.get_list():
             print(f"{option['id']}. {option['name']}")
 
-        print("\n" + gettext("E. Exit"))
+        print()
+        print(gettext("E. Exit"))
 
         choice: str = input("\n" + gettext("Enter your choice: "))
 
@@ -73,11 +65,12 @@ def print_menu(title: str, gettext: Callable[[str], str], menu_list: Menu) -> No
 
 def print_library_menu(gettext: Callable[[str], str], menu_list: Menu) -> str:
     """
-    This function prints a library menu and prompts the user to make a choice.
+    Prints a library menu and prompts the user to make a choice.
     It keeps prompting until a valid choice is made.
 
     Parameters:
-        gettext (function): A function to translate a string into the user's language.
+        gettext (Callable[[str], str]): A function to translate a string into
+                                        the user's language.
         menu_list (Menu): A Menu object that contains the menu options.
 
     Returns:
@@ -110,16 +103,18 @@ def library_menu_wrapper(
     fun: Callable[[str], None],
 ) -> None:
     """
-    This function creates a menu for a specific type of library and then performs a function
-    on the selected library.
+    Creates a menu for a specific type of library and then performs a function on the
+    selected library.
 
     Parameters:
-        gettext (function): A function to translate a text message into another language.
+        gettext (Callable[[str], str]): A function to translate a text message into
+                                        another language.
         config (dict): A dictionary containing configuration details. It should include
                        details of libraries under the key '<library_type>_libraries'.
         library_type (str): The type of library for which the menu is to be created. It
                             should correspond to a key in the config dictionary.
-        fun (Callable): A function that will be called with the selected library as its argument.
+        fun (Callable): A function that will be called with the selected library as its
+                        argument.
 
     Returns:
         None
@@ -143,61 +138,17 @@ def library_menu_wrapper(
     fun(selected_library)
 
 
-def extract_tvdbid(dirname: str) -> Optional[int]:
-    """extracts the tvdb id from the given directory string"""
-    tvdbid_pattern: str = r"{tvdb-(\d+)}"
-
-    tvdbid_match: Optional[re.Match] = re.search(tvdbid_pattern, dirname)
-
-    if tvdbid_match:
-        return int(tvdbid_match.group(1))
-    return None
-
-
-def extract_episodeid(filename: str) -> Optional[int]:
-    """extracts the episode id from the given filename"""
-    episodeid_pattern: str = r"- s(\d+)e(\d+)"
-
-    episodeid_match: Optional[re.Match] = re.search(episodeid_pattern, filename)
-
-    if episodeid_match:
-        return int(episodeid_match.group(2))
-    return None
-
-
-def extract_seasonid_from_episode(filename: str) -> Optional[int]:
-    """extracts the season id from the given filename"""
-    seasonid_pattern: str = r"- s(\d+)e(\d+)"
-
-    seasonid_match: Optional[re.Match] = re.search(seasonid_pattern, filename)
-
-    if seasonid_match:
-        return int(seasonid_match.group(1))
-    return None
-
-
-def extract_seasonid(dirname: str) -> Optional[int]:
-    """extracts the season id from the given directory string"""
-    seasonid_pattern: str = r"season (\d+)"
-
-    seasonid_match: Optional[re.Match] = re.search(seasonid_pattern, dirname)
-
-    if seasonid_match:
-        return int(seasonid_match.group(1))
-    return None
-
-
 def get_library_name(name: str, dub_lang: str, sub_lang: str) -> str:
     """
-    This function generates a library name based on the given name, dubbed language,
-    and subtitle language.
+    Generates a library name based on the given name, dubbed language, and subtitle
+    language.
 
     Parameters:
         name (str): The name of the library.
-        dub_lang (str): The language in which the library is dubbed. It can be a 2-letter
-                        or 5-letter language code.
-        sub_lang (str): The language in which the subtitles are available. It can be a 2-letter
-                        or 5-letter language code.
+        dub_lang (str): The language in which the library is dubbed.
+                        It can be a 2-letter or 5-letter language code.
+        sub_lang (str): The language in which the subtitles are available.
+                        It can be a 2-letter or 5-letter language code.
 
     Returns:
         str: The library name in the format "(DUB_LANG-SUB_LANG) NAME".
@@ -222,22 +173,3 @@ def get_library_name(name: str, dub_lang: str, sub_lang: str) -> str:
     library_name += f" {name}"
 
     return library_name
-
-
-def is_past_date(iso_date_string: str) -> bool:
-    """checks if the given date string is in the past"""
-    return not is_future_date(iso_date_string)
-
-
-def is_future_date(iso_date_string: str) -> bool:
-    """checks if the given date string is in the future"""
-    # Parse the ISO date string into a datetime object
-    date: datetime = datetime.fromisoformat(iso_date_string)
-
-    # Get the current date and time
-    now: datetime = datetime.now()
-
-    # Compare the two dates
-    if date > now:
-        return True
-    return False

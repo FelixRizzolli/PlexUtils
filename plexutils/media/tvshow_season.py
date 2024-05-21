@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from typing import Optional
 
 from plexutils.media.tvshow_episode import TVShowEpisode
-from plexutils.shared.utils import extract_seasonid
+from plexutils.shared.media_tools import extract_seasonid
 
 
 @dataclass

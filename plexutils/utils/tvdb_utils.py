@@ -9,7 +9,7 @@ from plexutils.crawler.plex_tvshow_crawler import PlexTVShowCrawler
 from plexutils.media.tvshow import TVShow
 from plexutils.media.tvshow_season import TVShowSeason
 from plexutils.shared.menu import Menu
-from plexutils.shared.utils import library_menu_wrapper, print_menu
+from plexutils.shared.menu_tools import library_menu_wrapper, print_menu
 
 
 class TVDBUtils:

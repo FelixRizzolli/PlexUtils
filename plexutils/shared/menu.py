@@ -9,16 +9,6 @@ from typing import Optional
 class Menu:
     """
     The Menu class represents a menu with a list of options.
-
-    Attributes:
-        menu_list (list[dict]): A list of dictionaries where each dictionary represents a menu item.
-
-    Methods:
-        __init__(self, menu_list: list[dict]): Initializes a new instance of the Menu class.
-        id_exists(self, option_id: str): Checks if an option with the given id exists in the menu.
-        get_option_by_id(self, option_id: str): Returns the option with the given id from the menu.
-        get_list(self): Returns the list of menu options.
-        add_item(self, item): Adds a new item to the menu.
     """
 
     def __init__(self, menu_list: list[dict]):

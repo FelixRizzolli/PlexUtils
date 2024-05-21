@@ -5,7 +5,7 @@ This module contains Movie class.
 from dataclasses import dataclass
 from typing import Optional
 
-from plexutils.shared.utils import extract_tvdbid
+from plexutils.shared.media_tools import extract_tvdbid
 
 
 @dataclass

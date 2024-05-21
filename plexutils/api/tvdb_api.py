@@ -6,7 +6,7 @@ import ssl
 
 from tvdb_v4_official import TVDB
 
-from plexutils.shared.utils import is_past_date
+from plexutils.shared.date_tools import is_past_date
 
 # pylint: disable=protected-access
 ssl._create_default_https_context = ssl._create_unverified_context

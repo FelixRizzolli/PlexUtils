@@ -5,13 +5,12 @@
 import unittest
 from typing import Optional
 
-from plexutils.shared.utils import (
+from plexutils.shared.date_tools import is_future_date, is_past_date
+from plexutils.shared.media_tools import (
     extract_episodeid,
     extract_seasonid,
     extract_seasonid_from_episode,
     extract_tvdbid,
-    is_future_date,
-    is_past_date,
 )
 
 

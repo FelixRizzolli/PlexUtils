@@ -5,7 +5,7 @@
 from typing import Callable
 
 from plexutils.shared.menu import Menu
-from plexutils.shared.utils import print_menu
+from plexutils.shared.menu_tools import print_menu
 from plexutils.utils.movie_file_utils import MovieFileUtils
 from plexutils.utils.tvdb_utils import TVDBUtils
 from plexutils.utils.tvshow_file_utils import TvshowFileUtils
