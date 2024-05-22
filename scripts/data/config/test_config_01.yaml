@@ -1,0 +1,25 @@
+language: de_DE
+movie_libraries:
+  - name: Movies
+    lang:
+      dub: de_DE
+      sub: de_DE
+    path: /**/movies/movies
+  - name: Anime Movies
+    lang:
+      dub: de_DE
+      sub: de_DE
+    path: /**/movies/animes
+tvshow_libraries:
+  - name: TV Shows
+    lang:
+      dub: de_DE
+      sub: de_DE
+    path: /**/tvshows/tvshows
+  - name: Anime TV Shows
+    lang:
+      dub: de_DE
+      sub: de_DE
+    path: /**/tvahows/animes
+tvdb_key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+tvdb_pin: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

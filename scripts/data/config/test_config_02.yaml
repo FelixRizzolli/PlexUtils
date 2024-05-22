@@ -1,0 +1,9 @@
+language: de_AT
+tvshow_libraries:
+  - name: TV Shows
+    lang:
+      dub: de_DE
+      sub: de_DE
+    path: /**/tvshows/tvshows
+tvdb_key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+tvdb_pin: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

@@ -6,6 +6,7 @@ import os
 
 from scripts.generate_movie_test_data import generate_movie_libraries
 from scripts.generate_tvshow_test_data import generate_tvshow_libaries
+from scripts.generate_test_config_files import generate_test_config_files
 
 
 def delete_directory(dir_path):
@@ -55,3 +56,4 @@ def generate_test_data():
     # Generate the data
     generate_movie_libraries(data_dir, scripts_data_dir)
     generate_tvshow_libaries(data_dir, scripts_data_dir)
+    generate_test_config_files(data_dir, scripts_data_dir)
