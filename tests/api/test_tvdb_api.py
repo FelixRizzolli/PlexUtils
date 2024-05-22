@@ -25,11 +25,13 @@ class TestTvdbApi(unittest.TestCase):
     def setUpClass(cls) -> None:
         # Define directory paths
         current_script_dir: str = os.path.dirname(os.path.realpath(__file__))
-        data_dir: str = os.path.join(current_script_dir, "../../data")
+        pj_path: str = os.path.join(current_script_dir, "..", "..")
+        data_dir: str = os.path.join(pj_path, "data")
         tvshows_dir: str = os.path.join(data_dir, "tvshows", "tvshows")
 
         # Load congig.yaml
-        cls.config = load_config()
+        config_file: str = os.path.join(pj_path, "config.yaml")
+        cls.config = load_config(config_file)
 
         # Initialize crawler
         cls.crawler = PlexTVShowCrawler(tvshows_dir)

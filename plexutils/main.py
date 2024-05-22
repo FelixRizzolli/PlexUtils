@@ -9,8 +9,11 @@ from plexutils.shared.config_tools import load_config, setup_i18n
 from plexutils.utils.plex_utils import PlexUtils
 
 if __name__ == "__main__":
-    pj_path: str = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-    config: dict = load_config()
+    script_path: str = os.path.dirname(os.path.realpath(__file__))
+    pj_path: str = os.path.join(script_path, "..")
+    config_file: str = os.path.join(pj_path, "config.yaml")
+
+    config: dict = load_config(config_file)
 
     gettext: Callable[[str], str] = setup_i18n(pj_path, config)
 

@@ -2,13 +2,6 @@
 This module contains utility functions for handling configuration in a Plex server setup.
 These functions are primarily used for loading configuration from a YAML file and setting
 up internationalization (i18n).
-
-Functions:
-    load_config() -> dict:
-        Loads the configuration from a YAML file and returns it as a dictionary.
-
-    setup_i18n(pj_path: str, config: dict) -> Callable[[str], str]:
-        Sets up internationalization (i18n) using the given project path and configuration.
 """
 
 import gettext as _
@@ -18,19 +11,18 @@ from typing import Callable
 import yaml
 
 
-def load_config() -> dict:
+def load_config(config_file: str) -> dict:
     """
-    Loads the configuration from a YAML file and returns it as a dictionary.
+    Loads the configuration from a YAML file.
 
-    The configuration file is expected to be located at the root of the project directory.
+    Parameters:
+        config_file (str): The path to the configuration file.
 
     Returns:
-        dict: The loaded configuration as a dictionary.
+        dict: The configuration dictionary.
     """
-    script_path: str = os.path.dirname(os.path.realpath(__file__))
-    pj_path: str = os.path.join(script_path, "..", "..")
-    config_file: str = os.path.join(pj_path, "config.yaml")
     config: dict = {}
+
     with open(config_file, "r", encoding="utf-8") as f:
         config = yaml.safe_load(f)
 
