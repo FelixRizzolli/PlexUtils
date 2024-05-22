@@ -106,6 +106,39 @@ class TestConfigTools(unittest.TestCase):
         if config.get("tvshow_libraries") is not None:
             self.assertEqual(1, len(config.get("tvshow_libraries")))
 
+    def test_setup_i18n_deat(self):
+        """
+        Test case for the `setup_i18n` function. It tests the function with
+        a mock configuration dictionary and a mock translation function.
+        """
+        script_path: str = os.path.dirname(os.path.realpath(__file__))
+        pj_path: str = os.path.join(script_path, "..", "..")
+
+        gettext: Callable[[str], str] = setup_i18n(pj_path, {"language": "de_AT"})
+
+        self.assertEqual(
+            "Druck Enter um weiterzugean...", gettext("Press Enter to continue...")
+        )
+        self.assertEqual("Gib deine Auswohl ein: ", gettext("Enter your choice: "))
+        self.assertEqual("E. Ausi", gettext("E. Exit"))
+
+    def test_setup_i18n_dede(self):
+        """
+        Test case for the `setup_i18n` function. It tests the function with
+        a mock configuration dictionary and a mock translation function.
+        """
+        script_path: str = os.path.dirname(os.path.realpath(__file__))
+        pj_path: str = os.path.join(script_path, "..", "..")
+
+        gettext: Callable[[str], str] = setup_i18n(pj_path, {"language": "de_DE"})
+
+        self.assertEqual(
+            "Drücken Sie Enter, um fortzufahren...",
+            gettext("Press Enter to continue..."),
+        )
+        self.assertEqual("Wähle: ", gettext("Enter your choice: "))
+        self.assertEqual("E. Exit", gettext("E. Exit"))
+
 
 if __name__ == "__main__":
     unittest.main()
