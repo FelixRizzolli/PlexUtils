@@ -3,6 +3,7 @@ This module contains unit tests for the functions in the menu_tools.py module.
 """
 
 import unittest
+
 from plexutils.shared.menu_tools import get_library_name
 
 

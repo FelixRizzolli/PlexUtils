@@ -5,8 +5,8 @@ This module contains functions to generate test data for movies and TV shows.
 import os
 
 from scripts.generate_movie_test_data import generate_movie_libraries
-from scripts.generate_tvshow_test_data import generate_tvshow_libaries
 from scripts.generate_test_config_files import generate_test_config_files
+from scripts.generate_tvshow_test_data import generate_tvshow_libaries
 
 
 def delete_directory(dir_path):

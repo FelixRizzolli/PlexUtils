@@ -1,6 +1,7 @@
 """
 This module contains unit tests for the functions in the media_tools.py module.
 """
+
 import unittest
 from typing import Optional
 
@@ -10,6 +11,7 @@ from plexutils.shared.media_tools import (
     extract_seasonid_from_episode,
     extract_tvdbid,
 )
+
 
 class TestMediaTools(unittest.TestCase):
     """
@@ -88,5 +90,5 @@ class TestMediaTools(unittest.TestCase):
         self.assertIsNone(season_x1)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
