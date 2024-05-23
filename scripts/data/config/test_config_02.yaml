@@ -1,6 +1,7 @@
 language: de_AT
-tvshow_libraries:
+libraries:
   - name: TV Shows
+    type: tvshow
     lang:
       dub: de_DE
       sub: de_DE

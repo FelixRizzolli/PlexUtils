@@ -8,7 +8,8 @@ import os
 import unittest
 from typing import Callable
 
-from plexutils.shared.config_tools import load_config, setup_i18n
+from plexutils.config.config import Config
+from plexutils.shared.config_tools import load_config, setup_i18n, parse_config
 
 
 def get_config_file(config_id: str) -> str:
@@ -36,12 +37,12 @@ class TestConfigTools(unittest.TestCase):
         a mock configuration file and checks if the language is correctly set to "de_DE".
         """
         congig_file: str = get_config_file("01")
-        config: dict = load_config(congig_file)
+        config: Config = load_config(congig_file)
 
         self.assertIsNotNone(config)
-        self.assertIsNotNone(config.get("language"))
-        if config.get("language") is not None:
-            self.assertEqual("de_DE", config.get("language"))
+        self.assertIsNotNone(config.language)
+        if config.language is not None:
+            self.assertEqual("de_DE", config.language)
 
     def test_load_config_language_02(self):
         """
@@ -49,62 +50,115 @@ class TestConfigTools(unittest.TestCase):
         a mock configuration file and checks if the language is correctly set to "de_AT".
         """
         congig_file: str = get_config_file("02")
-        config: dict = load_config(congig_file)
+        config: Config = load_config(congig_file)
 
         self.assertIsNotNone(config)
-        self.assertIsNotNone(config.get("language"))
-        if config.get("language") is not None:
-            self.assertEqual("de_AT", config.get("language"))
+        self.assertIsNotNone(config.language)
+        if config.language is not None:
+            self.assertEqual("de_AT", config.language)
 
-    def test_load_config_movie_libraries_01(self):
+    def test_load_config_get_movie_libraries_01(self):
         """
         Test case for the `load_config` function. It tests the function with
         a mock configuration file and checks if the movie libraries are correctly set.
         """
         congig_file: str = get_config_file("01")
-        config: dict = load_config(congig_file)
+        config: Config = load_config(congig_file)
 
         self.assertIsNotNone(config)
-        self.assertIsNotNone(config.get("movie_libraries"))
-        if config.get("movie_libraries") is not None:
-            self.assertEqual(2, len(config.get("movie_libraries")))
+        self.assertIsNotNone(config.get_movie_libraries())
+        if config.get_movie_libraries() is not None:
+            self.assertEqual(2, len(config.get_movie_libraries()))
 
-    def test_load_config_movie_libraries_02(self):
+    def test_load_config_get_movie_libraries_02(self):
         """
         Test case for the `load_config` function. It tests the function with
         a mock configuration file and checks if the movie libraries are correctly set.
         """
         congig_file: str = get_config_file("02")
-        config: dict = load_config(congig_file)
+        config: Config = load_config(congig_file)
 
         self.assertIsNotNone(config)
-        self.assertIsNone(config.get("movie_libraries"))
+        self.assertEqual([], config.get_movie_libraries())
 
-    def test_load_config_tvshow_libraries_01(self):
+    def test_load_config_get_tvshow_libraries_01(self):
         """
         Test case for the `load_config` function. It tests the function with
         a mock configuration file and checks if the tvshow libraries are correctly set.
         """
         congig_file: str = get_config_file("01")
-        config: dict = load_config(congig_file)
+        config: Config = load_config(congig_file)
 
         self.assertIsNotNone(config)
-        self.assertIsNotNone(config.get("tvshow_libraries"))
-        if config.get("tvshow_libraries") is not None:
-            self.assertEqual(2, len(config.get("tvshow_libraries")))
+        self.assertIsNotNone(config.get_tvshow_libraries())
+        if config.get_tvshow_libraries() is not None:
+            self.assertEqual(2, len(config.get_tvshow_libraries()))
 
-    def test_load_config_mtvshow_libraries_02(self):
+    def test_load_config_get_tvshow_libraries_02(self):
         """
         Test case for the `load_config` function. It tests the function with
         a mock configuration file and checks if the tvshow libraries are correctly set.
         """
         congig_file: str = get_config_file("02")
-        config: dict = load_config(congig_file)
+        config: Config = load_config(congig_file)
 
         self.assertIsNotNone(config)
-        self.assertIsNotNone(config.get("tvshow_libraries"))
-        if config.get("tvshow_libraries") is not None:
-            self.assertEqual(1, len(config.get("tvshow_libraries")))
+        self.assertIsNotNone(config.get_tvshow_libraries())
+        if config.get_tvshow_libraries() is not None:
+            self.assertEqual(1, len(config.get_tvshow_libraries()))
+
+    def test_parse_config_valid(self):
+        """
+        Test case for the `parse_config` function. It tests the function with
+        a valid configuration dictionary.
+        """
+        config_dict = {
+            "language": "en_US",
+            "libraries": [
+                {
+                    "type": "movie",
+                    "name": "Movies1",
+                    "path": "/path/to/movies1",
+                    "dub_lang": "en",
+                    "sub_lang": "fr",
+                },
+                {
+                    "type": "tvshow",
+                    "name": "TVShows1",
+                    "path": "/path/to/tvshows1",
+                    "dub_lang": "en",
+                    "sub_lang": "fr",
+                },
+            ],
+            "tvdb": {
+                "api_key": "your_api_key",
+                "api_pin": "your_api_pin",
+            },
+        }
+        config = parse_config(config_dict)
+
+        self.assertIsNotNone(config)
+        self.assertEqual("en_US", config.language)
+        self.assertEqual(2, len(config.libraries))
+        self.assertEqual("your_api_key", config.tvdb.api_key)
+        self.assertEqual("your_api_pin", config.tvdb.api_pin)
+
+    def test_parse_config_invalid_language(self):
+        """
+        Test case for the `parse_config` function. It tests the function with
+        an invalid language in the configuration dictionary.
+        """
+        config_dict = {
+            "language": "invalid_language",
+            "libraries": [],
+            "tvdb": {
+                "api_key": "your_api_key",
+                "api_pin": "your_api_pin",
+            },
+        }
+
+        with self.assertRaises(ValueError):
+            parse_config(config_dict)
 
     def test_setup_i18n_deat(self):
         """

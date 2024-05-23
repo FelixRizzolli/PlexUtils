@@ -1,22 +1,25 @@
 language: de_DE
-movie_libraries:
+libraries:
   - name: Movies
+    type: movie
     lang:
       dub: de_DE
       sub: de_DE
     path: /**/movies/movies
   - name: Anime Movies
+    type: movie
     lang:
       dub: de_DE
       sub: de_DE
     path: /**/movies/animes
-tvshow_libraries:
   - name: TV Shows
+    type: tvshow
     lang:
       dub: de_DE
       sub: de_DE
     path: /**/tvshows/tvshows
   - name: Anime TV Shows
+    type: tvshow
     lang:
       dub: de_DE
       sub: de_DE

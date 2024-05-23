@@ -7,6 +7,7 @@ import unittest
 from typing import Optional
 
 from plexutils.api.tvdb_api import TvdbApi
+from plexutils.config.config import Config
 from plexutils.crawler.plex_tvshow_crawler import PlexTVShowCrawler
 from plexutils.media.tvshow import TVShow
 from plexutils.media.tvshow_episode import TVShowEpisode
@@ -18,7 +19,7 @@ from plexutils.shared.config_tools import load_config
 class TestTvdbApi(unittest.TestCase):
     """test class for the TVDBTool class"""
 
-    config: dict
+    config: Config
     crawler: PlexTVShowCrawler
 
     @classmethod
@@ -39,7 +40,7 @@ class TestTvdbApi(unittest.TestCase):
 
     def test_get_episodes(self) -> None:
         """test the get_episodes method"""
-        tvdb_tool: TvdbApi = TvdbApi(self.config["tvdb_key"], self.config["tvdb_pin"])
+        tvdb_tool: TvdbApi = TvdbApi(self.config.tvdb.api_key, self.config.tvdb.api_pin)
         tvdb_got_episodes: list[dict] = tvdb_tool.get_episodes(121361, 1)
 
         tvshowlist: TVShowList = self.crawler.get_tvshowlist()
@@ -53,7 +54,7 @@ class TestTvdbApi(unittest.TestCase):
 
     def test_get_seasons(self) -> None:
         """test the get_seasons method"""
-        tvdb_tool = TvdbApi(self.config["tvdb_key"], self.config["tvdb_pin"])
+        tvdb_tool = TvdbApi(self.config.tvdb.api_key, self.config.tvdb.api_pin)
         tvdb_got_seasons: set[int] = tvdb_tool.get_seasonids(121361)
 
         tvshowlist: TVShowList = self.crawler.get_tvshowlist()
@@ -65,7 +66,7 @@ class TestTvdbApi(unittest.TestCase):
 
     def test_get_episodeids(self) -> None:
         """test the get_episodeids method"""
-        tvdb_tool = TvdbApi(self.config["tvdb_key"], self.config["tvdb_pin"])
+        tvdb_tool = TvdbApi(self.config.tvdb.api_key, self.config.tvdb.api_pin)
         tvdb_got_episodes: set[int] = tvdb_tool.get_episodeids(121361, 1)
 
         tvshowlist: TVShowList = self.crawler.get_tvshowlist()

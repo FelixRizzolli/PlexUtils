@@ -6,12 +6,17 @@ up internationalization (i18n).
 
 import gettext as _
 import os
+import re
 from typing import Callable
 
 import yaml
 
+from plexutils.config.config import Config
+from plexutils.config.plex_library_infos import PlexLibraryInfos
+from plexutils.config.tvdb_credentials import TVDBCredentials
 
-def load_config(config_file: str) -> dict:
+
+def load_config(config_file: str) -> Config:
     """
     Loads the configuration from a YAML file.
 
@@ -21,12 +26,78 @@ def load_config(config_file: str) -> dict:
     Returns:
         dict: The configuration dictionary.
     """
-    config: dict = {}
+    config_dict: dict = {}
 
     with open(config_file, "r", encoding="utf-8") as f:
-        config = yaml.safe_load(f)
+        config_dict = yaml.safe_load(f)
 
-    return config
+    return parse_config(config_dict)
+
+
+def parse_config(config_dict: dict) -> Config:
+    """
+    Parses the configuration dictionary and returns a Config object.
+
+    Parameters:
+        config_dict (dict): The configuration dictionary.
+
+    Returns:
+        Config: The configuration object.
+    """
+    language: str = "en_US"
+    libraries: list[PlexLibraryInfos] = []
+    tvdb: TVDBCredentials = None
+
+    if "language" in config_dict:
+        lang = config_dict["language"]
+        lang_pattern = r"^[a-z]{2}_[A-Z]{2}$"
+        if not re.match(lang_pattern, lang):
+            raise ValueError(f"Invalid language code: {lang}")
+        language = lang
+
+    if "libraries" in config_dict:
+        libraries = [parse_plex_library_infos(lib) for lib in config_dict["libraries"]]
+
+    if "tvdb" in config_dict:
+        tvdb_api_key = config_dict["tvdb"]["api_key"]
+        tvdb_api_pin = config_dict["tvdb"]["api_pin"]
+        tvdb = TVDBCredentials(tvdb_api_key, tvdb_api_pin)
+
+    return Config(language=language, libraries=libraries, tvdb=tvdb)
+
+
+def parse_plex_library_infos(config_dict: dict) -> PlexLibraryInfos:
+    """
+    Parses the configuration dictionary and returns a PlexLibraryInfos object.
+
+    Parameters:
+        config_dict (dict): The configuration dictionary.
+
+    Returns:
+        PlexLibraryInfos: The PlexLibraryInfos object.
+    """
+    if "type" not in config_dict:
+        raise ValueError("Missing 'type' key in configuration dictionary")
+    if "name" not in config_dict:
+        raise ValueError("Missing 'name' key in configuration dictionary")
+    if "path" not in config_dict:
+        raise ValueError("Missing 'path' key in configuration dictionary")
+
+    dub_lang: str = ""
+    if "lang" in config_dict and "dub" in config_dict["lang"]:
+        dub_lang = config_dict["lang"]["dub"]
+
+    sub_lang: str = ""
+    if "lang" in config_dict and "sub" in config_dict["lang"]:
+        sub_lang = config_dict["lang"]["sub"]
+
+    return PlexLibraryInfos(
+        name=config_dict["name"],
+        type=config_dict["type"],
+        path=config_dict["path"],
+        dub_lang=dub_lang,
+        sub_lang=sub_lang
+    )
 
 
 def setup_i18n(pj_path: str, config: dict) -> Callable[[str], str]:
