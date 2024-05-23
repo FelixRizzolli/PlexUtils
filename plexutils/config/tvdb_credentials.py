@@ -11,5 +11,6 @@ class TVDBCredentials:
     """
     A class used to represent TVDB API credentials.
     """
+
     api_key: str
     api_pin: str

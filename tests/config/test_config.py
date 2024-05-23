@@ -3,6 +3,7 @@ This module contains unit tests for the Config class in the plexutils.config pac
 """
 
 import unittest
+
 from plexutils.config.config import Config
 from plexutils.config.plex_library_infos import PlexLibraryInfos
 from plexutils.config.tvdb_credentials import TVDBCredentials
@@ -45,10 +46,7 @@ class TestConfig(unittest.TestCase):
             dub_lang="en",
             sub_lang="fr",
         )
-        self.tvdb = TVDBCredentials(
-            api_key="test_api_key",
-            api_pin="test_user_key"
-        )
+        self.tvdb = TVDBCredentials(api_key="test_api_key", api_pin="test_user_key")
 
     def test_multiple_movie_libraries(self):
         """
@@ -57,7 +55,7 @@ class TestConfig(unittest.TestCase):
         config = Config(
             language="en_US",
             libraries=[self.movie_library1, self.movie_library2],
-            tvdb=self.tvdb
+            tvdb=self.tvdb,
         )
         movie_libraries = config.get_movie_libraries()
 
@@ -72,7 +70,7 @@ class TestConfig(unittest.TestCase):
         config = Config(
             language="en_US",
             libraries=[self.tvshow_library1, self.tvshow_library2],
-            tvdb=self.tvdb
+            tvdb=self.tvdb,
         )
         tvshow_libraries = config.get_tvshow_libraries()
 
@@ -88,7 +86,7 @@ class TestConfig(unittest.TestCase):
         config = Config(
             language="en_US",
             libraries=[self.tvshow_library1, self.tvshow_library2],
-            tvdb=self.tvdb
+            tvdb=self.tvdb,
         )
         movie_libraries = config.get_movie_libraries()
 
@@ -102,7 +100,7 @@ class TestConfig(unittest.TestCase):
         config = Config(
             language="en_US",
             libraries=[self.movie_library1, self.movie_library2],
-            tvdb=self.tvdb
+            tvdb=self.tvdb,
         )
         tvshow_libraries = config.get_tvshow_libraries()
 
