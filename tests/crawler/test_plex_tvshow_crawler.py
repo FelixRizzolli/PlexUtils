@@ -104,7 +104,7 @@ class TestPlexTVShowCrawler(unittest.TestCase):
         )[0]
         season1: dict = list(
             filter(
-                lambda season: season["dirname"] == "season 01", codegeass["seasons"]
+                lambda season: season["dirname"] == "Season 01", codegeass["seasons"]
             )
         )[0]
         self.assertEqual(len(season1["episodes"]), len(episodes))

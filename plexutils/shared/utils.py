@@ -95,7 +95,7 @@ def extract_seasonid_from_episode(filename) -> Optional[int]:
 
 def extract_seasonid(dirname) -> Optional[int]:
     """extracts the season id from the given directory string"""
-    seasonid_pattern: str = r"season (\d+)"
+    seasonid_pattern: str = r"Season (\d+)"
 
     seasonid_match: Optional[re.Match] = re.search(seasonid_pattern, dirname)
 

@@ -34,10 +34,10 @@ class TestUtils(unittest.TestCase):
 
     def test_extract_seasonid(self) -> None:
         """tests the extract_seasonid function"""
-        season_1: Optional[int] = extract_seasonid("season 01")
+        season_1: Optional[int] = extract_seasonid("Season 01")
         self.assertEqual(1, season_1)
 
-        season_2: Optional[int] = extract_seasonid("season 02")
+        season_2: Optional[int] = extract_seasonid("Season 02")
         self.assertEqual(2, season_2)
 
         season_a: Optional[int] = extract_seasonid("season a")
