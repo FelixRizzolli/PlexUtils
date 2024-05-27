@@ -7,6 +7,7 @@ associated actions.
 import os
 from typing import Callable, Optional
 
+from plexutils.config.config import Config
 from plexutils.shared.menu import Menu
 
 
@@ -98,23 +99,22 @@ def print_library_menu(gettext: Callable[[str], str], menu_list: Menu) -> str:
 
 def library_menu_wrapper(
     gettext: Callable[[str], str],
-    config: dict,
+    config: Config,
     library_type: str,
     fun: Callable[[str], None],
 ) -> None:
     """
-    Creates a menu for a specific type of library and then performs a function on the
-    selected library.
+    This function wraps the process of displaying a library menu, getting user input, and
+    executing a function with the selected library's path.
 
     Parameters:
-        gettext (Callable[[str], str]): A function to translate a text message into
-                                        another language.
-        config (dict): A dictionary containing configuration details. It should include
-                       details of libraries under the key '<library_type>_libraries'.
-        library_type (str): The type of library for which the menu is to be created. It
-                            should correspond to a key in the config dictionary.
-        fun (Callable): A function that will be called with the selected library as its
-                        argument.
+        gettext (Callable[[str], str]): A function to translate a string into the user's
+                                        language.
+        config (Config): A Config object that contains the configuration settings.
+        library_type (str): The type of library (e.g., 'movie', 'tvshow') to display in
+                            the menu.
+        fun (Callable[[str], None]): A function to execute with the selected library's path
+                                     as an argument.
 
     Returns:
         None
@@ -122,14 +122,15 @@ def library_menu_wrapper(
     library_menu = Menu([])
 
     option_id: int = 0
-    for lib in config[library_type + "_libraries"]:
+    for lib in config.libraries:
+        if lib.type != library_type:
+            continue
+
         option_id += 1
         lib_obj = {
             "id": str(option_id),
-            "name": get_library_name(
-                lib["name"], lib["lang"]["dub"], lib["lang"]["sub"]
-            ),
-            "path": lib["path"],
+            "name": get_library_name(lib.name, lib.dub_lang, lib.sub_lang),
+            "path": lib.path,
         }
         library_menu.add_item(lib_obj)
 

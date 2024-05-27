@@ -5,6 +5,7 @@
 from typing import Callable
 
 from plexutils.api.tvdb_api import TvdbApi
+from plexutils.config.config import Config
 from plexutils.crawler.plex_tvshow_crawler import PlexTVShowCrawler
 from plexutils.media.tvshow import TVShow
 from plexutils.media.tvshow_season import TVShowSeason
@@ -15,14 +16,17 @@ from plexutils.shared.menu_tools import library_menu_wrapper, print_menu
 class TVDBUtils:
     """represents the menu and tools with tvdb"""
 
-    def __init__(self, config: dict, gettext: Callable[[str], str]):
+    def __init__(self, config: Config, gettext: Callable[[str], str]):
         self.gettext: Callable[[str], str] = gettext
-        self.config: dict = config
+        self.config: Config = config
+        self.tvdb_key: str = ""
+        self.tvdb_pin: str = ""
 
-        if "tvdb_key" in self.config:
-            self.tvdb_key = self.config["tvdb_key"]
-        if "tvdb_pin" in self.config:
-            self.tvdb_pin = self.config["tvdb_pin"]
+        if self.config is not None and self.config.tvdb is not None:
+            if self.config.tvdb.api_key is not None:
+                self.tvdb_key = self.config.tvdb.api_key
+            if self.config.tvdb.api_pin is not None:
+                self.tvdb_pin = self.config.tvdb.api_pin
 
         self.menu_list: Menu = Menu(
             [

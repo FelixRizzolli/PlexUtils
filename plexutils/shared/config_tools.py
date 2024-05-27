@@ -46,7 +46,7 @@ def parse_config(config_dict: dict) -> Config:
     """
     language: str = "en_US"
     libraries: list[PlexLibraryInfos] = []
-    tvdb: TVDBCredentials = None
+    tvdb: TVDBCredentials = TVDBCredentials("", "")
 
     if "language" in config_dict:
         lang = config_dict["language"]
@@ -96,7 +96,7 @@ def parse_plex_library_infos(config_dict: dict) -> PlexLibraryInfos:
         type=config_dict["type"],
         path=config_dict["path"],
         dub_lang=dub_lang,
-        sub_lang=sub_lang
+        sub_lang=sub_lang,
     )
 
 

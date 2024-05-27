@@ -4,6 +4,7 @@
 
 from typing import Callable
 
+from plexutils.config.config import Config
 from plexutils.shared.menu import Menu
 from plexutils.shared.menu_tools import print_menu
 from plexutils.utils.movie_file_utils import MovieFileUtils
@@ -15,9 +16,9 @@ from plexutils.utils.tvshow_file_utils import TvshowFileUtils
 class PlexUtils:
     """represents the menu and tools for plex"""
 
-    def __init__(self, config: dict, gettext: Callable[[str], str]):
+    def __init__(self, config: Config, gettext: Callable[[str], str]):
         self.gettext: Callable[[str], str] = gettext
-        self.config: dict = config
+        self.config: Config = config
 
         self.movie_file_utils: MovieFileUtils = MovieFileUtils(config, gettext)
         self.tvshow_file_utils: TvshowFileUtils = TvshowFileUtils(config, gettext)

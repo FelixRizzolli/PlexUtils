@@ -5,9 +5,9 @@
 import os
 from typing import Callable
 
+from plexutils.config.config import Config
 from plexutils.shared.config_tools import load_config, setup_i18n
 from plexutils.utils.plex_utils import PlexUtils
-from plexutils.config.config import Config
 
 if __name__ == "__main__":
     script_path: str = os.path.dirname(os.path.realpath(__file__))

@@ -4,6 +4,7 @@
 
 from typing import Callable
 
+from plexutils.config.config import Config
 from plexutils.crawler.plex_tvshow_crawler import PlexTVShowCrawler
 from plexutils.shared.menu import Menu
 from plexutils.shared.menu_tools import library_menu_wrapper, print_menu
@@ -12,9 +13,9 @@ from plexutils.shared.menu_tools import library_menu_wrapper, print_menu
 class TvshowFileUtils:
     """represents the menu and tools for tv show files"""
 
-    def __init__(self, config: dict, gettext: Callable[[str], str]):
+    def __init__(self, config: Config, gettext: Callable[[str], str]):
         self.gettext: Callable[[str], str] = gettext
-        self.config: dict = config
+        self.config: Config = config
 
         self.menu_list: Menu = Menu(
             [

@@ -9,7 +9,8 @@ import unittest
 from typing import Callable
 
 from plexutils.config.config import Config
-from plexutils.shared.config_tools import load_config, setup_i18n, parse_config
+from plexutils.config.tvdb_credentials import TVDBCredentials
+from plexutils.shared.config_tools import load_config, parse_config, setup_i18n
 
 
 def get_config_file(config_id: str) -> str:
@@ -168,7 +169,10 @@ class TestConfigTools(unittest.TestCase):
         script_path: str = os.path.dirname(os.path.realpath(__file__))
         pj_path: str = os.path.join(script_path, "..", "..")
 
-        gettext: Callable[[str], str] = setup_i18n(pj_path,  Config(language="de_AT", libraries=[], tvdb=None))
+        gettext: Callable[[str], str] = setup_i18n(
+            pj_path,
+            Config(language="de_AT", libraries=[], tvdb=TVDBCredentials("", "")),
+        )
 
         self.assertEqual(
             "Druck Enter um weiterzugean...", gettext("Press Enter to continue...")
@@ -184,7 +188,10 @@ class TestConfigTools(unittest.TestCase):
         script_path: str = os.path.dirname(os.path.realpath(__file__))
         pj_path: str = os.path.join(script_path, "..", "..")
 
-        gettext: Callable[[str], str] = setup_i18n(pj_path, Config(language="de_DE", libraries=[], tvdb=None))
+        gettext: Callable[[str], str] = setup_i18n(
+            pj_path,
+            Config(language="de_DE", libraries=[], tvdb=TVDBCredentials("", "")),
+        )
 
         self.assertEqual(
             "Drücken Sie Enter, um fortzufahren...",
