@@ -121,7 +121,7 @@ class TestPlexTVShowCrawler(unittest.TestCase):
                     )[0]
                     test_codegeass_s1: dict = list(
                         filter(
-                            lambda season: season["dirname"] == "season 01",
+                            lambda season: season["dirname"] == "Season 01",
                             test_codegeass["seasons"],
                         )
                     )[0]

@@ -236,3 +236,6 @@ fabric.properties
 
 # Reports
 /reports
+
+# macOS
+.DS_Store

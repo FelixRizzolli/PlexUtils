@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "plexutils"
-version = "1.0.0"
+version = "1.0.1"
 description = "tools for plex admins"
 authors = ["Felix Rizzolli <felix.rizzolli@outlook.de>"]
 maintainers = ["Felix Rizzolli <felix.rizzolli@outlook.de>"]

@@ -26,16 +26,16 @@ class TestTVShow(unittest.TestCase):
         """tests the season property of the TVShow class"""
         tvshow: TVShow = TVShow("Code Geass (2006) {tvdb-79525}")
         self.assertEqual(0, len(tvshow.seasons))
-        tvshow.add_season(TVShowSeason("season 01"))
+        tvshow.add_season(TVShowSeason("Season 01"))
         self.assertEqual(1, len(tvshow.seasons))
-        tvshow.add_season(TVShowSeason("season 02"))
+        tvshow.add_season(TVShowSeason("Season 02"))
         self.assertEqual(2, len(tvshow.seasons))
 
     def test_property_seasonids(self) -> None:
         """tests the seasonids property of the TVShow class"""
         tvshow: TVShow = TVShow("Code Geass (2006) {tvdb-79525}")
-        tvshow.add_season(TVShowSeason("season 01"))
-        tvshow.add_season(TVShowSeason("season 02"))
+        tvshow.add_season(TVShowSeason("Season 01"))
+        tvshow.add_season(TVShowSeason("Season 02"))
         self.assertEqual([1, 2], tvshow.seasonids)
 
     def test_is_valid(self) -> None:
@@ -52,38 +52,38 @@ class TestTVShow(unittest.TestCase):
     def test_add_season(self) -> None:
         """tests the add_season method of the TVShow class"""
         tvshow: TVShow = TVShow("Code Geass (2006) {tvdb-79525}")
-        tvshow.add_season(TVShowSeason("season 01"))
+        tvshow.add_season(TVShowSeason("Season 01"))
         self.assertEqual(1, len(tvshow.seasons))
-        tvshow.add_season(TVShowSeason("season 02"))
+        tvshow.add_season(TVShowSeason("Season 02"))
         self.assertEqual(2, len(tvshow.seasons))
 
     def test_get_season(self) -> None:
         """tests the get_season method of the TVShow class"""
         tvshow: TVShow = TVShow("Code Geass (2006) {tvdb-79525}")
-        tvshow.add_season(TVShowSeason("season 01"))
-        tvshow.add_season(TVShowSeason("season 02"))
+        tvshow.add_season(TVShowSeason("Season 01"))
+        tvshow.add_season(TVShowSeason("Season 02"))
 
         season_01: Optional[TVShowSeason] = tvshow.get_season(1)
         self.assertIsNotNone(season_01)
 
         if season_01 is not None:
             self.assertTrue(season_01.is_valid())
-            self.assertEqual("season 01", season_01.dirname)
+            self.assertEqual("Season 01", season_01.dirname)
 
         season_02: Optional[TVShowSeason] = tvshow.get_season(2)
         self.assertIsNotNone(season_02)
 
         if season_02 is not None:
             self.assertTrue(season_02.is_valid())
-            self.assertEqual("season 02", season_02.dirname)
+            self.assertEqual("Season 02", season_02.dirname)
 
     def test_is_empty(self) -> None:
         """tests the is_empty method of the TVShow class"""
         tvshow: TVShow = TVShow("Code Geass (2006) {tvdb-79525}")
         self.assertTrue(tvshow.is_empty())
-        tvshow.add_season(TVShowSeason("season 01"))
+        tvshow.add_season(TVShowSeason("Season 01"))
         self.assertFalse(tvshow.is_empty())
-        tvshow.add_season(TVShowSeason("season 02"))
+        tvshow.add_season(TVShowSeason("Season 02"))
         self.assertFalse(tvshow.is_empty())
 
 

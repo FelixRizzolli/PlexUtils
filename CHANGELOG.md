@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Support for multiple plex libraries
 
+## [1.0.1] - 2024-05-24
+
+### Fixed
+
+- Bugfix: the validation checks have been adapted to the plex naming conventions.
+
 ## [1.0.0] - 2024-05-19
 
 ### Added

@@ -40,13 +40,13 @@ class TestMediaTools(unittest.TestCase):
         Test case for the `extract_seasonid` function. It tests the function with
         different directory names.
         """
-        season_1: Optional[int] = extract_seasonid("season 01")
+        season_1: Optional[int] = extract_seasonid("Season 01")
         self.assertEqual(1, season_1)
 
-        season_2: Optional[int] = extract_seasonid("season 02")
+        season_2: Optional[int] = extract_seasonid("Season 02")
         self.assertEqual(2, season_2)
 
-        season_a: Optional[int] = extract_seasonid("season a")
+        season_a: Optional[int] = extract_seasonid("Season a")
         self.assertIsNone(season_a)
 
     def test_extract_episodeid(self) -> None:
