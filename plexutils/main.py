@@ -7,13 +7,14 @@ from typing import Callable
 
 from plexutils.shared.config_tools import load_config, setup_i18n
 from plexutils.utils.plex_utils import PlexUtils
+from plexutils.config.config import Config
 
 if __name__ == "__main__":
     script_path: str = os.path.dirname(os.path.realpath(__file__))
     pj_path: str = os.path.join(script_path, "..")
     config_file: str = os.path.join(pj_path, "config.yaml")
 
-    config: dict = load_config(config_file)
+    config: Config = load_config(config_file)
 
     gettext: Callable[[str], str] = setup_i18n(pj_path, config)
 

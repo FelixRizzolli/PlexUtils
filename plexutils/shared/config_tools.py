@@ -100,7 +100,7 @@ def parse_plex_library_infos(config_dict: dict) -> PlexLibraryInfos:
     )
 
 
-def setup_i18n(pj_path: str, config: dict) -> Callable[[str], str]:
+def setup_i18n(pj_path: str, config: Config) -> Callable[[str], str]:
     """
     Sets up internationalization (i18n) using the given project path and configuration.
 
@@ -109,7 +109,7 @@ def setup_i18n(pj_path: str, config: dict) -> Callable[[str], str]:
 
     Parameters:
         pj_path (str): The path to the project directory.
-        config (dict): The configuration dictionary.
+        config (Config): The configuration dictionary.
 
     Returns:
         Callable[[str], str]: A function that can be used to translate a string into the
@@ -118,8 +118,8 @@ def setup_i18n(pj_path: str, config: dict) -> Callable[[str], str]:
     locale_dir: str = os.path.join(pj_path, "locale")
 
     language: str = "en_US"
-    if (config is not None) and ("language" in config):
-        language = config["language"]
+    if config is not None:
+        language = config.language
 
     trans = _.translation("plexutils", locale_dir, [language], fallback=True)
     trans.install()

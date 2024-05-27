@@ -168,7 +168,7 @@ class TestConfigTools(unittest.TestCase):
         script_path: str = os.path.dirname(os.path.realpath(__file__))
         pj_path: str = os.path.join(script_path, "..", "..")
 
-        gettext: Callable[[str], str] = setup_i18n(pj_path, {"language": "de_AT"})
+        gettext: Callable[[str], str] = setup_i18n(pj_path,  Config(language="de_AT", libraries=[], tvdb=None))
 
         self.assertEqual(
             "Druck Enter um weiterzugean...", gettext("Press Enter to continue...")
@@ -184,7 +184,7 @@ class TestConfigTools(unittest.TestCase):
         script_path: str = os.path.dirname(os.path.realpath(__file__))
         pj_path: str = os.path.join(script_path, "..", "..")
 
-        gettext: Callable[[str], str] = setup_i18n(pj_path, {"language": "de_DE"})
+        gettext: Callable[[str], str] = setup_i18n(pj_path, Config(language="de_DE", libraries=[], tvdb=None))
 
         self.assertEqual(
             "Drücken Sie Enter, um fortzufahren...",
