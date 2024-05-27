@@ -1,14 +1,17 @@
 # Setup Project
+
 ## install with poetry 
+
 - [Poetry installation documentation](https://python-poetry.org/docs/#installation)
 - open the terminal in the project directory
 - execute `poetry install` to install the dependencies
 - execute `poetry run compile-messages` to install other languages
 - execute `poetry run generate-test-data` to generate the test data for the unittests
-- execute `poetry run python plexutils/main.py` to run the script
+- execute `poetry run plexutils` to run the script
 
 
 ## config.yaml
+
 - rename the `example-config.yaml` to `config.yaml`
 - language
   - example `language: de_DE` for german
@@ -28,21 +31,28 @@
   - you need to get them from [thetvdb.com](https://thetvdb.com/api-information)
 
 # Features
+
 ## MovieFileUtils
+
 1. validate movie filename syntax
 
 ## TVShowFileUtils
+
 1. validate tvshow directory syntax
 2. validate season directory syntax
 3. validate episode filename syntax
 
 ## TVDBUtils
+
 1. search in tvdb for new seasons of existing tvshows
 2. search in tvdb for missing episodes of existing seasons of existing tvshows
 
 # Contribute
+
 ## Add new language
+
 ### Unix
+
 1. install `xgettext`
 2. create the `messages.pot` file
    1. (unix) `find . -iname "*.py" | xargs xgettext -o messages.pot`
@@ -51,7 +61,9 @@
 5. execute `msgfmt locale/xx_XX/LC_MESSAGES/plexutils.po -o locale/xx_XX/LC_MESSAGES/plexutils.mo`
 6. change the language in the config.yaml
 7. DONE!
+
 ### Windows
+
 1. install babel if not installed (`pip install Babel`)
 2. create `babel.cfg` with `[python: **.py]` as its content
 3. open Command Prompt (cmd) and navigate to your project directory. Run:
