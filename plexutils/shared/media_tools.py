@@ -72,7 +72,7 @@ def extract_seasonid(dirname: str) -> Optional[int]:
     Returns:
         Optional[int]: The season ID if found, None otherwise.
     """
-    seasonid_pattern: str = r"season (\d+)"
+    seasonid_pattern: str = r"Season (\d+)"
     seasonid_match: Optional[re.Match] = re.search(seasonid_pattern, dirname)
 
     if seasonid_match:
