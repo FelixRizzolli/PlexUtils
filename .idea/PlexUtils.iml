@@ -18,6 +18,8 @@
       <sourceFolder url="file://$MODULE_DIR$/plexutils/config" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tests/config" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/reports" />
     </content>
     <orderEntry type="jdk" jdkName="Poetry (PlexUtils)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

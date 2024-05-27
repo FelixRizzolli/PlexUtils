@@ -14,6 +14,14 @@
             <path value="file://$PROJECT_DIR$/locale/de_AT" />
             <path value="file://$PROJECT_DIR$/locale/de_AT/LC_MESSAGES" />
             <path value="file://$PROJECT_DIR$/scripts/data" />
+            <path value="file://$PROJECT_DIR$/data/config" />
+            <path value="file://$PROJECT_DIR$/data/tvshows/animes" />
+            <path value="file://$PROJECT_DIR$/data/tvshows/tvshows" />
+            <path value="file://$PROJECT_DIR$/data/movies/animes" />
+            <path value="file://$PROJECT_DIR$/data/movies/movies" />
+            <path value="file://$PROJECT_DIR$/scripts/data/config" />
+            <path value="file://$PROJECT_DIR$/scripts/data/movies" />
+            <path value="file://$PROJECT_DIR$/scripts/data/tvshows" />
           </resourceRoots>
         </entryData>
       </entry>
