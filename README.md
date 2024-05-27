@@ -12,23 +12,73 @@
 
 ## config.yaml
 
-- rename the `example-config.yaml` to `config.yaml`
-- language
-  - example `language: de_DE` for german
-  - supported languages:
-    - `de_DE` german (germany)
-    - `de_AT` german (tyrol)
-    - `en_US` english
-- movies-dir
-  - example `movies-dir: /Users/felixrizzolli/PycharmProjects/PlexUtils/data/movies`
-  - the path where your movies are located
-- tvshows-dir
-  - example `movies-dir: /Users/felixrizzolli/PycharmProjects/PlexUtils/data/tvshows`
-  - the path where your tvshows are located
-- tvdb-key and tvdb-pin
-  - example `tvdb-key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`
-  - example `tvdb-pin: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`
-  - you need to get them from [thetvdb.com](https://thetvdb.com/api-information)
+To create a config.yaml file you can simply copy or rename the `example-config.yaml` file 
+to `config.yaml` and adjust the settings to your needs.
+
+### Language
+
+#### Example
+
+```yaml
+language: de_DE
+```
+
+#### Supported languages
+
+- `de_DE` german (germany)
+- `de_AT` german (tyrol)
+- `en_US` english
+
+### Plex Libraries
+
+#### Example
+
+```yaml
+libraries:
+  - name: Movies
+    type: movie
+    lang:
+      dub: de_DE
+      sub: de_DE
+    path: /.../movies
+  - name: TV Shows
+    type: tvshow
+    lang:
+      dub: de_DE
+      sub: de_DE
+    path: /.../tvshows
+```
+
+#### Description
+
+Under the `libraries` key you can define your plex libraries. Each library has the following keys:
+
+- `name` (required): The name of the library
+- `type` (required): The type of the library. Possible values are `movie` and `tvshow`
+- `path` (required): The path to the library
+- `lang` (optional): The language settings for the library. Each library has the following keys:
+  - `dub` (optional): The default is `en_US`. The language of the dubbing
+  - `sub` (optional): The language of the subtitles
+
+### TVDB Credentials
+
+To get the TVDB credentials you need to create an account on 
+[thetvdb.com](https://thetvdb.com/api-information) and create a new API key and pin.
+
+#### Example
+
+```yaml
+tvdb:
+  api_key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+  api_pin: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+#### Description
+
+Under the `tvdb` key you can define your TVDB credentials:
+
+- `api_key` (required): The API key
+- `api_pin` (required): The API pin
 
 # Features
 
