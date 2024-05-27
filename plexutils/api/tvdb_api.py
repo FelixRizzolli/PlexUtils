@@ -3,6 +3,7 @@
 """
 
 import ssl
+from typing import Optional
 
 from tvdb_v4_official import TVDB
 
@@ -18,7 +19,7 @@ class TvdbApi:
     def __init__(self, key: str, pin: str):
         self.tvdb: TVDB = TVDB(key, pin)
         self.cached_episodes: list[dict] = []
-        self.cached_tvshow_tvdbid: int
+        self.cached_tvshow_tvdbid: Optional[int] = None
 
     def get_movie(self, movie_id: int) -> dict:
         """
