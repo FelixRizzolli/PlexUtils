@@ -66,29 +66,45 @@ def print_menu(
         if choice.upper() == "E":
             return
 
-        # Check if the user wants to go to the settings menu
-        if choice.upper() == "S" and menu_list.is_main_menu:
-            if config is None:
-                raise ValueError(
-                    gettext("The config object is required to go to the settings menu.")
-                )
-            print_settings_menu(gettext)
-            continue
+        # Perform the action associated with the user's choice
+        perform_menu_action(choice, gettext, menu_list, config)
 
-        # Check if the users choice is a valid option
-        if menu_list.id_exists(choice):
-            menu_option: Optional[dict] = menu_list.get_option_by_id(choice)
 
-            if menu_option is None:
-                raise ValueError("The menu option does not exist.")
-            if "action" not in menu_option:
-                raise ValueError("The menu option does not have an action.")
-            if not callable(menu_option["action"]):
-                raise ValueError("The action is not a callable function.")
+def perform_menu_action(
+    choice: str, gettext: Callable[[str], str], menu_list: Menu, config: Config = None
+) -> None:
+    """
+    Performs the action associated with the user's choice in the menu.
+    :param choice: The user's choice.
+    :param gettext: The function to translate a string into the user's language.
+    :param menu_list: The menu list containing the menu options.
+    :param config: The Config object containing the configuration settings.
+    :return:
+    """
 
-            menu_option["action"]()
-        else:
-            print("\n" + gettext("Invalid choice. Please enter a valid option."))
+    # Check if the user wants to go to the settings menu
+    if choice.upper() == "S" and menu_list.is_main_menu:
+        if config is None:
+            raise ValueError(
+                gettext("The config object is required to go to the settings menu.")
+            )
+        print_settings_menu(gettext)
+        return
+
+    # Check if the users choice is a valid option
+    if menu_list.id_exists(choice):
+        menu_option: Optional[dict] = menu_list.get_option_by_id(choice)
+
+        if menu_option is None:
+            raise ValueError(gettext("The menu option does not exist."))
+        if "action" not in menu_option:
+            raise ValueError(gettext("The menu option does not have an action."))
+        if not callable(menu_option["action"]):
+            raise ValueError(gettext("The action is not a callable function."))
+
+        menu_option["action"]()
+    else:
+        print("\n" + gettext("Invalid choice. Please enter a valid option."))
 
 
 def print_settings_menu(gettext: Callable[[str], str]) -> None:
