@@ -13,7 +13,7 @@ from plexutils.media.tvshow import TVShow
 from plexutils.media.tvshow_episode import TVShowEpisode
 from plexutils.media.tvshow_list import TVShowList
 from plexutils.media.tvshow_season import TVShowSeason
-from plexutils.shared.config_tools import load_config
+from plexutils.shared.config_tools import load_config_from_file
 
 
 class TestTvdbApi(unittest.TestCase):
@@ -32,7 +32,7 @@ class TestTvdbApi(unittest.TestCase):
 
         # Load congig.yaml
         config_file: str = os.path.join(pj_path, "config.yaml")
-        cls.config = load_config(config_file)
+        cls.config = load_config_from_file(config_file)
 
         # Initialize crawler
         cls.crawler = PlexTVShowCrawler(tvshows_dir)
