@@ -23,7 +23,9 @@ def clear_console() -> None:
     os.system(command)
 
 
-def print_menu(title: str, gettext: Callable[[str], str], menu_list: Menu) -> None:
+def print_menu(
+    title: str, gettext: Callable[[str], str], menu_list: Menu, config: Config = None
+) -> None:
     """
     Prints the menu of the given menu list and handles the user input.
 
@@ -31,24 +33,49 @@ def print_menu(title: str, gettext: Callable[[str], str], menu_list: Menu) -> No
         title (str): The title of the menu.
         gettext (Callable[[str], str]): A function to translate a string into the user's language.
         menu_list (Menu): A Menu object that contains the menu options.
+        config (Config): A Config object that contains the configuration settings.
 
     Returns:
         None
     """
+
     while True:
         clear_console()
+
+        # Print the title of the menu
         print("\n" + title)
+
+        # Print the menu options
         for option in menu_list.get_list():
             print(f"{option['id']}. {option['name']}")
 
+        # Print a new line before the settings option
         print()
+
+        # Print the settings option only if it is the main menu
+        if menu_list.is_main_menu:
+            print(gettext("S. Settings"))
+
+        # Print the exit option
         print(gettext("E. Exit"))
 
+        # Get the user's choice
         choice: str = input("\n" + gettext("Enter your choice: "))
 
+        # Check if the user wants to exit the menu
         if choice.upper() == "E":
             return
 
+        # Check if the user wants to go to the settings menu
+        if choice.upper() == "S" and menu_list.is_main_menu:
+            if config is None:
+                raise ValueError(
+                    gettext("The config object is required to go to the settings menu.")
+                )
+            print_settings_menu(gettext)
+            continue
+
+        # Check if the users choice is a valid option
         if menu_list.id_exists(choice):
             menu_option: Optional[dict] = menu_list.get_option_by_id(choice)
 
@@ -62,6 +89,18 @@ def print_menu(title: str, gettext: Callable[[str], str], menu_list: Menu) -> No
             menu_option["action"]()
         else:
             print("\n" + gettext("Invalid choice. Please enter a valid option."))
+
+
+def print_settings_menu(gettext: Callable[[str], str]) -> None:
+    """
+    Prints the Settings Menu
+    :param gettext: A function to translate a string into the user's language.
+    :return:
+    """
+    menu_list: Menu = Menu(
+        menu_list=[],
+    )
+    print_menu(gettext("Settings Menu"), gettext, menu_list)
 
 
 def print_library_menu(gettext: Callable[[str], str], menu_list: Menu) -> str:

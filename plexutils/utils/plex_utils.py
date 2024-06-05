@@ -25,7 +25,7 @@ class PlexUtils:
         self.tvdb_utils: TVDBUtils = TVDBUtils(config, gettext)
 
         self.menu_list: Menu = Menu(
-            [
+            menu_list=[
                 {
                     "id": "1",
                     "name": self.movie_file_utils.get_utils_name(),
@@ -41,9 +41,12 @@ class PlexUtils:
                     "name": self.tvdb_utils.get_utils_name(),
                     "action": self.tvdb_utils.print_menu,
                 },
-            ]
+            ],
+            is_main_menu=True,
         )
 
     def print_menu(self) -> None:
         """prints the menu"""
-        print_menu(self.gettext("PlexUtils Menu:"), self.gettext, self.menu_list)
+        print_menu(
+            self.gettext("PlexUtils Menu:"), self.gettext, self.menu_list, self.config
+        )

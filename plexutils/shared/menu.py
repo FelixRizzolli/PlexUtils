@@ -11,16 +11,21 @@ class Menu:
     The Menu class represents a menu with a list of options.
     """
 
-    def __init__(self, menu_list: list[dict]):
+    menu_list: list[dict]
+    is_main_menu: bool = False
+
+    def __init__(self, menu_list: list[dict], is_main_menu: bool = False):
         """
         Initializes a new instance of the Menu class.
 
         Parameters:
             menu_list (list[dict]): A list of dictionaries where each dictionary represents a
                                     menu item.
+            is_main_menu (bool): A boolean value indicating whether the menu is the main menu.
         """
 
-        self.menu_list: list[dict] = menu_list
+        self.menu_list = menu_list
+        self.is_main_menu = is_main_menu
 
     def id_exists(self, option_id: str) -> bool:
         """
