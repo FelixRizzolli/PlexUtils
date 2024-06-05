@@ -6,7 +6,7 @@ of options.
 from typing import Optional
 
 
-class Menu:
+class ConsoleMenu:
     """
     The Menu class represents a menu with a list of options.
     """

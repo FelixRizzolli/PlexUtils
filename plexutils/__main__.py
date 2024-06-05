@@ -14,14 +14,18 @@ def main() -> None:
     """
     Main function of the project.
     """
+
+    # Get the path of the script and the project
     script_path: str = os.path.dirname(os.path.realpath(__file__))
     pj_path: str = os.path.join(script_path, "..")
-    config_file: str = os.path.join(pj_path, "config.yaml")
 
-    config: Config = load_config(config_file)
+    # Load the configuration
+    config: Config = load_config()
 
+    # Setup internationalization
     gettext: Callable[[str], str] = setup_i18n(pj_path, config)
 
+    # Create a PlexUtils object and print the main menu
     plex_utils: PlexUtils = PlexUtils(config, gettext)
     plex_utils.print_menu()
 

@@ -10,7 +10,11 @@ from typing import Callable
 
 from plexutils.config.config import Config
 from plexutils.config.tvdb_credentials import TVDBCredentials
-from plexutils.shared.config_tools import load_config, parse_config, setup_i18n
+from plexutils.shared.config_tools import (
+    load_config_from_file,
+    parse_config,
+    setup_i18n,
+)
 
 
 def get_config_file(config_id: str) -> str:
@@ -32,76 +36,76 @@ class TestConfigTools(unittest.TestCase):
     This class contains unit tests for the functions in the config_tools.py module.
     """
 
-    def test_load_config_language_01(self):
+    def test_load_config_from_file_language_01(self):
         """
         Test case for the `load_config` function. It tests the function with
         a mock configuration file and checks if the language is correctly set to "de_DE".
         """
         congig_file: str = get_config_file("01")
-        config: Config = load_config(congig_file)
+        config: Config = load_config_from_file(congig_file)
 
         self.assertIsNotNone(config)
         self.assertIsNotNone(config.language)
         if config.language is not None:
             self.assertEqual("de_DE", config.language)
 
-    def test_load_config_language_02(self):
+    def test_load_config_from_file_language_02(self):
         """
         Test case for the `load_config` function. It tests the function with
         a mock configuration file and checks if the language is correctly set to "de_AT".
         """
         congig_file: str = get_config_file("02")
-        config: Config = load_config(congig_file)
+        config: Config = load_config_from_file(congig_file)
 
         self.assertIsNotNone(config)
         self.assertIsNotNone(config.language)
         if config.language is not None:
             self.assertEqual("de_AT", config.language)
 
-    def test_load_config_get_movie_libraries_01(self):
+    def test_load_config_from_file_get_movie_libraries_01(self):
         """
         Test case for the `load_config` function. It tests the function with
         a mock configuration file and checks if the movie libraries are correctly set.
         """
         congig_file: str = get_config_file("01")
-        config: Config = load_config(congig_file)
+        config: Config = load_config_from_file(congig_file)
 
         self.assertIsNotNone(config)
         self.assertIsNotNone(config.get_movie_libraries())
         if config.get_movie_libraries() is not None:
             self.assertEqual(2, len(config.get_movie_libraries()))
 
-    def test_load_config_get_movie_libraries_02(self):
+    def test_load_config_from_file_get_movie_libraries_02(self):
         """
         Test case for the `load_config` function. It tests the function with
         a mock configuration file and checks if the movie libraries are correctly set.
         """
         congig_file: str = get_config_file("02")
-        config: Config = load_config(congig_file)
+        config: Config = load_config_from_file(congig_file)
 
         self.assertIsNotNone(config)
         self.assertEqual([], config.get_movie_libraries())
 
-    def test_load_config_get_tvshow_libraries_01(self):
+    def test_load_config_from_file_get_tvshow_libraries_01(self):
         """
         Test case for the `load_config` function. It tests the function with
         a mock configuration file and checks if the tvshow libraries are correctly set.
         """
         congig_file: str = get_config_file("01")
-        config: Config = load_config(congig_file)
+        config: Config = load_config_from_file(congig_file)
 
         self.assertIsNotNone(config)
         self.assertIsNotNone(config.get_tvshow_libraries())
         if config.get_tvshow_libraries() is not None:
             self.assertEqual(2, len(config.get_tvshow_libraries()))
 
-    def test_load_config_get_tvshow_libraries_02(self):
+    def test_load_config_from_file_get_tvshow_libraries_02(self):
         """
         Test case for the `load_config` function. It tests the function with
         a mock configuration file and checks if the tvshow libraries are correctly set.
         """
         congig_file: str = get_config_file("02")
-        config: Config = load_config(congig_file)
+        config: Config = load_config_from_file(congig_file)
 
         self.assertIsNotNone(config)
         self.assertIsNotNone(config.get_tvshow_libraries())

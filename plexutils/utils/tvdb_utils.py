@@ -9,7 +9,7 @@ from plexutils.config.config import Config
 from plexutils.crawler.plex_tvshow_crawler import PlexTVShowCrawler
 from plexutils.media.tvshow import TVShow
 from plexutils.media.tvshow_season import TVShowSeason
-from plexutils.shared.menu import Menu
+from plexutils.shared.console_menu import ConsoleMenu
 from plexutils.shared.menu_tools import library_menu_wrapper, print_menu
 
 
@@ -28,7 +28,7 @@ class TVDBUtils:
             if self.config.tvdb.api_pin is not None:
                 self.tvdb_pin = self.config.tvdb.api_pin
 
-        self.menu_list: Menu = Menu(
+        self.menu_list: ConsoleMenu = ConsoleMenu(
             [
                 {
                     "id": "1",

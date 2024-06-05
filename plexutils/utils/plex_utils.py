@@ -5,7 +5,7 @@
 from typing import Callable
 
 from plexutils.config.config import Config
-from plexutils.shared.menu import Menu
+from plexutils.shared.console_menu import ConsoleMenu
 from plexutils.shared.menu_tools import print_menu
 from plexutils.utils.movie_file_utils import MovieFileUtils
 from plexutils.utils.tvdb_utils import TVDBUtils
@@ -24,7 +24,7 @@ class PlexUtils:
         self.tvshow_file_utils: TvshowFileUtils = TvshowFileUtils(config, gettext)
         self.tvdb_utils: TVDBUtils = TVDBUtils(config, gettext)
 
-        self.menu_list: Menu = Menu(
+        self.menu_list: ConsoleMenu = ConsoleMenu(
             menu_list=[
                 {
                     "id": "1",

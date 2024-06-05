@@ -8,7 +8,7 @@ import os
 from typing import Callable, Optional
 
 from plexutils.config.config import Config
-from plexutils.shared.menu import Menu
+from plexutils.shared.console_menu import ConsoleMenu
 
 
 def clear_console() -> None:
@@ -24,7 +24,10 @@ def clear_console() -> None:
 
 
 def print_menu(
-    title: str, gettext: Callable[[str], str], menu_list: Menu, config: Config = None
+    title: str,
+    gettext: Callable[[str], str],
+    menu_list: ConsoleMenu,
+    config: Config = None,
 ) -> None:
     """
     Prints the menu of the given menu list and handles the user input.
@@ -32,7 +35,7 @@ def print_menu(
     Parameters:
         title (str): The title of the menu.
         gettext (Callable[[str], str]): A function to translate a string into the user's language.
-        menu_list (Menu): A Menu object that contains the menu options.
+        menu_list (ConsoleMenu): A Menu object that contains the menu options.
         config (Config): A Config object that contains the configuration settings.
 
     Returns:
@@ -71,7 +74,10 @@ def print_menu(
 
 
 def perform_menu_action(
-    choice: str, gettext: Callable[[str], str], menu_list: Menu, config: Config = None
+    choice: str,
+    gettext: Callable[[str], str],
+    menu_list: ConsoleMenu,
+    config: Config = None,
 ) -> None:
     """
     Performs the action associated with the user's choice in the menu.
@@ -113,13 +119,16 @@ def print_settings_menu(gettext: Callable[[str], str]) -> None:
     :param gettext: A function to translate a string into the user's language.
     :return:
     """
-    menu_list: Menu = Menu(
-        menu_list=[],
+    menu_list: ConsoleMenu = ConsoleMenu(
+        menu_list=[
+            {"id": "1", "name": gettext("Change Language")},
+            {"id": "2", "name": gettext("Change Theme")},
+        ],
     )
     print_menu(gettext("Settings Menu"), gettext, menu_list)
 
 
-def print_library_menu(gettext: Callable[[str], str], menu_list: Menu) -> str:
+def print_library_menu(gettext: Callable[[str], str], menu_list: ConsoleMenu) -> str:
     """
     Prints a library menu and prompts the user to make a choice.
     It keeps prompting until a valid choice is made.
@@ -127,7 +136,7 @@ def print_library_menu(gettext: Callable[[str], str], menu_list: Menu) -> str:
     Parameters:
         gettext (Callable[[str], str]): A function to translate a string into
                                         the user's language.
-        menu_list (Menu): A Menu object that contains the menu options.
+        menu_list (ConsoleMenu): A Menu object that contains the menu options.
 
     Returns:
         str: The path associated with the chosen option from the menu.
@@ -174,7 +183,7 @@ def library_menu_wrapper(
     Returns:
         None
     """
-    library_menu = Menu([])
+    library_menu = ConsoleMenu([])
 
     option_id: int = 0
     for lib in config.libraries:

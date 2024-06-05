@@ -16,7 +16,21 @@ from plexutils.config.plex_library_infos import PlexLibraryInfos
 from plexutils.config.tvdb_credentials import TVDBCredentials
 
 
-def load_config(config_file: str) -> Config:
+def load_config() -> Config:
+    """
+    Loads the configuration from a YAML file.
+
+    Returns:
+        dict: The configuration dictionary.
+    """
+    script_path: str = os.path.dirname(os.path.realpath(__file__))
+    pj_path: str = os.path.join(script_path, "..", "..")
+    config_file: str = os.path.join(pj_path, "config.yaml")
+
+    return load_config_from_file(config_file)
+
+
+def load_config_from_file(config_file: str) -> Config:
     """
     Loads the configuration from a YAML file.
 

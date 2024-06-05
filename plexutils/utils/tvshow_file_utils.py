@@ -6,7 +6,7 @@ from typing import Callable
 
 from plexutils.config.config import Config
 from plexutils.crawler.plex_tvshow_crawler import PlexTVShowCrawler
-from plexutils.shared.menu import Menu
+from plexutils.shared.console_menu import ConsoleMenu
 from plexutils.shared.menu_tools import library_menu_wrapper, print_menu
 
 
@@ -17,7 +17,7 @@ class TvshowFileUtils:
         self.gettext: Callable[[str], str] = gettext
         self.config: Config = config
 
-        self.menu_list: Menu = Menu(
+        self.menu_list: ConsoleMenu = ConsoleMenu(
             [
                 {
                     "id": "1",
