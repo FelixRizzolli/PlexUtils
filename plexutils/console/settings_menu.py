@@ -3,7 +3,10 @@ This module contains the SettingsConsoleMenu class which is used to create and m
 menu in the console.
 """
 
-from plexutils.console.menu import ConsoleMenu
+import os
+
+from plexutils.console.menu import ConsoleMenu, clear_console
+from plexutils.shared.config_tools import save_config_to_file
 
 
 class SettingsConsoleMenu(ConsoleMenu):
@@ -55,8 +58,53 @@ class SettingsConsoleMenu(ConsoleMenu):
         """
         Changes the language of the application.
         """
-        print("change_language()")
-        input(self.gettext("Press Enter to continue..."))
+        # Get the paths
+        script_path: str = os.path.dirname(os.path.realpath(__file__))
+        pj_path: str = os.path.join(script_path, "..", "..")
+        locale_path: str = os.path.join(pj_path, "locale")
+        config_path: str = os.path.join(pj_path, "config.yaml")
+
+        # Get the available languages
+        languages: list[str] = []
+        for lang in os.listdir(locale_path):
+            if os.path.isdir(os.path.join(locale_path, lang)):
+                languages.append(lang)
+        languages.append("en_US")
+
+        # Print the available languages
+        while True:
+            clear_console()
+            print("Available languages:")
+
+            for i, lang in enumerate(languages):
+                print(f"{i + 1}. {lang}")
+
+            # Get the user input
+            choice: int = 0
+            try:
+                users_choice: int = int(
+                    input(
+                        self.gettext(
+                            "Enter the number of the language you want to use: "
+                        )
+                    )
+                )
+                if users_choice < 1 or users_choice > len(languages):
+                    raise ValueError()
+                choice = users_choice
+            except ValueError:
+                print(self.gettext("Invalid choice. Please try again."))
+
+            # Change the language
+            if choice == len(languages):
+                self.config.language = "en_US"
+                break
+
+            self.config.language = languages[choice - 1]
+            break
+
+        save_config_to_file(self.config, config_path)
+        self.load_gettext()
 
     def change_tvdb_credentials(self) -> None:
         """

@@ -41,15 +41,12 @@ class ConsoleMenu:
         Parameters:
             is_main_menu (bool): A boolean value indicating whether the menu is the main menu.
         """
-        # Get the path of the script and the project
-        script_path: str = os.path.dirname(os.path.realpath(__file__))
-        pj_path: str = os.path.join(script_path, "..", "..")
 
         # Load the configuration
         self.config = load_config()
 
         # Setup internationalization
-        self.gettext = setup_i18n(pj_path, self.config)
+        self.load_gettext()
 
         # Initialize the menu
         self.menu_list = []
@@ -211,3 +208,17 @@ class ConsoleMenu:
             menu_option["action"]()
         else:
             print("\n" + self.gettext("Invalid choice. Please enter a valid option."))
+
+    def load_gettext(self):
+        """
+        Loads the gettext function for internationalization.
+
+        Returns:
+            None
+        """
+        # Get the path of the script and the project
+        script_path: str = os.path.dirname(os.path.realpath(__file__))
+        pj_path: str = os.path.join(script_path, "..", "..")
+
+        # Setup internationalization
+        self.gettext = setup_i18n(pj_path, self.config)
