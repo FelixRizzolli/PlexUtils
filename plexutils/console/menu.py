@@ -52,6 +52,7 @@ class ConsoleMenu:
         self.gettext = setup_i18n(pj_path, self.config)
 
         # Initialize the menu
+        self.menu_list = []
         self.is_main_menu = is_main_menu
 
     def id_exists(self, option_id: str) -> bool:
