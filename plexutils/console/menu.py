@@ -194,7 +194,6 @@ class ConsoleMenu:
                         "The config object is required to go to the settings menu."
                     )
                 )
-            return
 
         # Check if the users choice is a valid option
         if self.id_exists(choice):
