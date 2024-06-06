@@ -48,7 +48,7 @@ class PlexUtils(ConsoleMenu):
         )
         self.add_item(
             {
-                "id": "4",
+                "id": "S",
                 "name": self.settings_menu.get_utils_name(),
                 "action": self.settings_menu.print_menu,
             },
