@@ -48,6 +48,27 @@ def load_config_from_file(config_file: str) -> Config:
     return parse_config(config_dict)
 
 
+def save_config_to_file(config: Config, config_file: str) -> None:
+    """
+    Saves the configuration to a YAML file.
+
+    Parameters:
+        config (Config): The configuration object.
+        config_file (str): The path to the configuration file.
+
+    Returns:
+        None
+    """
+    config_dict: dict = {
+        "language": config.language,
+        "libraries": [lib.to_dict() for lib in config.libraries],
+        "tvdb": config.tvdb.to_dict(),
+    }
+
+    with open(config_file, "w", encoding="utf-8") as f:
+        yaml.dump(config_dict, f)
+
+
 def parse_config(config_dict: dict) -> Config:
     """
     Parses the configuration dictionary and returns a Config object.

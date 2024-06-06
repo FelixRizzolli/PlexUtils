@@ -48,3 +48,17 @@ class PlexLibraryInfos:
         _full_name += f" {self.name}"
 
         return _full_name
+
+    def to_dict(self) -> dict:
+        """
+        Convert the PlexLibraryInfos object to a dictionary.
+
+        Returns:
+            dict: A dictionary representation of the PlexLibraryInfos object.
+        """
+        return {
+            "type": self.type,
+            "name": self.name,
+            "path": self.path,
+            "lang": {"dub": self.dub_lang, "sub": self.sub_lang},
+        }

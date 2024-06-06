@@ -14,3 +14,15 @@ class TVDBCredentials:
 
     api_key: str
     api_pin: str
+
+    def to_dict(self) -> dict:
+        """
+        Convert the TVDBCredentials object to a dictionary.
+
+        Returns:
+            dict: A dictionary representation of the TVDBCredentials object.
+        """
+        return {
+            "api_key": self.api_key,
+            "api_pin": self.api_pin,
+        }
