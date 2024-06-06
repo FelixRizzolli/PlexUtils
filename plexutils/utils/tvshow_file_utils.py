@@ -2,23 +2,18 @@
     This module contains TvshowFileUtils class.
 """
 
-from typing import Callable
-
-from plexutils.config.config import Config
+from plexutils.console.menu import ConsoleMenu
 from plexutils.crawler.plex_tvshow_crawler import PlexTVShowCrawler
-from plexutils.shared.console_menu import ConsoleMenu
-from plexutils.shared.menu_tools import library_menu_wrapper, print_menu
+from plexutils.shared.menu_tools import library_menu_wrapper
 
 
-class TvshowFileUtils:
+class TvshowFileUtils(ConsoleMenu):
     """represents the menu and tools for tv show files"""
 
-    def __init__(self, config: Config, gettext: Callable[[str], str]):
-        self.gettext: Callable[[str], str] = gettext
-        self.config: Config = config
-
-        self.menu_list: ConsoleMenu = ConsoleMenu(
-            [
+    def __init__(self):
+        super().__init__(
+            title=self.gettext("TvshowFileUtils Menu:"),
+            menu_list=[
                 {
                     "id": "1",
                     "name": self.gettext("validate tvshow directory syntax"),
@@ -43,7 +38,7 @@ class TvshowFileUtils:
                         self.validate_episode_syntax,
                     ),
                 },
-            ]
+            ],
         )
 
     def get_utils_name(self) -> str:
@@ -51,10 +46,6 @@ class TvshowFileUtils:
         return self.gettext(
             "TvshowFileUtils - Tools for tvshow directories and episode files"
         )
-
-    def print_menu(self) -> None:
-        """prints the menu"""
-        print_menu(self.gettext("TvshowFileUtils Menu:"), self.gettext, self.menu_list)
 
     def validate_tvshow_syntax(self, library_path: str) -> None:
         """

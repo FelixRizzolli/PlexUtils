@@ -4,7 +4,7 @@
 
 import unittest
 
-from plexutils.shared.console_menu import ConsoleMenu
+from plexutils.console.menu import ConsoleMenu
 
 
 class TestMenu(unittest.TestCase):
@@ -16,7 +16,9 @@ class TestMenu(unittest.TestCase):
             {"id": "2", "name": "Option 2"},
             {"id": "3", "name": "Option 3"},
         ]
-        self.console_menu: ConsoleMenu = ConsoleMenu(self.menu)
+        self.console_menu: ConsoleMenu = ConsoleMenu(
+            title="Test Menu:", menu_list=self.menu
+        )
 
     def test_id_exists(self) -> None:
         """tests the id_exists method"""

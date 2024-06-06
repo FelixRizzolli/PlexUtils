@@ -2,23 +2,18 @@
     This module contains MovieFileUtils class.
 """
 
-from typing import Callable
-
-from plexutils.config.config import Config
+from plexutils.console.menu import ConsoleMenu
 from plexutils.crawler.plex_movie_crawler import PlexMovieCrawler
-from plexutils.shared.console_menu import ConsoleMenu
-from plexutils.shared.menu_tools import library_menu_wrapper, print_menu
+from plexutils.shared.menu_tools import library_menu_wrapper
 
 
-class MovieFileUtils:
+class MovieFileUtils(ConsoleMenu):
     """represents the menu and tools for movie files"""
 
-    def __init__(self, config: Config, gettext: Callable[[str], str]):
-        self.gettext: Callable[[str], str] = gettext
-        self.config: Config = config
-
-        self.menu_list: ConsoleMenu = ConsoleMenu(
-            [
+    def __init__(self):
+        super().__init__(
+            title=self.gettext("MovieFileUtils Menu:"),
+            menu_list=[
                 {
                     "id": "1",
                     "name": self.gettext("validate movie filename syntax"),
@@ -26,16 +21,12 @@ class MovieFileUtils:
                         self.gettext, self.config, "movie", self.validate_movie_syntax
                     ),
                 },
-            ]
+            ],
         )
 
     def get_utils_name(self) -> str:
         """returns the utils name"""
         return self.gettext("MovieFileUtils  - Tools for movie files")
-
-    def print_menu(self) -> None:
-        """prints the menu"""
-        print_menu(self.gettext("MovieFileUtils Menu:"), self.gettext, self.menu_list)
 
     def validate_movie_syntax(self, library_path: str) -> None:
         """

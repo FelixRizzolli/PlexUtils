@@ -2,29 +2,26 @@
     This module contains PlexUtils class.
 """
 
-from typing import Callable
-
-from plexutils.config.config import Config
-from plexutils.shared.console_menu import ConsoleMenu
-from plexutils.shared.menu_tools import print_menu
+from plexutils.console.menu import ConsoleMenu
+from plexutils.console.settings_menu import SettingsConsoleMenu
 from plexutils.utils.movie_file_utils import MovieFileUtils
 from plexutils.utils.tvdb_utils import TVDBUtils
 from plexutils.utils.tvshow_file_utils import TvshowFileUtils
 
 
 # pylint: disable=too-few-public-methods
-class PlexUtils:
+class PlexUtils(ConsoleMenu):
     """represents the menu and tools for plex"""
 
-    def __init__(self, config: Config, gettext: Callable[[str], str]):
-        self.gettext: Callable[[str], str] = gettext
-        self.config: Config = config
+    def __init__(self):
 
-        self.movie_file_utils: MovieFileUtils = MovieFileUtils(config, gettext)
-        self.tvshow_file_utils: TvshowFileUtils = TvshowFileUtils(config, gettext)
-        self.tvdb_utils: TVDBUtils = TVDBUtils(config, gettext)
+        self.movie_file_utils: MovieFileUtils = MovieFileUtils()
+        self.tvshow_file_utils: TvshowFileUtils = TvshowFileUtils()
+        self.tvdb_utils: TVDBUtils = TVDBUtils()
+        self.settings_menu: SettingsConsoleMenu = SettingsConsoleMenu()
 
-        self.menu_list: ConsoleMenu = ConsoleMenu(
+        super().__init__(
+            title=self.gettext("PlexUtils Menu:"),
             menu_list=[
                 {
                     "id": "1",
@@ -41,12 +38,11 @@ class PlexUtils:
                     "name": self.tvdb_utils.get_utils_name(),
                     "action": self.tvdb_utils.print_menu,
                 },
+                {
+                    "id": "4",
+                    "name": self.settings_menu.get_utils_name(),
+                    "action": self.settings_menu.print_menu,
+                },
             ],
             is_main_menu=True,
-        )
-
-    def print_menu(self) -> None:
-        """prints the menu"""
-        print_menu(
-            self.gettext("PlexUtils Menu:"), self.gettext, self.menu_list, self.config
         )

@@ -2,23 +2,18 @@
     This module contains TVDBUtils class.
 """
 
-from typing import Callable
-
 from plexutils.api.tvdb_api import TvdbApi
-from plexutils.config.config import Config
+from plexutils.console.menu import ConsoleMenu
 from plexutils.crawler.plex_tvshow_crawler import PlexTVShowCrawler
 from plexutils.media.tvshow import TVShow
 from plexutils.media.tvshow_season import TVShowSeason
-from plexutils.shared.console_menu import ConsoleMenu
-from plexutils.shared.menu_tools import library_menu_wrapper, print_menu
+from plexutils.shared.menu_tools import library_menu_wrapper
 
 
-class TVDBUtils:
+class TVDBUtils(ConsoleMenu):
     """represents the menu and tools with tvdb"""
 
-    def __init__(self, config: Config, gettext: Callable[[str], str]):
-        self.gettext: Callable[[str], str] = gettext
-        self.config: Config = config
+    def __init__(self):
         self.tvdb_key: str = ""
         self.tvdb_pin: str = ""
 
@@ -28,8 +23,9 @@ class TVDBUtils:
             if self.config.tvdb.api_pin is not None:
                 self.tvdb_pin = self.config.tvdb.api_pin
 
-        self.menu_list: ConsoleMenu = ConsoleMenu(
-            [
+        super().__init__(
+            title=self.gettext("TVDBUtils Menu:"),
+            menu_list=[
                 {
                     "id": "1",
                     "name": self.gettext(
@@ -52,7 +48,7 @@ class TVDBUtils:
                         self.search_missing_episodes,
                     ),
                 },
-            ]
+            ],
         )
 
     def get_utils_name(self) -> str:
@@ -60,10 +56,6 @@ class TVDBUtils:
         return self.gettext(
             "TVDBUtils       - Tools to compare the plex library with tvdb or search new content"
         )
-
-    def print_menu(self) -> None:
-        """prints the menu"""
-        print_menu(self.gettext("TVDBUtils Menu:"), self.gettext, self.menu_list)
 
     def search_new_seasons(self, library_path: str) -> None:
         """

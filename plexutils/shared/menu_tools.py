@@ -8,7 +8,7 @@ import os
 from typing import Callable, Optional
 
 from plexutils.config.config import Config
-from plexutils.shared.console_menu import ConsoleMenu
+from plexutils.console.menu import ConsoleMenu
 
 
 def clear_console() -> None:
@@ -21,111 +21,6 @@ def clear_console() -> None:
     print("clear_console()")
     command: str = "cls" if os.name == "nt" else "clear"
     os.system(command)
-
-
-def print_menu(
-    title: str,
-    gettext: Callable[[str], str],
-    menu_list: ConsoleMenu,
-    config: Config = None,
-) -> None:
-    """
-    Prints the menu of the given menu list and handles the user input.
-
-    Parameters:
-        title (str): The title of the menu.
-        gettext (Callable[[str], str]): A function to translate a string into the user's language.
-        menu_list (ConsoleMenu): A Menu object that contains the menu options.
-        config (Config): A Config object that contains the configuration settings.
-
-    Returns:
-        None
-    """
-
-    while True:
-        clear_console()
-
-        # Print the title of the menu
-        print("\n" + title)
-
-        # Print the menu options
-        for option in menu_list.get_list():
-            print(f"{option['id']}. {option['name']}")
-
-        # Print a new line before the settings option
-        print()
-
-        # Print the settings option only if it is the main menu
-        if menu_list.is_main_menu:
-            print(gettext("S. Settings"))
-
-        # Print the exit option
-        print(gettext("E. Exit"))
-
-        # Get the user's choice
-        choice: str = input("\n" + gettext("Enter your choice: "))
-
-        # Check if the user wants to exit the menu
-        if choice.upper() == "E":
-            return
-
-        # Perform the action associated with the user's choice
-        perform_menu_action(choice, gettext, menu_list, config)
-
-
-def perform_menu_action(
-    choice: str,
-    gettext: Callable[[str], str],
-    menu_list: ConsoleMenu,
-    config: Config = None,
-) -> None:
-    """
-    Performs the action associated with the user's choice in the menu.
-    :param choice: The user's choice.
-    :param gettext: The function to translate a string into the user's language.
-    :param menu_list: The menu list containing the menu options.
-    :param config: The Config object containing the configuration settings.
-    :return:
-    """
-
-    # Check if the user wants to go to the settings menu
-    if choice.upper() == "S" and menu_list.is_main_menu:
-        if config is None:
-            raise ValueError(
-                gettext("The config object is required to go to the settings menu.")
-            )
-        print_settings_menu(gettext)
-        return
-
-    # Check if the users choice is a valid option
-    if menu_list.id_exists(choice):
-        menu_option: Optional[dict] = menu_list.get_option_by_id(choice)
-
-        if menu_option is None:
-            raise ValueError(gettext("The menu option does not exist."))
-        if "action" not in menu_option:
-            raise ValueError(gettext("The menu option does not have an action."))
-        if not callable(menu_option["action"]):
-            raise ValueError(gettext("The action is not a callable function."))
-
-        menu_option["action"]()
-    else:
-        print("\n" + gettext("Invalid choice. Please enter a valid option."))
-
-
-def print_settings_menu(gettext: Callable[[str], str]) -> None:
-    """
-    Prints the Settings Menu
-    :param gettext: A function to translate a string into the user's language.
-    :return:
-    """
-    menu_list: ConsoleMenu = ConsoleMenu(
-        menu_list=[
-            {"id": "1", "name": gettext("Change Language")},
-            {"id": "2", "name": gettext("Change Theme")},
-        ],
-    )
-    print_menu(gettext("Settings Menu"), gettext, menu_list)
 
 
 def print_library_menu(gettext: Callable[[str], str], menu_list: ConsoleMenu) -> str:
@@ -183,7 +78,7 @@ def library_menu_wrapper(
     Returns:
         None
     """
-    library_menu = ConsoleMenu([])
+    library_menu = ConsoleMenu(title="", menu_list=[])
 
     option_id: int = 0
     for lib in config.libraries:
