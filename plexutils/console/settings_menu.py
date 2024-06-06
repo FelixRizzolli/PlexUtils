@@ -22,28 +22,28 @@ class SettingsConsoleMenu(ConsoleMenu):
             {
                 "id": "1",
                 "name": self.gettext("Change Language"),
-                "function": self.change_language,
+                "action": self.change_language,
             }
         )
         self.add_item(
             {
                 "id": "2",
                 "name": self.gettext("Change TVDB Credentials"),
-                "function": self.change_tvdb_credentials,
+                "action": self.change_tvdb_credentials,
             }
         )
         self.add_item(
             {
                 "id": "3",
                 "name": self.gettext("Add a Plex Library"),
-                "function": self.change_plex_libraries,
+                "action": self.change_plex_libraries,
             }
         )
         self.add_item(
             {
                 "id": "4",
                 "name": self.gettext("Remove a Plex Library"),
-                "function": self.change_plex_libraries,
+                "action": self.change_plex_libraries,
             }
         )
 
@@ -56,15 +56,18 @@ class SettingsConsoleMenu(ConsoleMenu):
         Changes the language of the application.
         """
         print("change_language()")
+        input(self.gettext("Press Enter to continue..."))
 
     def change_tvdb_credentials(self) -> None:
         """
         Changes the TVDB credentials of the application.
         """
         print("change_tvdb_credentials()")
+        input(self.gettext("Press Enter to continue..."))
 
     def change_plex_libraries(self) -> None:
         """
         Changes the Plex libraries of the application.
         """
         print("change_plex_libraries()")
+        input(self.gettext("Press Enter to continue..."))
