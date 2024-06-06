@@ -9,6 +9,20 @@ from plexutils.console.menu import ConsoleMenu, clear_console
 from plexutils.shared.config_tools import save_config_to_file
 
 
+def get_config_path() -> str:
+    """returns the path to the config file"""
+    script_path: str = os.path.dirname(os.path.realpath(__file__))
+    pj_path: str = os.path.join(script_path, "..", "..")
+    return os.path.join(pj_path, "config.yaml")
+
+
+def get_locale_path() -> str:
+    """returns the path to the locale folder"""
+    script_path: str = os.path.dirname(os.path.realpath(__file__))
+    pj_path: str = os.path.join(script_path, "..", "..")
+    return os.path.join(pj_path, "locale")
+
+
 class SettingsConsoleMenu(ConsoleMenu):
     """
     A class used to represent the settings menu in the console.
@@ -58,16 +72,11 @@ class SettingsConsoleMenu(ConsoleMenu):
         """
         Changes the language of the application.
         """
-        # Get the paths
-        script_path: str = os.path.dirname(os.path.realpath(__file__))
-        pj_path: str = os.path.join(script_path, "..", "..")
-        locale_path: str = os.path.join(pj_path, "locale")
-        config_path: str = os.path.join(pj_path, "config.yaml")
 
         # Get the available languages
         languages: list[str] = []
-        for lang in os.listdir(locale_path):
-            if os.path.isdir(os.path.join(locale_path, lang)):
+        for lang in os.listdir(get_locale_path()):
+            if os.path.isdir(os.path.join(get_locale_path(), lang)):
                 languages.append(lang)
         languages.append("en_US")
 
@@ -103,17 +112,13 @@ class SettingsConsoleMenu(ConsoleMenu):
             self.config.language = languages[choice - 1]
             break
 
-        save_config_to_file(self.config, config_path)
+        save_config_to_file(self.config, get_config_path())
         self.load_gettext()
 
     def change_tvdb_credentials(self) -> None:
         """
         Changes the TVDB credentials of the application.
         """
-        # Get the paths
-        script_path: str = os.path.dirname(os.path.realpath(__file__))
-        pj_path: str = os.path.join(script_path, "..", "..")
-        config_path: str = os.path.join(pj_path, "config.yaml")
 
         clear_console()
         self.config.tvdb.api_key = input(self.gettext("Enter the TVDB API key: "))
@@ -121,11 +126,18 @@ class SettingsConsoleMenu(ConsoleMenu):
 
         print(self.gettext("TVDB credentials changed successfully."))
 
-        save_config_to_file(self.config, config_path)
+        save_config_to_file(self.config, get_config_path())
 
-    def change_plex_libraries(self) -> None:
+    def add_plex_librarie(self) -> None:
         """
-        Changes the Plex libraries of the application.
+        Adds a Plex library to the config.
+        """
+        print("change_plex_libraries()")
+        input(self.gettext("Press Enter to continue..."))
+
+    def remove_plex_librarie(self) -> None:
+        """
+        Removes a Plex library from the config.
         """
         print("change_plex_libraries()")
         input(self.gettext("Press Enter to continue..."))
