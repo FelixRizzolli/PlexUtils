@@ -156,5 +156,30 @@ class SettingsConsoleMenu(ConsoleMenu):
         """
         Removes a Plex library from the config.
         """
-        print("change_plex_libraries()")
-        input(self.gettext("Press Enter to continue..."))
+        clear_console()
+
+        # Print the available libraries
+        print(self.gettext("Available libraries:"))
+        for i, lib in enumerate(self.config.libraries):
+            print(f"{i + 1}. {lib.name}")
+
+        # Get the user input
+        choice: int = 0
+        try:
+            users_choice: int = int(
+                input(
+                    self.gettext("Enter the number of the library you want to remove: ")
+                )
+            )
+            if users_choice < 1 or users_choice > len(self.config.libraries):
+                raise ValueError()
+            choice = users_choice
+        except ValueError:
+            print(self.gettext("Invalid choice. Please try again."))
+            return
+
+        # Remove the library
+        self.config.libraries.pop(choice - 1)
+        save_config_to_file(self.config, get_config_path())
+
+        print(self.gettext("Library removed successfully."))
