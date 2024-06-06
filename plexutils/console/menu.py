@@ -67,7 +67,7 @@ class ConsoleMenu:
         """
 
         for item in self.menu_list:
-            if item["id"] == option_id:
+            if item["id"].upper() == option_id.upper():
                 return True
         return False
 
