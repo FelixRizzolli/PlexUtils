@@ -14,6 +14,10 @@ class TVDBUtils(ConsoleMenu):
     """represents the menu and tools with tvdb"""
 
     def __init__(self):
+        super().__init__()
+        self.title = self.gettext("TVDBUtils Menu:")
+        self.setup_menu()
+
         self.tvdb_key: str = ""
         self.tvdb_pin: str = ""
 
@@ -23,32 +27,32 @@ class TVDBUtils(ConsoleMenu):
             if self.config.tvdb.api_pin is not None:
                 self.tvdb_pin = self.config.tvdb.api_pin
 
-        super().__init__(
-            title=self.gettext("TVDBUtils Menu:"),
-            menu_list=[
-                {
-                    "id": "1",
-                    "name": self.gettext(
-                        "search in tvdb for new seasons of existing tvshows"
-                    ),
-                    "action": lambda: library_menu_wrapper(
-                        self.gettext, self.config, "tvshow", self.search_new_seasons
-                    ),
-                },
-                {
-                    "id": "2",
-                    "name": self.gettext(
-                        "search in tvdb for missing episodes of existing seasons of"
-                        + " existing tvshows"
-                    ),
-                    "action": lambda: library_menu_wrapper(
-                        self.gettext,
-                        self.config,
-                        "tvshow",
-                        self.search_missing_episodes,
-                    ),
-                },
-            ],
+    def setup_menu(self):
+        """sets up the menu items"""
+        self.add_item(
+            {
+                "id": "1",
+                "name": self.gettext(
+                    "search in tvdb for new seasons of existing tvshows"
+                ),
+                "action": lambda: library_menu_wrapper(
+                    self.gettext, self.config, "tvshow", self.search_new_seasons
+                ),
+            }
+        )
+        self.add_item(
+            {
+                "id": "2",
+                "name": self.gettext(
+                    "search in tvdb for missing episodes of existing seasons of existing tvshows"
+                ),
+                "action": lambda: library_menu_wrapper(
+                    self.gettext,
+                    self.config,
+                    "tvshow",
+                    self.search_missing_episodes,
+                ),
+            },
         )
 
     def get_utils_name(self) -> str:

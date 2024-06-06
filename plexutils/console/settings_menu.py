@@ -12,31 +12,39 @@ class SettingsConsoleMenu(ConsoleMenu):
     """
 
     def __init__(self):
-        super().__init__(
-            title=self.gettext("Settings Menu"),
-            menu_list=[
-                {
-                    "id": "1",
-                    "name": self.gettext("Change Language"),
-                    "function": self.change_language,
-                },
-                {
-                    "id": "2",
-                    "name": self.gettext("Change TVDB Credentials"),
-                    "function": self.change_tvdb_credentials,
-                },
-                {
-                    "id": "3",
-                    "name": self.gettext("Add a Plex Library"),
-                    "function": self.change_plex_libraries,
-                },
-                {
-                    "id": "4",
-                    "name": self.gettext("Remove a Plex Library"),
-                    "function": self.change_plex_libraries,
-                },
-            ],
-            is_main_menu=False,
+        super().__init__()
+        self.title = self.gettext("Settings Menu:")
+        self.setup_menu()
+
+    def setup_menu(self):
+        """sets up the menu items"""
+        self.add_item(
+            {
+                "id": "1",
+                "name": self.gettext("Change Language"),
+                "function": self.change_language,
+            }
+        )
+        self.add_item(
+            {
+                "id": "2",
+                "name": self.gettext("Change TVDB Credentials"),
+                "function": self.change_tvdb_credentials,
+            }
+        )
+        self.add_item(
+            {
+                "id": "3",
+                "name": self.gettext("Add a Plex Library"),
+                "function": self.change_plex_libraries,
+            }
+        )
+        self.add_item(
+            {
+                "id": "4",
+                "name": self.gettext("Remove a Plex Library"),
+                "function": self.change_plex_libraries,
+            }
         )
 
     def get_utils_name(self) -> str:

@@ -11,34 +11,41 @@ class TvshowFileUtils(ConsoleMenu):
     """represents the menu and tools for tv show files"""
 
     def __init__(self):
-        super().__init__(
-            title=self.gettext("TvshowFileUtils Menu:"),
-            menu_list=[
-                {
-                    "id": "1",
-                    "name": self.gettext("validate tvshow directory syntax"),
-                    "action": lambda: library_menu_wrapper(
-                        self.gettext, self.config, "tvshow", self.validate_tvshow_syntax
-                    ),
-                },
-                {
-                    "id": "2",
-                    "name": self.gettext("validate season directory syntax"),
-                    "action": lambda: library_menu_wrapper(
-                        self.gettext, self.config, "tvshow", self.validate_season_syntax
-                    ),
-                },
-                {
-                    "id": "3",
-                    "name": self.gettext("validate episode filename syntax"),
-                    "action": lambda: library_menu_wrapper(
-                        self.gettext,
-                        self.config,
-                        "tvshow",
-                        self.validate_episode_syntax,
-                    ),
-                },
-            ],
+        super().__init__()
+        self.title = self.gettext("TvshowFileUtils Menu:")
+        self.setup_menu()
+
+    def setup_menu(self):
+        """sets up the menu items"""
+        self.add_item(
+            {
+                "id": "1",
+                "name": self.gettext("validate tvshow directory syntax"),
+                "action": lambda: library_menu_wrapper(
+                    self.gettext, self.config, "tvshow", self.validate_tvshow_syntax
+                ),
+            }
+        )
+        self.add_item(
+            {
+                "id": "2",
+                "name": self.gettext("validate season directory syntax"),
+                "action": lambda: library_menu_wrapper(
+                    self.gettext, self.config, "tvshow", self.validate_season_syntax
+                ),
+            },
+        )
+        self.add_item(
+            {
+                "id": "3",
+                "name": self.gettext("validate episode filename syntax"),
+                "action": lambda: library_menu_wrapper(
+                    self.gettext,
+                    self.config,
+                    "tvshow",
+                    self.validate_episode_syntax,
+                ),
+            },
         )
 
     def get_utils_name(self) -> str:

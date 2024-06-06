@@ -78,7 +78,7 @@ def library_menu_wrapper(
     Returns:
         None
     """
-    library_menu = ConsoleMenu(title="", menu_list=[])
+    library_menu = ConsoleMenu()
 
     option_id: int = 0
     for lib in config.libraries:

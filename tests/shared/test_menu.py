@@ -16,9 +16,10 @@ class TestMenu(unittest.TestCase):
             {"id": "2", "name": "Option 2"},
             {"id": "3", "name": "Option 3"},
         ]
-        self.console_menu: ConsoleMenu = ConsoleMenu(
-            title="Test Menu:", menu_list=self.menu
-        )
+        self.console_menu: ConsoleMenu = ConsoleMenu()
+        self.console_menu.title = "Test Menu:"
+        for item in self.menu:
+            self.console_menu.add_item(item)
 
     def test_id_exists(self) -> None:
         """tests the id_exists method"""

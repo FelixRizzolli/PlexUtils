@@ -27,19 +27,18 @@ class ConsoleMenu:
     The Menu class represents a menu with a list of options.
     """
 
-    title: str
     config: Config
     gettext: Callable[[str], str]
-    menu_list: list[dict]
+
+    title: str = ""
+    menu_list: list[dict] = []
     is_main_menu: bool = False
 
-    def __init__(self, title: str, menu_list: list[dict], is_main_menu: bool = False):
+    def __init__(self, is_main_menu: bool = False):
         """
         Initializes a new instance of the Menu class.
 
         Parameters:
-            menu_list (list[dict]): A list of dictionaries where each dictionary represents a
-                                    menu item.
             is_main_menu (bool): A boolean value indicating whether the menu is the main menu.
         """
         # Get the path of the script and the project
@@ -53,8 +52,6 @@ class ConsoleMenu:
         self.gettext = setup_i18n(pj_path, self.config)
 
         # Initialize the menu
-        self.title = title
-        self.menu_list = menu_list
         self.is_main_menu = is_main_menu
 
     def id_exists(self, option_id: str) -> bool:

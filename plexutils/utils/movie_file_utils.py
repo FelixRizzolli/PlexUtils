@@ -11,17 +11,20 @@ class MovieFileUtils(ConsoleMenu):
     """represents the menu and tools for movie files"""
 
     def __init__(self):
-        super().__init__(
-            title=self.gettext("MovieFileUtils Menu:"),
-            menu_list=[
-                {
-                    "id": "1",
-                    "name": self.gettext("validate movie filename syntax"),
-                    "action": lambda: library_menu_wrapper(
-                        self.gettext, self.config, "movie", self.validate_movie_syntax
-                    ),
-                },
-            ],
+        super().__init__()
+        self.title = self.gettext("MovieFileUtils Menu:")
+        self.setup_menu()
+
+    def setup_menu(self):
+        """sets up the menu items"""
+        self.add_item(
+            {
+                "id": "1",
+                "name": self.gettext("validate movie filename syntax"),
+                "action": lambda: library_menu_wrapper(
+                    self.gettext, self.config, "movie", self.validate_movie_syntax
+                ),
+            }
         )
 
     def get_utils_name(self) -> str:
