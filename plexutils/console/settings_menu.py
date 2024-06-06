@@ -110,8 +110,18 @@ class SettingsConsoleMenu(ConsoleMenu):
         """
         Changes the TVDB credentials of the application.
         """
-        print("change_tvdb_credentials()")
-        input(self.gettext("Press Enter to continue..."))
+        # Get the paths
+        script_path: str = os.path.dirname(os.path.realpath(__file__))
+        pj_path: str = os.path.join(script_path, "..", "..")
+        config_path: str = os.path.join(pj_path, "config.yaml")
+
+        clear_console()
+        self.config.tvdb.api_key = input(self.gettext("Enter the TVDB API key: "))
+        self.config.tvdb.api_pin = input(self.gettext("Enter the TVDB API pin: "))
+
+        print(self.gettext("TVDB credentials changed successfully."))
+
+        save_config_to_file(self.config, config_path)
 
     def change_plex_libraries(self) -> None:
         """
