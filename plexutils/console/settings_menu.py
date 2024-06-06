@@ -5,6 +5,7 @@ menu in the console.
 
 import os
 
+from plexutils.config.plex_library_infos import PlexLibraryInfos
 from plexutils.console.menu import ConsoleMenu, clear_console
 from plexutils.shared.config_tools import save_config_to_file
 
@@ -53,14 +54,14 @@ class SettingsConsoleMenu(ConsoleMenu):
             {
                 "id": "3",
                 "name": self.gettext("Add a Plex Library"),
-                "action": self.change_plex_libraries,
+                "action": self.add_plex_librarie,
             }
         )
         self.add_item(
             {
                 "id": "4",
                 "name": self.gettext("Remove a Plex Library"),
-                "action": self.change_plex_libraries,
+                "action": self.remove_plex_librarie,
             }
         )
 
@@ -123,17 +124,33 @@ class SettingsConsoleMenu(ConsoleMenu):
         clear_console()
         self.config.tvdb.api_key = input(self.gettext("Enter the TVDB API key: "))
         self.config.tvdb.api_pin = input(self.gettext("Enter the TVDB API pin: "))
+        save_config_to_file(self.config, get_config_path())
 
         print(self.gettext("TVDB credentials changed successfully."))
-
-        save_config_to_file(self.config, get_config_path())
 
     def add_plex_librarie(self) -> None:
         """
         Adds a Plex library to the config.
         """
-        print("change_plex_libraries()")
-        input(self.gettext("Press Enter to continue..."))
+        clear_console()
+
+        lib_name = input(self.gettext("Enter the name of the library: "))
+        lib_path = input(self.gettext("Enter the path of the library: "))
+        lib_type = input(self.gettext("Enter the type of the library: "))
+        lib_dub_lang = input(self.gettext("Enter the dub language of the library: "))
+        lib_sub_lang = input(self.gettext("Enter the sub language of the library: "))
+
+        new_library: PlexLibraryInfos = PlexLibraryInfos(
+            type=lib_type,
+            name=lib_name,
+            path=lib_path,
+            dub_lang=lib_dub_lang,
+            sub_lang=lib_sub_lang,
+        )
+        self.config.libraries.append(new_library)
+        save_config_to_file(self.config, get_config_path())
+
+        print(self.gettext("Library added successfully."))
 
     def remove_plex_librarie(self) -> None:
         """
