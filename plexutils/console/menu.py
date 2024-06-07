@@ -4,7 +4,6 @@ of options.
 """
 
 import os
-from abc import ABC, abstractmethod
 from typing import Any, Callable, Optional
 
 from plexutils.config.config import Config
@@ -23,7 +22,7 @@ def clear_console() -> None:
     os.system(command)
 
 
-class ConsoleMenu(ABC):
+class ConsoleMenu:
     """
     The Menu class represents a menu with a list of options.
     """
@@ -229,7 +228,6 @@ class ConsoleMenu(ABC):
         # Setup internationalization
         self.gettext = setup_i18n(pj_path, self.config)
 
-    @abstractmethod
     def check_config(self) -> Optional[str]:
         """
         Checks the configuration and returns a message.
@@ -237,4 +235,4 @@ class ConsoleMenu(ABC):
         Returns:
             str: The message.
         """
-        pass
+        return None
