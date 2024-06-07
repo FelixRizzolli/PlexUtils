@@ -4,7 +4,7 @@ This module contains the Config class which represents the configuration for the
 
 from dataclasses import dataclass
 
-from plexutils.config.plex_library_infos import PlexLibraryInfos
+from plexutils.config.plex_library_infos import PlexLibraryInfos, PlexLibraryType
 from plexutils.config.tvdb_credentials import TVDBCredentials
 
 
@@ -26,7 +26,7 @@ class Config:
             list[PlexLibraryInfos]: A list of PlexLibraryInfos objects representing
                                     movie libraries.
         """
-        return [lib for lib in self.libraries if lib.type == "movie"]
+        return [lib for lib in self.libraries if lib.type == PlexLibraryType.MOVIE]
 
     def get_tvshow_libraries(self):
         """
@@ -36,4 +36,4 @@ class Config:
             list[PlexLibraryInfos]: A list of PlexLibraryInfos objects representing
                                     TV show libraries.
         """
-        return [lib for lib in self.libraries if lib.type == "tvshow"]
+        return [lib for lib in self.libraries if lib.type == PlexLibraryType.TVSHOW]
