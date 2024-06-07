@@ -137,4 +137,16 @@ class TVDBUtils(ConsoleMenu):
         Returns:
             str: The warning message.
         """
+
+        if self.config is None:
+            return self.gettext("No config found")
+        if self.config.tvdb is None:
+            return self.gettext("No TVDB credentials found")
+        if self.config.tvdb.api_key is None:
+            return self.gettext("No TVDB api key found")
+        if self.config.tvdb.api_pin is None:
+            return self.gettext("No TVDB api pin found")
+        if len(self.config.get_tvshow_libraries()) == 0:
+            return self.gettext("No tvshow libraries found")
+
         return None
