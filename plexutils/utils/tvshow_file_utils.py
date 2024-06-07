@@ -132,4 +132,10 @@ class TvshowFileUtils(ConsoleMenu):
         Returns:
             str: The warning message.
         """
+
+        if self.config is None:
+            return self.gettext("No config found")
+        if len(self.config.get_tvshow_libraries()) == 0:
+            return self.gettext("No tvshow libraries found")
+
         return None
