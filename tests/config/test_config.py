@@ -5,7 +5,7 @@ This module contains unit tests for the Config class in the plexutils.config pac
 import unittest
 
 from plexutils.config.config import Config
-from plexutils.config.plex_library_infos import PlexLibraryInfos
+from plexutils.config.plex_library_infos import PlexLibraryInfos, PlexLibraryType
 from plexutils.config.tvdb_credentials import TVDBCredentials
 
 
@@ -19,28 +19,28 @@ class TestConfig(unittest.TestCase):
         Set up test data for the unit tests.
         """
         self.movie_library1 = PlexLibraryInfos(
-            type="movie",
+            type=PlexLibraryType.MOVIE,
             name="Movies1",
             path="/path/to/movies1",
             dub_lang="en",
             sub_lang="fr",
         )
         self.movie_library2 = PlexLibraryInfos(
-            type="movie",
+            type=PlexLibraryType.MOVIE,
             name="Movies2",
             path="/path/to/movies2",
             dub_lang="en",
             sub_lang="fr",
         )
         self.tvshow_library1 = PlexLibraryInfos(
-            type="tvshow",
+            type=PlexLibraryType.TVSHOW,
             name="TV Shows1",
             path="/path/to/tvshows1",
             dub_lang="en",
             sub_lang="fr",
         )
         self.tvshow_library2 = PlexLibraryInfos(
-            type="tvshow",
+            type=PlexLibraryType.TVSHOW,
             name="TV Shows2",
             path="/path/to/tvshows2",
             dub_lang="en",

@@ -4,6 +4,16 @@ information about a Plex library.
 """
 
 from dataclasses import dataclass
+from enum import Enum
+
+
+class PlexLibraryType(Enum):
+    """
+    An enumeration representing the type of the Plex library.
+    """
+
+    MOVIE = "movie"
+    TVSHOW = "tvshow"
 
 
 @dataclass
@@ -12,7 +22,7 @@ class PlexLibraryInfos:
     Represents information about a Plex library.
     """
 
-    type: str
+    type: PlexLibraryType
     name: str
     path: str
     dub_lang: str = ""
@@ -57,7 +67,7 @@ class PlexLibraryInfos:
             dict: A dictionary representation of the PlexLibraryInfos object.
         """
         return {
-            "type": self.type,
+            "type": self.type.value,
             "name": self.name,
             "path": self.path,
             "lang": {"dub": self.dub_lang, "sub": self.sub_lang},

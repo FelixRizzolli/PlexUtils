@@ -5,7 +5,7 @@ PlexLibraryInfos class.
 
 import unittest
 
-from plexutils.config.plex_library_infos import PlexLibraryInfos
+from plexutils.config.plex_library_infos import PlexLibraryInfos, PlexLibraryType
 
 
 class TestPlexLibraryInfos(unittest.TestCase):
@@ -18,7 +18,7 @@ class TestPlexLibraryInfos(unittest.TestCase):
         Test the type property.
         """
         plex_info = PlexLibraryInfos(
-            type="movie",
+            type=PlexLibraryType.MOVIE,
             name="Movies",
             path="/path/to/movies",
             dub_lang="en",
@@ -31,7 +31,7 @@ class TestPlexLibraryInfos(unittest.TestCase):
         Test the name property.
         """
         plex_info = PlexLibraryInfos(
-            type="movie",
+            type=PlexLibraryType.MOVIE,
             name="Movies",
             path="/path/to/movies",
             dub_lang="en",
@@ -44,7 +44,7 @@ class TestPlexLibraryInfos(unittest.TestCase):
         Test the path property.
         """
         plex_info = PlexLibraryInfos(
-            type="movie",
+            type=PlexLibraryType.MOVIE,
             name="Movies",
             path="/path/to/movies",
             dub_lang="en",
@@ -57,7 +57,7 @@ class TestPlexLibraryInfos(unittest.TestCase):
         Test the dub_lang property.
         """
         plex_info = PlexLibraryInfos(
-            type="movie",
+            type=PlexLibraryType.MOVIE,
             name="Movies",
             path="/path/to/movies",
             dub_lang="en",
@@ -70,7 +70,7 @@ class TestPlexLibraryInfos(unittest.TestCase):
         Test the sub_lang property.
         """
         plex_info = PlexLibraryInfos(
-            type="movie",
+            type=PlexLibraryType.MOVIE,
             name="Movies",
             path="/path/to/movies",
             dub_lang="en",
@@ -83,7 +83,7 @@ class TestPlexLibraryInfos(unittest.TestCase):
         Test the full_name property.
         """
         plex_info = PlexLibraryInfos(
-            type="movie",
+            type=PlexLibraryType.MOVIE,
             name="Movies",
             path="/path/to/movies",
             dub_lang="en",
@@ -96,7 +96,7 @@ class TestPlexLibraryInfos(unittest.TestCase):
         Test the full_name property.
         """
         plex_info = PlexLibraryInfos(
-            type="movie",
+            type=PlexLibraryType.MOVIE,
             name="Movies",
             path="/path/to/movies",
             dub_lang="en_US",
@@ -109,7 +109,7 @@ class TestPlexLibraryInfos(unittest.TestCase):
         Test the full_name property.
         """
         plex_info = PlexLibraryInfos(
-            type="movie",
+            type=PlexLibraryType.MOVIE,
             name="Movies",
             path="/path/to/movies",
             dub_lang="en",
@@ -122,7 +122,7 @@ class TestPlexLibraryInfos(unittest.TestCase):
         Test the full_name property.
         """
         plex_info = PlexLibraryInfos(
-            type="movie",
+            type=PlexLibraryType.MOVIE,
             name="Movies",
             path="/path/to/movies",
             dub_lang="en_US",
@@ -135,7 +135,10 @@ class TestPlexLibraryInfos(unittest.TestCase):
         Test the full_name property.
         """
         plex_info = PlexLibraryInfos(
-            type="movie", name="Movies", path="/path/to/movies", sub_lang="fr_FR"
+            type=PlexLibraryType.MOVIE,
+            name="Movies",
+            path="/path/to/movies",
+            sub_lang="fr_FR",
         )
         self.assertEqual("(EN-FR) Movies", plex_info.full_name)
 
@@ -144,7 +147,7 @@ class TestPlexLibraryInfos(unittest.TestCase):
         Test the full_name property.
         """
         plex_info = PlexLibraryInfos(
-            type="movie", name="Movies", path="/path/to/movies"
+            type=PlexLibraryType.MOVIE, name="Movies", path="/path/to/movies"
         )
         self.assertEqual("(EN) Movies", plex_info.full_name)
 

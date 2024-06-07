@@ -5,7 +5,7 @@ menu in the console.
 
 import os
 
-from plexutils.config.plex_library_infos import PlexLibraryInfos
+from plexutils.config.plex_library_infos import PlexLibraryInfos, PlexLibraryType
 from plexutils.console.menu import ConsoleMenu, clear_console
 from plexutils.shared.config_tools import save_config_to_file
 
@@ -136,7 +136,35 @@ class SettingsConsoleMenu(ConsoleMenu):
 
         lib_name = input(self.gettext("Enter the name of the library: "))
         lib_path = input(self.gettext("Enter the path of the library: "))
-        lib_type = input(self.gettext("Enter the type of the library: "))
+        lib_type = None
+        while True:
+            # Print the available library types
+            plex_library_types: list[str] = [
+                library_type.value for library_type in PlexLibraryType
+            ]
+            print(self.gettext("Available library types:"))
+            for i, library_type in enumerate(plex_library_types):
+                print(f"{i + 1}. {library_type}")
+
+            # Get the user input
+            try:
+                users_choice: int = int(
+                    input(self.gettext("Enter the number of the library type: "))
+                )
+
+                # Check if the user input is valid
+                if users_choice < 1 or users_choice > len(plex_library_types):
+                    raise ValueError()
+
+                # Set the library type
+                if users_choice == 1:
+                    lib_type = PlexLibraryType.MOVIE
+                else:
+                    lib_type = PlexLibraryType.TVSHOW
+                break
+            except ValueError:
+                print(self.gettext("Invalid choice. Please try again."))
+                continue
         lib_dub_lang = input(self.gettext("Enter the dub language of the library: "))
         lib_sub_lang = input(self.gettext("Enter the sub language of the library: "))
 

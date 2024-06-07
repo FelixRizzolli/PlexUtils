@@ -12,7 +12,7 @@ from typing import Callable
 import yaml
 
 from plexutils.config.config import Config
-from plexutils.config.plex_library_infos import PlexLibraryInfos
+from plexutils.config.plex_library_infos import PlexLibraryInfos, PlexLibraryType
 from plexutils.config.tvdb_credentials import TVDBCredentials
 
 
@@ -111,6 +111,7 @@ def parse_plex_library_infos(config_dict: dict) -> PlexLibraryInfos:
     Returns:
         PlexLibraryInfos: The PlexLibraryInfos object.
     """
+    # Check for required keys
     if "type" not in config_dict:
         raise ValueError("Missing 'type' key in configuration dictionary")
     if "name" not in config_dict:
@@ -118,17 +119,31 @@ def parse_plex_library_infos(config_dict: dict) -> PlexLibraryInfos:
     if "path" not in config_dict:
         raise ValueError("Missing 'path' key in configuration dictionary")
 
+    # Check the dubbing language
     dub_lang: str = ""
     if "lang" in config_dict and "dub" in config_dict["lang"]:
         dub_lang = config_dict["lang"]["dub"]
 
+    # Check the subtitle language
     sub_lang: str = ""
     if "lang" in config_dict and "sub" in config_dict["lang"]:
         sub_lang = config_dict["lang"]["sub"]
 
+    # Parse the library type
+    library_type = None
+    if config_dict["type"] == "movie":
+        library_type = PlexLibraryType.MOVIE
+    elif config_dict["type"] == "tvshow":
+        library_type = PlexLibraryType.TVSHOW
+
+    # Check if the library type is valid
+    if library_type is None:
+        raise ValueError(f"Invalid library type: {config_dict['type']}")
+
+    # Create the PlexLibraryInfos object
     return PlexLibraryInfos(
         name=config_dict["name"],
-        type=config_dict["type"],
+        type=library_type,
         path=config_dict["path"],
         dub_lang=dub_lang,
         sub_lang=sub_lang,
