@@ -4,6 +4,7 @@ menu in the console.
 """
 
 import os
+from typing import Optional
 
 from plexutils.config.plex_library_infos import PlexLibraryInfos, PlexLibraryType
 from plexutils.console.menu import ConsoleMenu, clear_console
@@ -211,3 +212,12 @@ class SettingsConsoleMenu(ConsoleMenu):
         save_config_to_file(self.config, get_config_path())
 
         print(self.gettext("Library removed successfully."))
+
+    def check_config(self) -> Optional[str]:
+        """
+        Checks the configuration and returns a warning message if needed.
+
+        Returns:
+            str: The warning message.
+        """
+        return None

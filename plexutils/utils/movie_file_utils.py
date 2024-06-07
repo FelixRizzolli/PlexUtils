@@ -2,6 +2,8 @@
     This module contains MovieFileUtils class.
 """
 
+from typing import Optional
+
 from plexutils.console.menu import ConsoleMenu
 from plexutils.crawler.plex_movie_crawler import PlexMovieCrawler
 from plexutils.shared.menu_tools import library_menu_wrapper
@@ -52,3 +54,18 @@ class MovieFileUtils(ConsoleMenu):
             print(self.gettext("Invalid movie file: ") + movie)
 
         input()
+
+    def check_config(self) -> Optional[str]:
+        """
+        Checks the configuration and returns a warning message if needed.
+
+        Returns:
+            str: The warning message.
+        """
+
+        if self.config is None:
+            return self.gettext("No config found")
+        if len(self.config.get_movie_libraries()) == 0:
+            return self.gettext("No movie libraries found")
+
+        return None

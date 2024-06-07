@@ -2,6 +2,8 @@
     This module contains PlexUtils class.
 """
 
+from typing import Optional
+
 from plexutils.console.menu import ConsoleMenu
 from plexutils.console.settings_menu import SettingsConsoleMenu
 from plexutils.utils.movie_file_utils import MovieFileUtils
@@ -53,3 +55,12 @@ class PlexUtils(ConsoleMenu):
                 "action": self.settings_menu.print_menu,
             },
         )
+
+    def check_config(self) -> Optional[str]:
+        """
+        Checks the configuration and returns a warning message if needed.
+
+        Returns:
+            str: The warning message.
+        """
+        return None

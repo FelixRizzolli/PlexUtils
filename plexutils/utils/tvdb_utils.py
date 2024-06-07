@@ -2,6 +2,8 @@
     This module contains TVDBUtils class.
 """
 
+from typing import Optional
+
 from plexutils.api.tvdb_api import TvdbApi
 from plexutils.console.menu import ConsoleMenu
 from plexutils.crawler.plex_tvshow_crawler import PlexTVShowCrawler
@@ -127,3 +129,12 @@ class TVDBUtils(ConsoleMenu):
             print(episode)
 
         input(self.gettext("Press Enter to continue..."))
+
+    def check_config(self) -> Optional[str]:
+        """
+        Checks the configuration and returns a warning message if needed.
+
+        Returns:
+            str: The warning message.
+        """
+        return None

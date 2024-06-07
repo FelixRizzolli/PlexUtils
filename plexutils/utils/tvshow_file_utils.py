@@ -2,6 +2,8 @@
     This module contains TvshowFileUtils class.
 """
 
+from typing import Optional
+
 from plexutils.console.menu import ConsoleMenu
 from plexutils.crawler.plex_tvshow_crawler import PlexTVShowCrawler
 from plexutils.shared.menu_tools import library_menu_wrapper
@@ -122,3 +124,12 @@ class TvshowFileUtils(ConsoleMenu):
             print(self.gettext("Invalid episode filename: ") + episode)
 
         input()
+
+    def check_config(self) -> Optional[str]:
+        """
+        Checks the configuration and returns a warning message if needed.
+
+        Returns:
+            str: The warning message.
+        """
+        return None
