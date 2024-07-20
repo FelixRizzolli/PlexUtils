@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added auto generated documentation with sphinx.
 - Support for multiple plex libraries (#1).
 - New settings menu to configure the plex libraries, the tvdb credentials and the language (#6).
 - Added warnings to the MovieFileUtils menu if the required configuration is not set (#16).
