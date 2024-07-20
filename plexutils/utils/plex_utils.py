@@ -2,6 +2,7 @@
     This module contains PlexUtils class.
 """
 
+import os
 from typing import Optional
 
 from plexutils.console.menu import ConsoleMenu
@@ -67,4 +68,15 @@ class PlexUtils(ConsoleMenu):
         :return: The warning message.
         :rtype: Optional[str]
         """
+
+        # Get the path of the script and the project
+        script_path: str = os.path.dirname(os.path.realpath(__file__))
+        pj_path: str = os.path.join(script_path, "..", "..")
+        locales_path: str = os.path.join(pj_path, "locale")
+
+        # Check if the configured language is supported
+        if self.config.language is not None and self.config.language != "en_US":
+            if self.config.language not in os.listdir(locales_path):
+                return self.gettext("The configured language is not supported.")
+
         return None
