@@ -2,6 +2,7 @@
 This module contains the VideoFile class.
 """
 
+import os.path
 from abc import abstractmethod
 from dataclasses import dataclass
 
@@ -12,7 +13,7 @@ class VideoFile:
     Represents a single video file.
     """
 
-    _filename: str
+    _filepath: str
     _filesize: int
     _duration: int
     _resolution_width: int
@@ -28,7 +29,17 @@ class VideoFile:
         :return: The filename of the video file.
         :rtype: str
         """
-        return self._filename
+        return os.path.basename(self._filepath)
+
+    @property
+    def filepath(self) -> str:
+        """
+        Returns the filepath of the video file.
+
+        :return: The filepath of the video file.
+        :rtype: str
+        """
+        return self._filepath
 
     @property
     def filesize(self) -> int:
