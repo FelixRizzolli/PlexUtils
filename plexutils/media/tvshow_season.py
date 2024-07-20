@@ -66,6 +66,8 @@ class TVShowSeason:
 
         :param episode: The episode to add.
         :type episode: TVShowEpisode
+
+        :return: None
         """
         if episode.episode_id is None:
             raise ValueError("Episode ID is required")

@@ -47,6 +47,7 @@ class TvdbApi:
         :type season_id: int
 
         :return: The episodes data
+        :rtype: list[dict]
         """
         episodes: list[dict] = self.tvdb.get_series_episodes(tvdbid)["episodes"]
 
@@ -71,6 +72,7 @@ class TvdbApi:
         :type tvdbid: int
 
         :return: The season ids
+        :rtype: set[int]
         """
         episodes: list[dict] = self.tvdb.get_series_episodes(tvdbid)["episodes"]
 
@@ -94,6 +96,7 @@ class TvdbApi:
         :type season_id: int
 
         :return: The season ids
+        :rtype: set[int]
         """
         if self.cached_tvshow_tvdbid is None or self.cached_tvshow_tvdbid != tvdbid:
             self.cached_episodes = self.tvdb.get_series_episodes(tvdbid)["episodes"]

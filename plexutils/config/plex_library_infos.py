@@ -29,7 +29,7 @@ class PlexLibraryInfos:
     sub_lang: str = ""
 
     @property
-    def full_name(self):
+    def full_name(self) -> str:
         """
         Get the full name of the Plex library.
 
