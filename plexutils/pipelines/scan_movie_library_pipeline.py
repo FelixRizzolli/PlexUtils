@@ -2,6 +2,11 @@
 This module contains the ScanMovieLibraryPipeline class.
 """
 
+import json
+import os
+
+from plexutils.media.video_file import VideoFile
+
 
 class ScanMovieLibraryPipeline:
     """
@@ -33,6 +38,28 @@ class ScanMovieLibraryPipeline:
 
         :return: None
         """
+        movie_directories: list[str] = os.listdir(self._library_path)
+        movies: list[VideoFile] = []
+
+        for movie_dir in movie_directories:
+            filepath: str = os.path.normpath(
+                os.path.join(self._library_path, movie_dir)
+            )
+            filesize: int = os.path.getsize(filepath)
+            movies.append(
+                VideoFile(
+                    _filepath=filepath,
+                    _filesize=filesize,
+                    _duration=0,
+                    _resolution_width=0,
+                    _resolution_height=0,
+                    _video_codec="",
+                    _audio_codec="",
+                )
+            )
+
+        print(json.dumps([movie.__dict__ for movie in movies], indent=4))
+
         pass
 
     def load_and_validate_data(self) -> None:
@@ -52,3 +79,13 @@ class ScanMovieLibraryPipeline:
         :return: None
         """
         pass
+
+
+if __name__ == "__main__":
+
+    script_path: str = os.path.dirname(os.path.realpath(__file__))
+    pj_path: str = os.path.join(script_path, "..", "..")
+    movie_lib = os.path.join(pj_path, "data", "movies", "movies")
+
+    pipeline = ScanMovieLibraryPipeline(os.path.normpath(movie_lib))
+    pipeline.run()
