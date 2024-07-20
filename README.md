@@ -80,6 +80,13 @@ Under the `tvdb` key you can define your TVDB credentials:
 - `api_key` (required): The API key
 - `api_pin` (required): The API pin
 
+# Documentation
+
+## Update the documentation
+
+- open the terminal in the project directory
+- execute `poetry run generate-docs` to generate the documentation with sphinx
+
 # Features
 
 ## MovieFileUtils
