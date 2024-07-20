@@ -22,6 +22,19 @@ class VideoFile:
     _audio_codec: str
 
     @property
+    def __dict__(self) -> dict:
+        return {
+            "filename": self.filename,
+            "filepath": self.filepath,
+            "filesize": self.filesize,
+            "duration": self.duration,
+            "resolution_width": self.resolution_width,
+            "resolution_height": self.resolution_height,
+            "video_codec": self.video_codec,
+            "audio_codec": self.audio_codec,
+        }
+
+    @property
     def filename(self) -> str:
         """
         Returns the filename of the video file.

@@ -5,6 +5,9 @@ This module contains the ScanMovieLibraryPipeline class.
 import json
 import os
 
+import pandas as pd
+from pandas import DataFrame
+
 from plexutils.media.video_file import VideoFile
 
 
@@ -41,6 +44,7 @@ class ScanMovieLibraryPipeline:
         movie_directories: list[str] = os.listdir(self._library_path)
         movies: list[VideoFile] = []
 
+        # Collect file information
         for movie_dir in movie_directories:
             filepath: str = os.path.normpath(
                 os.path.join(self._library_path, movie_dir)
@@ -58,7 +62,15 @@ class ScanMovieLibraryPipeline:
                 )
             )
 
-        print(json.dumps([movie.__dict__ for movie in movies], indent=4))
+        # Save the file information to a DataFrame
+        movies_df: DataFrame = pd.DataFrame([movie.__dict__ for movie in movies])
+
+        print(movies_df)
+
+        # Save the DataFrame to a parquet file
+        script_path: str = os.path.dirname(os.path.realpath(__file__))
+        file_path: str = os.path.join(script_path, "movies.parquet")
+        movies_df.to_parquet(file_path, engine="pyarrow")
 
         pass
 
