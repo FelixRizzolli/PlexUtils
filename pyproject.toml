@@ -26,8 +26,9 @@ Changelog = "https://github.com/FelixRizzolli/PlexUtils/blob/master/CHANGELOG.md
 [tool.poetry.scripts]
 plexutils = "plexutils.__main__:main"
 generate-authors-md = "scripts.generate_authors_md:main"
-compile-messages = "scripts.compile_messages:compile_messages"
 generate-test-data = "scripts.generate_test_data:generate_test_data"
+generate-docs = "scripts.generate_docs:generate_docs"
+compile-messages = "scripts.compile_messages:compile_messages"
 latest-version = "scripts.changelog:print_current_version"
 changes = "scripts.changelog:print_change"
 test-coverage = "scripts.tests:run_test_coverage"
