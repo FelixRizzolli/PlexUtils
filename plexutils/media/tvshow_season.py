@@ -13,11 +13,6 @@ from plexutils.shared.media_tools import extract_seasonid
 class TVShowSeason:
     """
     Represents a single season of a TV show.
-
-    Attributes:
-        _dirname (str): The directory name of the season.
-        _season_id (Optional[int]): The ID of the season.
-        _episodes (dict[int, TVShowEpisode]): A dictionary mapping episode IDs to episodes.
     """
 
     def __init__(self, dirname: str):
@@ -30,8 +25,8 @@ class TVShowSeason:
         """
         Returns the ID of the season.
 
-        Returns:
-            Optional[int]: The ID of the season.
+        :return: The ID of the season.
+        :rtype: Optional[int]
         """
         return self._season_id
 
@@ -40,8 +35,8 @@ class TVShowSeason:
         """
         Returns the directory name of the season.
 
-        Returns:
-            str: The directory name of the season.
+        :return: The directory name of the season.
+        :rtype: str
         """
         return self._dirname
 
@@ -50,8 +45,8 @@ class TVShowSeason:
         """
         Returns all the episodes of the season.
 
-        Returns:
-            list[TVShowEpisode]: A list of all episodes in the season.
+        :return: A list of all episodes in the season.
+        :rtype: list[TVShowEpisode]
         """
         return list(self._episodes.values())
 
@@ -60,8 +55,8 @@ class TVShowSeason:
         """
         Returns all the episode IDs of the season.
 
-        Returns:
-            list[int]: A list of all episode IDs in the season.
+        :return: A list of all episode IDs in the season.
+        :rtype: list[int]
         """
         return list(self._episodes.keys())
 
@@ -69,8 +64,8 @@ class TVShowSeason:
         """
         Adds an episode to the season.
 
-        Args:
-            episode (TVShowEpisode): The episode to add.
+        :param episode: The episode to add.
+        :type episode: TVShowEpisode
         """
         if episode.episode_id is None:
             raise ValueError("Episode ID is required")
@@ -83,8 +78,8 @@ class TVShowSeason:
         """
         Checks if the season's directory name is valid.
 
-        Returns:
-            bool: True if the season's directory name is valid, False otherwise.
+        :return: True if the season's directory name is valid, False otherwise.
+        :rtype: bool
         """
         return self._season_id is not None
 
@@ -92,7 +87,7 @@ class TVShowSeason:
         """
         Checks if the season has no episodes.
 
-        Returns:
-            bool: True if the season has no episodes, False otherwise.
+        :return: True if the season has no episodes, False otherwise.
+        :rtype: bool
         """
         return len(self._episodes) == 0

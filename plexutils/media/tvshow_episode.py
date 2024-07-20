@@ -15,10 +15,6 @@ from plexutils.shared.media_tools import (
 class TVShowEpisode:
     """
     Represents a single episode of a TV show.
-
-    Attributes:
-        _filename (str): The filename of the episode.
-        _episode_id (Optional[int]): The ID of the episode.
     """
 
     def __init__(self, filename: str):
@@ -30,8 +26,8 @@ class TVShowEpisode:
         """
         Returns the ID of the episode.
 
-        Returns:
-            Optional[int]: The ID of the episode.
+        :return: The ID of the episode.
+        :rtype: Optional[int]
         """
         return self._episode_id
 
@@ -40,8 +36,8 @@ class TVShowEpisode:
         """
         Returns the filename of the episode.
 
-        Returns:
-            str: The filename of the episode.
+        :return: The filename of the episode.
+        :rtype: str
         """
         return self._filename
 
@@ -49,8 +45,8 @@ class TVShowEpisode:
         """
         Checks if the episode has a valid filename.
 
-        Returns:
-            bool: True if the episode has a valid filename, False otherwise.
+        :return: True if the episode has a valid filename, False otherwise.
+        :rtype: bool
         """
         season_id: Optional[int] = extract_seasonid_from_episode(self._filename)
         return (self._episode_id is not None) and (season_id is not None)

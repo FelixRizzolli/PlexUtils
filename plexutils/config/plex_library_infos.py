@@ -36,8 +36,8 @@ class PlexLibraryInfos:
         The full name is constructed from the dubbing language, subtitle language,
         and the name of the library.
 
-        Returns:
-            str: The full name of the Plex library.
+        :return: The full name of the Plex library.
+        :rtype: str
         """
         _full_name: str = ""
 
@@ -63,8 +63,8 @@ class PlexLibraryInfos:
         """
         Convert the PlexLibraryInfos object to a dictionary.
 
-        Returns:
-            dict: A dictionary representation of the PlexLibraryInfos object.
+        :return: A dictionary representation of the PlexLibraryInfos object.
+        :rtype: dict
         """
         return {
             "type": self.type.value,

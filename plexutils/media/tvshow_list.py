@@ -12,9 +12,6 @@ from plexutils.media.tvshow import TVShow
 class TVShowList:
     """
     Represents a collection of TV shows.
-
-    Attributes:
-        _tvshows (dict[int, TVShow]): A dictionary mapping TVDB IDs to TV shows.
     """
 
     def __init__(self):
@@ -25,8 +22,8 @@ class TVShowList:
         """
         Returns a collection of TV shows.
 
-        Returns:
-            list[TVShow]: A list of all TV shows in the collection.
+        :return: A list of all TV shows in the collection.
+        :rtype: list[TVShow]
         """
         return list(self._tvshows.values())
 
@@ -34,8 +31,13 @@ class TVShowList:
         """
         Adds a TV show to the list.
 
-        Args:
-            tvshow (TVShow): The TV show to add.
+        :param tvshow: The TV show to add.
+        :type tvshow: TVShow
+
+        :raises ValueError: If the TV show TVDB ID is required or if a TV show with the same TVDB ID
+                            already exists.
+
+        :return: None
         """
         if tvshow.tvdbid is None:
             raise ValueError("TV show TVDB ID is required")
@@ -48,11 +50,11 @@ class TVShowList:
         """
         Returns a TV show by ID.
 
-        Args:
-            tvshow_id (int): The TVDB ID of the TV show to return.
+        :param tvshow_id: The TVDB ID of the TV show to return.
+        :type tvshow_id: int
 
-        Returns:
-            Optional[TVShow]: The TV show with the given ID, or None if no such TV show exists.
+        :return: The TV show with the given ID, or None if no such TV show exists.
+        :rtype: Optional[TVShow]
         """
         return self._tvshows.get(tvshow_id)
 
@@ -60,7 +62,7 @@ class TVShowList:
         """
         Checks if the collection is empty.
 
-        Returns:
-            bool: True if the collection is empty, False otherwise.
+        :return: True if the collection is empty, False otherwise.
+        :rtype: bool
         """
         return len(self._tvshows) == 0

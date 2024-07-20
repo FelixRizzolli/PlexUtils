@@ -17,8 +17,12 @@ class TvshowFileUtils(ConsoleMenu):
         self.title = self.gettext("TvshowFileUtils Menu:")
         self.setup_menu()
 
-    def setup_menu(self):
-        """sets up the menu items"""
+    def setup_menu(self) -> None:
+        """
+        sets up the menu items
+
+        :return: None
+        """
         self.add_item(
             {
                 "id": "1",
@@ -51,7 +55,12 @@ class TvshowFileUtils(ConsoleMenu):
         )
 
     def get_utils_name(self) -> str:
-        """returns the utils name"""
+        """
+        returns the utils name
+
+        :return: The utils name.
+        :rtype: str
+        """
         return self.gettext(
             "TvshowFileUtils - Tools for tvshow directories and episode files"
         )
@@ -61,6 +70,11 @@ class TvshowFileUtils(ConsoleMenu):
         validates the directory name
             of the tv shows
             from the initialized directory
+
+        :param library_path: The path of the library.
+        :type library_path: str
+
+        :return: None
         """
 
         crawler: PlexTVShowCrawler = PlexTVShowCrawler(library_path)
@@ -84,6 +98,11 @@ class TvshowFileUtils(ConsoleMenu):
             of the seasons
             of the tv shows
             from the initialized directory
+
+        :param library_path: The path of the library.
+        :type library_path: str
+
+        :return: None
         """
 
         crawler: PlexTVShowCrawler = PlexTVShowCrawler(library_path)
@@ -101,13 +120,18 @@ class TvshowFileUtils(ConsoleMenu):
 
         input()
 
-    def validate_episode_syntax(self, library_path) -> None:
+    def validate_episode_syntax(self, library_path: str) -> None:
         """
         validates the directory name
             of the episodes
             of the seasons
             of the tv shows
             from the initialized directory
+
+        :param library_path: The path of the library.
+        :type library_path: str
+
+        :return: None
         """
 
         crawler: PlexTVShowCrawler = PlexTVShowCrawler(library_path)
@@ -129,8 +153,8 @@ class TvshowFileUtils(ConsoleMenu):
         """
         Checks the configuration and returns a warning message if needed.
 
-        Returns:
-            str: The warning message.
+        :return: The warning message.
+        :rtype: Optional[str]
         """
 
         if self.config is None:

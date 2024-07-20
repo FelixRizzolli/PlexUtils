@@ -17,7 +17,11 @@ class PlexMovieCrawler:
         self.path = path
 
     def crawl(self) -> None:
-        """crawls the movies from a plex library"""
+        """
+        crawls the movies from a plex library
+
+        :return: None
+        """
         movie_directories: list[str] = os.listdir(self.path)
 
         for movie_dir in movie_directories:
@@ -29,9 +33,19 @@ class PlexMovieCrawler:
                 self.invalid_movies.append(f"{movie_dir}")
 
     def get_movielist(self) -> MovieList:
-        """returns the list of all movies"""
+        """
+        returns the list of all movies
+
+        :return: The list of all movies
+        :rtype: MovieList
+        """
         return self.movielist
 
     def get_invalid_movies(self) -> list[str]:
-        """returns the list of invalid movies"""
+        """
+        returns the list of invalid movies
+
+        :return: The list of invalid movies
+        :rtype: list[str]
+        """
         return self.invalid_movies

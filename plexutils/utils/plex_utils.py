@@ -25,8 +25,12 @@ class PlexUtils(ConsoleMenu):
         self.title = self.gettext("PlexUtils Menu:")
         self.setup_menu()
 
-    def setup_menu(self):
-        """sets up the menu items"""
+    def setup_menu(self) -> None:
+        """
+        sets up the menu items
+
+        :return: None
+        """
         self.add_item(
             {
                 "id": "1",
@@ -60,7 +64,7 @@ class PlexUtils(ConsoleMenu):
         """
         Checks the configuration and returns a warning message if needed.
 
-        Returns:
-            str: The warning message.
+        :return: The warning message.
+        :rtype: Optional[str]
         """
         return None

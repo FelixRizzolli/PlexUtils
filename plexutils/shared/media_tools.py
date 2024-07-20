@@ -12,11 +12,11 @@ def extract_tvdbid(dirname: str) -> Optional[int]:
     """
     Extracts the TVDB ID from a directory name.
 
-    Parameters:
-        dirname (str): The directory name.
+    :param dirname: The directory name.
+    :type dirname: str
 
-    Returns:
-        Optional[int]: The TVDB ID if found, None otherwise.
+    :return: The TVDB ID if found, None otherwise.
+    :rtype: Optional[int]
     """
     tvdbid_pattern: str = r"{tvdb-(\d+)}"
     tvdbid_match: Optional[re.Match] = re.search(tvdbid_pattern, dirname)
@@ -30,11 +30,11 @@ def extract_episodeid(filename: str) -> Optional[int]:
     """
     Extracts the episode ID from a file name.
 
-    Parameters:
-        filename (str): The file name.
+    :param filename: The file name.
+    :type filename: str
 
-    Returns:
-        Optional[int]: The episode ID if found, None otherwise.
+    :return: The episode ID if found, None otherwise.
+    :rtype: Optional[int]
     """
     episodeid_pattern: str = r"- s(\d+)e(\d+)"
     episodeid_match: Optional[re.Match] = re.search(episodeid_pattern, filename)
@@ -48,11 +48,11 @@ def extract_seasonid_from_episode(filename: str) -> Optional[int]:
     """
     Extracts the season ID from a file name.
 
-    Parameters:
-        filename (str): The file name.
+    :param filename: The file name.
+    :type filename: str
 
-    Returns:
-        Optional[int]: The season ID if found, None otherwise.
+    :return: The season ID if found, None otherwise.
+    :rtype: Optional[int]
     """
     seasonid_pattern: str = r"- s(\d+)e(\d+)"
     seasonid_match: Optional[re.Match] = re.search(seasonid_pattern, filename)
@@ -66,11 +66,11 @@ def extract_seasonid(dirname: str) -> Optional[int]:
     """
     Extracts the season ID from a directory name.
 
-    Parameters:
-        dirname (str): The directory name.
+    :param dirname: The directory name.
+    :type dirname: str
 
-    Returns:
-        Optional[int]: The season ID if found, None otherwise.
+    :return: The season ID if found, None otherwise.
+    :rtype: Optional[int]
     """
     seasonid_pattern: str = r"Season (\d+)"
     seasonid_match: Optional[re.Match] = re.search(seasonid_pattern, dirname)

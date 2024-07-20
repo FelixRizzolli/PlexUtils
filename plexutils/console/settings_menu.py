@@ -12,14 +12,24 @@ from plexutils.shared.config_tools import save_config_to_file
 
 
 def get_config_path() -> str:
-    """returns the path to the config file"""
+    """
+    returns the path to the config file
+
+    :return: The path to the config file
+    :rtype: str
+    """
     script_path: str = os.path.dirname(os.path.realpath(__file__))
     pj_path: str = os.path.join(script_path, "..", "..")
     return os.path.join(pj_path, "config.yaml")
 
 
 def get_locale_path() -> str:
-    """returns the path to the locale folder"""
+    """
+    returns the path to the locale folder
+
+    :return: The path to the locale folder
+    :rtype: str
+    """
     script_path: str = os.path.dirname(os.path.realpath(__file__))
     pj_path: str = os.path.join(script_path, "..", "..")
     return os.path.join(pj_path, "locale")
@@ -35,8 +45,12 @@ class SettingsConsoleMenu(ConsoleMenu):
         self.title = self.gettext("Settings Menu:")
         self.setup_menu()
 
-    def setup_menu(self):
-        """sets up the menu items"""
+    def setup_menu(self) -> None:
+        """
+        sets up the menu items
+
+        :return: None
+        """
         self.add_item(
             {
                 "id": "1",
@@ -67,12 +81,19 @@ class SettingsConsoleMenu(ConsoleMenu):
         )
 
     def get_utils_name(self) -> str:
-        """returns the utils name"""
+        """
+        returns the utils name
+
+        :return: The utils name
+        :rtype: str
+        """
         return self.gettext("Settings")
 
     def change_language(self) -> None:
         """
         Changes the language of the application.
+
+        :return: None
         """
 
         # Get the available languages
@@ -120,6 +141,8 @@ class SettingsConsoleMenu(ConsoleMenu):
     def change_tvdb_credentials(self) -> None:
         """
         Changes the TVDB credentials of the application.
+
+        :return: None
         """
 
         clear_console()
@@ -132,6 +155,8 @@ class SettingsConsoleMenu(ConsoleMenu):
     def add_plex_librarie(self) -> None:
         """
         Adds a Plex library to the config.
+
+        :return: None
         """
         clear_console()
 
@@ -184,6 +209,8 @@ class SettingsConsoleMenu(ConsoleMenu):
     def remove_plex_librarie(self) -> None:
         """
         Removes a Plex library from the config.
+
+        :return: None
         """
         clear_console()
 
@@ -217,7 +244,7 @@ class SettingsConsoleMenu(ConsoleMenu):
         """
         Checks the configuration and returns a warning message if needed.
 
-        Returns:
-            str: The warning message.
+        :return: A warning message if needed, None otherwise.
+        :rtype: Optional[str]
         """
         return None

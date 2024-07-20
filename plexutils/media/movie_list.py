@@ -12,9 +12,6 @@ from plexutils.media.movie import Movie
 class MovieList:
     """
     Represents a collection of movies.
-
-    Attributes:
-        _movies (dict[int, Movie]): A dictionary mapping TVDB IDs to movies.
     """
 
     def __init__(self):
@@ -25,8 +22,8 @@ class MovieList:
         """
         Returns all movies in the collection.
 
-        Returns:
-            list[Movie]: A list of all movies in the collection.
+        :return: A list of all movies in the collection.
+        :rtype: list[Movie]
         """
         return list(self._movies.values())
 
@@ -34,8 +31,8 @@ class MovieList:
         """
         Adds a movie to the collection.
 
-        Args:
-            movie (Movie): The movie to add.
+        :param movie: The movie to add.
+        :type movie: Movie
         """
         if movie.tvdbid is None:
             raise ValueError("Movie TVDB ID is required")
@@ -48,11 +45,11 @@ class MovieList:
         """
         Returns the movie with the given ID.
 
-        Args:
-            movie_id (int): The TVDB ID of the movie to return.
+        :param movie_id: The TVDB ID of the movie to return.
+        :type movie_id: int
 
-        Returns:
-            Optional[Movie]: The movie with the given ID, or None if no such movie exists.
+        :return: The movie with the given ID, or None if no such movie exists.
+        :rtype: Optional[Movie]
         """
         return self._movies.get(movie_id)
 
@@ -60,7 +57,7 @@ class MovieList:
         """
         Checks if the collection is empty.
 
-        Returns:
-            bool: True if the collection is empty, False otherwise.
+        :return: True if the collection is empty, False otherwise.
+        :rtype: bool
         """
         return len(self._movies) == 0

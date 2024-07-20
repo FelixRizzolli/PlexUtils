@@ -15,8 +15,7 @@ def clear_console() -> None:
     """
     Clears the console screen. This function doesn't work in IDEs like PyCharm.
 
-    Returns:
-        None
+    :return: None
     """
     print("clear_console()")
     command: str = "cls" if os.name == "nt" else "clear"
@@ -28,13 +27,12 @@ def print_library_menu(gettext: Callable[[str], str], menu_list: ConsoleMenu) ->
     Prints a library menu and prompts the user to make a choice.
     It keeps prompting until a valid choice is made.
 
-    Parameters:
-        gettext (Callable[[str], str]): A function to translate a string into
-                                        the user's language.
-        menu_list (ConsoleMenu): A Menu object that contains the menu options.
+    :param gettext: A function to translate a string into the user's language.
+    :type gettext: Callable[[str], str]
+    :param menu_list: A Menu object that contains the menu options.
+    :type menu_list: ConsoleMenu
 
-    Returns:
-        str: The path associated with the chosen option from the menu.
+    :return: The path associated with the chosen option from the menu.
     """
 
     while True:
@@ -66,17 +64,16 @@ def library_menu_wrapper(
     This function wraps the process of displaying a library menu, getting user input, and
     executing a function with the selected library's path.
 
-    Parameters:
-        gettext (Callable[[str], str]): A function to translate a string into the user's
-                                        language.
-        config (Config): A Config object that contains the configuration settings.
-        library_type (str): The type of library (e.g., 'movie', 'tvshow') to display in
-                            the menu.
-        fun (Callable[[str], None]): A function to execute with the selected library's path
-                                     as an argument.
+    :param gettext: A function to translate a string into the user's language.
+    :type gettext: Callable[[str], str]
+    :param config: A Config object that contains the configuration settings.
+    :type config: Config
+    :param library_type: The type of library (e.g., 'movie', 'tvshow') to display in the menu.
+    :type library_type: str
+    :param fun: A function to execute with the selected library's path as an argument.
+    :type fun: Callable[[str], None]
 
-    Returns:
-        None
+    :return: None
     """
     library_menu = ConsoleMenu()
 
@@ -100,18 +97,19 @@ def library_menu_wrapper(
 
 def get_library_name(name: str, dub_lang: str, sub_lang: str) -> str:
     """
-    Generates a library name based on the given name, dubbed language, and subtitle
-    language.
+    Generates a library name based on the given name, dubbed language, and subtitle language.
 
-    Parameters:
-        name (str): The name of the library.
-        dub_lang (str): The language in which the library is dubbed.
-                        It can be a 2-letter or 5-letter language code.
-        sub_lang (str): The language in which the subtitles are available.
-                        It can be a 2-letter or 5-letter language code.
+    :param name: The name of the library.
+    :type name: str
+    :param dub_lang: The language in which the library is dubbed.
+                     It can be a 2-letter or 5-letter language code.
+    :type dub_lang: str
+    :param sub_lang: The language in which the subtitles are available.
+                     It can be a 2-letter or 5-letter language code.
+    :type sub_lang: str
 
-    Returns:
-        str: The library name in the format "(DUB_LANG-SUB_LANG) NAME".
+    :return: The library name in the format "(DUB_LANG-SUB_LANG) NAME".
+    :rtype: str
     """
 
     library_name: str = ""

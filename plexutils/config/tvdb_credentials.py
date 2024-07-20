@@ -19,8 +19,8 @@ class TVDBCredentials:
         """
         Convert the TVDBCredentials object to a dictionary.
 
-        Returns:
-            dict: A dictionary representation of the TVDBCredentials object.
+        :return: A dictionary representation of the TVDBCredentials object.
+        :rtype: dict
         """
         return {
             "api_key": self.api_key,

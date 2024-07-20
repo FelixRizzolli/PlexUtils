@@ -20,8 +20,8 @@ def load_config() -> Config:
     """
     Loads the configuration from a YAML file.
 
-    Returns:
-        dict: The configuration dictionary.
+    :return: The configuration object.
+    :rtype: Config
     """
     script_path: str = os.path.dirname(os.path.realpath(__file__))
     pj_path: str = os.path.join(script_path, "..", "..")
@@ -34,11 +34,11 @@ def load_config_from_file(config_file: str) -> Config:
     """
     Loads the configuration from a YAML file.
 
-    Parameters:
-        config_file (str): The path to the configuration file.
+    :param config_file: The path to the configuration file.
+    :type config_file: str
 
-    Returns:
-        dict: The configuration dictionary.
+    :return: The configuration object.
+    :rtype: Config
     """
     config_dict: dict = {}
 
@@ -52,12 +52,12 @@ def save_config_to_file(config: Config, config_file: str) -> None:
     """
     Saves the configuration to a YAML file.
 
-    Parameters:
-        config (Config): The configuration object.
-        config_file (str): The path to the configuration file.
+    :param config: The configuration object.
+    :type config: Config
+    :param config_file: The path to the configuration file.
+    :type config_file: str
 
-    Returns:
-        None
+    :return: None
     """
     config_dict: dict = {
         "language": config.language,
@@ -73,11 +73,11 @@ def parse_config(config_dict: dict) -> Config:
     """
     Parses the configuration dictionary and returns a Config object.
 
-    Parameters:
-        config_dict (dict): The configuration dictionary.
+    :param config_dict: The configuration dictionary.
+    :type config_dict: dict
 
-    Returns:
-        Config: The configuration object.
+    :return: The configuration object.
+    :rtype: Config
     """
     language: str = "en_US"
     libraries: list[PlexLibraryInfos] = []
@@ -105,11 +105,11 @@ def parse_plex_library_infos(config_dict: dict) -> PlexLibraryInfos:
     """
     Parses the configuration dictionary and returns a PlexLibraryInfos object.
 
-    Parameters:
-        config_dict (dict): The configuration dictionary.
+    :param config_dict: The configuration dictionary.
+    :type config_dict: dict
 
-    Returns:
-        PlexLibraryInfos: The PlexLibraryInfos object.
+    :return: The PlexLibraryInfos object.
+    :rtype: PlexLibraryInfos
     """
     # Check for required keys
     if "type" not in config_dict:
@@ -157,13 +157,13 @@ def setup_i18n(pj_path: str, config: Config) -> Callable[[str], str]:
     The function uses the 'language' key from the configuration to set the language for i18n.
     If the 'language' key is not found in the configuration, it defaults to 'en_US'.
 
-    Parameters:
-        pj_path (str): The path to the project directory.
-        config (Config): The configuration dictionary.
+    :param pj_path: The path to the project directory.
+    :type pj_path: str
+    :param config: The configuration dictionary.
+    :type config: Config
 
-    Returns:
-        Callable[[str], str]: A function that can be used to translate a string into the
-                              configured language.
+    :return: A function that can be used to translate a string into the configured language.
+    :rtype: Callable[[str], str]
     """
     locale_dir: str = os.path.join(pj_path, "locale")
 

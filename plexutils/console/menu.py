@@ -14,8 +14,7 @@ def clear_console() -> None:
     """
     Clears the console screen. This function doesn't work in IDEs like PyCharm.
 
-    Returns:
-        None
+    :return: None
     """
     print("clear_console()")
     command: str = "cls" if os.name == "nt" else "clear"
@@ -38,8 +37,8 @@ class ConsoleMenu:
         """
         Initializes a new instance of the Menu class.
 
-        Parameters:
-            is_main_menu (bool): A boolean value indicating whether the menu is the main menu.
+        :param is_main_menu: A boolean value indicating whether the menu is the main menu.
+        :type is_main_menu: bool
         """
 
         # Load the configuration
@@ -56,11 +55,11 @@ class ConsoleMenu:
         """
         Checks if an option with the given id exists in the menu.
 
-        Parameters:
-            option_id (str): The id of the option to check.
+        :param option_id: The id of the option to check.
+        :type option_id: str
 
-        Returns:
-            bool: True if an option with the given id exists in the menu, False otherwise.
+        :return: True if an option with the given id exists in the menu, False otherwise.
+        :rtype: bool
         """
 
         for item in self.menu_list:
@@ -72,11 +71,11 @@ class ConsoleMenu:
         """
         Returns the option with the given id from the menu.
 
-        Parameters:
-            option_id (str): The id of the option to get.
+        :param option_id: The id of the option to get.
+        :type option_id: str
 
-        Returns:
-            dict: The option with the given id if it exists in the menu, None otherwise.
+        :return: The option with the given id if it exists in the menu, None otherwise.
+        :rtype: Optional[dict]
         """
 
         for option in self.menu_list:
@@ -88,8 +87,8 @@ class ConsoleMenu:
         """
         Returns the list of menu options.
 
-        Returns:
-            list[dict]: The list of menu options.
+        :return: The list of menu options.
+        :rtype: list[dict]
         """
 
         return self.menu_list
@@ -98,8 +97,10 @@ class ConsoleMenu:
         """
         Adds a new item to the menu.
 
-        Parameters:
-            item (dict): The item to add to the menu.
+        :param item: The item to add to the menu.
+        :type item: dict
+
+        :return: None
         """
 
         self.menu_list.append(item)
@@ -108,8 +109,7 @@ class ConsoleMenu:
         """
         Prints the menu and prompts the user to make a choice.
 
-        Returns:
-            None
+        :return: None
         """
 
         while True:
@@ -149,8 +149,7 @@ class ConsoleMenu:
         """
         Prints the menu options.
 
-        Returns:
-            None
+        :return: None
         """
 
         for option in self.get_list():
@@ -167,8 +166,7 @@ class ConsoleMenu:
         """
         Prints the settings option in the menu.
 
-        Returns:
-            None
+        :return: None
         """
 
         if self.is_main_menu:
@@ -181,11 +179,10 @@ class ConsoleMenu:
         """
         Performs the action associated with the user's choice in the menu.
 
-        Parameters:
-            choice: The user's choice.
+        :param choice: The user's choice.
+        :type choice: str
 
-        Returns:
-            None
+        :return: None
         """
 
         # Check if the user wants to go to the settings menu
@@ -214,12 +211,11 @@ class ConsoleMenu:
         else:
             print("\n" + self.gettext("Invalid choice. Please enter a valid option."))
 
-    def load_gettext(self):
+    def load_gettext(self) -> None:
         """
         Loads the gettext function for internationalization.
 
-        Returns:
-            None
+        :return: None
         """
         # Get the path of the script and the project
         script_path: str = os.path.dirname(os.path.realpath(__file__))
@@ -232,7 +228,7 @@ class ConsoleMenu:
         """
         Checks the configuration and returns a message.
 
-        Returns:
-            str: The message.
+        :return: A message about the configuration.
+        :rtype: Optional[str]
         """
         return None

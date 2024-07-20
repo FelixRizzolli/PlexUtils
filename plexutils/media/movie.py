@@ -12,10 +12,6 @@ from plexutils.shared.media_tools import extract_tvdbid
 class Movie:
     """
     Represents a single movie.
-
-    Attributes:
-        _filename (str): The filename of the movie.
-        _tvdbid (Optional[int]): The TVDB ID of the movie.
     """
 
     def __init__(self, filename: str):
@@ -27,8 +23,8 @@ class Movie:
         """
         Returns the TVDB ID of the movie.
 
-        Returns:
-            Optional[int]: The TVDB ID of the movie.
+        :return: The TVDB ID of the movie.
+        :rtype: Optional[int]
         """
         return self._tvdbid
 
@@ -37,8 +33,8 @@ class Movie:
         """
         Returns the filename of the movie.
 
-        Returns:
-            str: The filename of the movie.
+        :return: The filename of the movie.
+        :rtype: str
         """
         return self._filename
 
@@ -46,7 +42,7 @@ class Movie:
         """
         Checks if the movie has a valid filename.
 
-        Returns:
-            bool: True if the movie has a valid filename, False otherwise.
+        :return: True if the movie has a valid filename, False otherwise.
+        :rtype: bool
         """
         return self._tvdbid is not None

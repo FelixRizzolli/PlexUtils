@@ -29,8 +29,12 @@ class TVDBUtils(ConsoleMenu):
             if self.config.tvdb.api_pin is not None:
                 self.tvdb_pin = self.config.tvdb.api_pin
 
-    def setup_menu(self):
-        """sets up the menu items"""
+    def setup_menu(self) -> None:
+        """
+        sets up the menu items
+
+        :return: None
+        """
         self.add_item(
             {
                 "id": "1",
@@ -58,7 +62,12 @@ class TVDBUtils(ConsoleMenu):
         )
 
     def get_utils_name(self) -> str:
-        """returns the utils name"""
+        """
+        returns the utils name
+
+        :return: The utils name.
+        :rtype: str
+        """
         return self.gettext(
             "TVDBUtils       - Tools to compare the plex library with tvdb or search new content"
         )
@@ -67,6 +76,11 @@ class TVDBUtils(ConsoleMenu):
         """
         searches for new seasons
             of existing tvshows
+
+        :param library_path: The path of the library.
+        :type library_path: str
+
+        :return: None
         """
 
         tvdb_api: TvdbApi = TvdbApi(self.tvdb_key, self.tvdb_pin)
@@ -97,6 +111,11 @@ class TVDBUtils(ConsoleMenu):
         searches for missing episodes
             of existing seasons
             of existing tvshows
+
+        :param library_path: The path of the library.
+        :type library_path: str
+
+        :return: None
         """
 
         tvdb_api: TvdbApi = TvdbApi(self.tvdb_key, self.tvdb_pin)
@@ -134,8 +153,8 @@ class TVDBUtils(ConsoleMenu):
         """
         Checks the configuration and returns a warning message if needed.
 
-        Returns:
-            str: The warning message.
+        :return: The warning message.
+        :rtype: Optional[str]
         """
 
         if self.config is None:

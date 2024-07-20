@@ -11,7 +11,9 @@ from plexutils.media.tvshow_season import TVShowSeason
 
 
 class PlexTVShowCrawler:
-    """class for crawling tvshow data from a plex library"""
+    """
+    class for crawling tvshow data from a plex library
+    """
 
     def __init__(self, path):
         self.invalid_tvshows: list[str] = []
@@ -21,7 +23,11 @@ class PlexTVShowCrawler:
         self.path = path
 
     def crawl(self) -> None:
-        """crawls the tvshows from a plex library"""
+        """
+        crawls the tvshows from a plex library
+
+        :return: None
+        """
         tvshow_directories: list[str] = os.listdir(self.path)
 
         for tvshow_dir in tvshow_directories:
@@ -36,8 +42,16 @@ class PlexTVShowCrawler:
             else:
                 self.invalid_tvshows.append(f"{tvshow_dir}")
 
-    def crawl_seasons(self, tvshow_dir) -> list[TVShowSeason]:
-        """crawls the seasons from the given tvshow directory"""
+    def crawl_seasons(self, tvshow_dir: str) -> list[TVShowSeason]:
+        """
+        crawls the seasons from the given tvshow directory
+
+        :param tvshow_dir: The directory of the tvshow
+        :type tvshow_dir: str
+
+        :return: A list of seasons
+        :rtype: list[TVShowSeason]
+        """
         seasons: list[TVShowSeason] = []
         season_directories: list[str] = os.listdir(os.path.join(self.path, tvshow_dir))
 
@@ -55,8 +69,18 @@ class PlexTVShowCrawler:
 
         return seasons
 
-    def crawl_episodes(self, tvshow_dir, season_dir) -> list[TVShowEpisode]:
-        """crawls the episodes from the given tvshow and season directory"""
+    def crawl_episodes(self, tvshow_dir: str, season_dir: str) -> list[TVShowEpisode]:
+        """
+        crawls the episodes from the given tvshow and season directory
+
+        :param tvshow_dir: The directory of the tvshow
+        :type tvshow_dir: str
+        :param season_dir: The directory of the season
+        :type season_dir: str
+
+        :return: A list of episodes
+        :rtype: list[TVShowEpisode]
+        """
         episodes: list[TVShowEpisode] = []
         episode_directories: list[str] = os.listdir(
             os.path.join(self.path, tvshow_dir, season_dir)
@@ -75,17 +99,37 @@ class PlexTVShowCrawler:
         return episodes
 
     def get_tvshowlist(self) -> TVShowList:
-        """returns the list of all tvshows"""
+        """
+        returns the list of all tvshows
+
+        :return: The list of all tvshows
+        :rtype: TVShowList
+        """
         return self.tvshowlist
 
     def get_invalid_tvshows(self) -> list[str]:
-        """returns the list of invalid tvshows"""
+        """
+        returns the list of invalid tvshows
+
+        :return: The list of invalid tvshows
+        :rtype: list[str]
+        """
         return self.invalid_tvshows
 
     def get_invalid_seasons(self) -> list[str]:
-        """returns the list of invalid seasons"""
+        """
+        returns the list of invalid seasons
+
+        :return: The list of invalid seasons
+        :rtype: list[str]
+        """
         return self.invalid_seasons
 
     def get_invalid_episodes(self) -> list[str]:
-        """returns the list of invalid episodes"""
+        """
+        returns the list of invalid episodes
+
+        :return: The list of invalid episodes
+        :rtype: list[str]
+        """
         return self.invalid_episodes

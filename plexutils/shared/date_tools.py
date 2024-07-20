@@ -10,11 +10,11 @@ def is_past_date(iso_date_string: str) -> bool:
     """
     Checks if the given ISO date string is a past date.
 
-    Parameters:
-        iso_date_string (str): The date string in ISO format.
+    :param iso_date_string: The date string in ISO format.
+    :type iso_date_string: str
 
-    Returns:
-        bool: True if the date is in the past, False otherwise.
+    :return: True if the date is in the past, False otherwise.
+    :rtype: bool
     """
     return not is_future_date(iso_date_string)
 
@@ -23,11 +23,11 @@ def is_future_date(iso_date_string: str) -> bool:
     """
     Checks if the given ISO date string is a future date.
 
-    Parameters:
-        iso_date_string (str): The date string in ISO format.
+    :param iso_date_string: The date string in ISO format.
+    :type iso_date_string: str
 
-    Returns:
-        bool: True if the date is in the future, False otherwise.
+    :return: True if the date is in the future, False otherwise.
+    :rtype: bool
     """
     # Parse the ISO date string into a datetime object
     date: datetime = datetime.fromisoformat(iso_date_string)

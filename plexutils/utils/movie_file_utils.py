@@ -17,8 +17,12 @@ class MovieFileUtils(ConsoleMenu):
         self.title = self.gettext("MovieFileUtils Menu:")
         self.setup_menu()
 
-    def setup_menu(self):
-        """sets up the menu items"""
+    def setup_menu(self) -> None:
+        """
+        sets up the menu items
+
+        :return: None
+        """
         self.add_item(
             {
                 "id": "1",
@@ -30,7 +34,12 @@ class MovieFileUtils(ConsoleMenu):
         )
 
     def get_utils_name(self) -> str:
-        """returns the utils name"""
+        """
+        returns the utils name
+
+        :return: the utils name
+        :rtype: str
+        """
         return self.gettext("MovieFileUtils  - Tools for movie files")
 
     def validate_movie_syntax(self, library_path: str) -> None:
@@ -38,6 +47,11 @@ class MovieFileUtils(ConsoleMenu):
         validates the filenames
             of the movies
             from the initialized directory
+
+        :param library_path: the path to the library
+        :type library_path: str
+
+        :return: None
         """
 
         crawler: PlexMovieCrawler = PlexMovieCrawler(library_path)
@@ -59,8 +73,8 @@ class MovieFileUtils(ConsoleMenu):
         """
         Checks the configuration and returns a warning message if needed.
 
-        Returns:
-            str: The warning message.
+        :return: The warning message.
+        :rtype: str
         """
 
         if self.config is None:

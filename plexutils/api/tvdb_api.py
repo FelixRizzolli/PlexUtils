@@ -26,6 +26,12 @@ class TvdbApi:
         returns the movie data
             from the tvdb api
             for the given movie id
+
+        :param movie_id: The movie id
+        :type movie_id: int
+
+        :return: The movie data
+        :rtype: dict
         """
         return self.tvdb.get_movie(movie_id)
 
@@ -34,6 +40,13 @@ class TvdbApi:
         returns the episodes data
             from the tvdb api
             for the given tvdbid and the season of the tvshow
+
+        :param tvdbid: The tvdb id of the tvshow
+        :type tvdbid: int
+        :param season_id: The season id of the tvshow
+        :type season_id: int
+
+        :return: The episodes data
         """
         episodes: list[dict] = self.tvdb.get_series_episodes(tvdbid)["episodes"]
 
@@ -53,6 +66,11 @@ class TvdbApi:
         returns the season ids
             from the tvdb api
             for the given tvdbid of the tvshow
+
+        :param tvdbid: The tvdb id of the tvshow
+        :type tvdbid: int
+
+        :return: The season ids
         """
         episodes: list[dict] = self.tvdb.get_series_episodes(tvdbid)["episodes"]
 
@@ -69,6 +87,13 @@ class TvdbApi:
         returns the season ids
             from the tvdb api
             for the given tvdbid and the season of the tvshow
+
+        :param tvdbid: The tvdb id of the tvshow
+        :type tvdbid: int
+        :param season_id: The season id of the tvshow
+        :type season_id: int
+
+        :return: The season ids
         """
         if self.cached_tvshow_tvdbid is None or self.cached_tvshow_tvdbid != tvdbid:
             self.cached_episodes = self.tvdb.get_series_episodes(tvdbid)["episodes"]
