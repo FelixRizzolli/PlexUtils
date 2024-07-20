@@ -29,13 +29,15 @@ def run_tests() -> None:
     This function uses Python's built-in unittest module to discover and run unit tests.
     The tests are run using the  'poetry run python -m unittest discover tests' command,
     which ensures that the tests are run in the virtual environment managed by Poetry.
+
+    :return: None
     """
     subprocess.run(
         "poetry run python -m unittest discover tests", shell=True, check=True
     )
 
 
-def run_test_coverage():
+def run_test_coverage() -> None:
     """
     Execute test coverage analysis for the project.
 
@@ -49,6 +51,8 @@ def run_test_coverage():
         - XML: Creates a file 'coverage.xml' with the coverage report in XML format.
         - LCOV: Generates an LCOV report file 'lcov.info'.
         - JSON: Creates a JSON report file 'coverage.json'.
+
+    :return: None
     """
     # Get the absolute path of the current script
     current_script_dir: str = os.path.dirname(os.path.realpath(__file__))
@@ -84,9 +88,12 @@ def create_html_report(cov: Coverage, report_dir: str) -> None:
     """
     Creates an HTML coverage report.
 
-    Args:
-        cov (Coverage): The coverage object.
-        report_dir (str): The directory where the report will be saved.
+    :param cov: The coverage object.
+    :type cov: Coverage
+    :param report_dir: The directory where the report will be saved.
+    :type report_dir: str
+
+    :return: None
     """
     html_report_dir: str = os.path.join(report_dir, "html")
     cov.html_report(directory=html_report_dir)
@@ -96,9 +103,12 @@ def create_xml_report(cov: Coverage, report_dir: str) -> None:
     """
     Creates an XML coverage report.
 
-    Args:
-        cov (Coverage): The coverage object.
-        report_dir (str): The directory where the report will be saved.
+    :param cov: The coverage object.
+    :type cov: Coverage
+    :param report_dir: The directory where the report will be saved.
+    :type report_dir: str
+
+    :return: None
     """
     xml_report_dir: str = os.path.join(report_dir, "xml", "coverage.xml")
     cov.xml_report(outfile=xml_report_dir)
@@ -108,9 +118,12 @@ def create_lcov_report(cov: Coverage, report_dir: str) -> None:
     """
     Creates an LCOV coverage report.
 
-    Args:
-        cov (Coverage): The coverage object.
-        report_dir (str): The directory where the report will be saved.
+    :param cov: The coverage object.
+    :type cov: Coverage
+    :param report_dir: The directory where the report will be saved.
+    :type report_dir: str
+
+    :return: None
     """
     lcov_report_dir: str = os.path.join(report_dir, "lcov", "lcov.info")
     cov.lcov_report(outfile=lcov_report_dir)
@@ -120,9 +133,12 @@ def create_json_report(cov: Coverage, report_dir: str) -> None:
     """
     Creates a JSON coverage report.
 
-    Args:
-        cov (Coverage): The coverage object.
-        report_dir (str): The directory where the report will be saved.
+    :param cov: The coverage object.
+    :type cov: Coverage
+    :param report_dir: The directory where the report will be saved.
+    :type report_dir: str
+
+    :return: None
     """
     json_report_dir: str = os.path.join(report_dir, "json", "coverage.json")
     cov.json_report(outfile=json_report_dir)

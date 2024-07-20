@@ -6,19 +6,19 @@ import os
 import shutil
 
 
-def generate_test_config_files(data_dir, scripts_data_dir):
+def generate_test_config_files(data_dir, scripts_data_dir) -> None:
     """
     Generate test configuration files.
 
     This function copies configuration files from a source directory
     to a destination directory for testing purposes.
 
-    Parameters:
-        data_dir (str): The destination directory where the configuration files will be copied to.
-        scripts_data_dir (str): The source directory where the configuration files are located.
+    :param data_dir: The destination directory where the configuration files will be copied to.
+    :type data_dir: str
+    :param scripts_data_dir: The source directory where the configuration files are located.
+    :type scripts_data_dir: str
 
-    Returns:
-        None
+    :return: None
     """
     print("generate_test_config_files")
     copy_files(
@@ -27,7 +27,7 @@ def generate_test_config_files(data_dir, scripts_data_dir):
     print("DONE!")
 
 
-def copy_files(src_dir: str, dst_dir: str):
+def copy_files(src_dir: str, dst_dir: str) -> None:
     """
     Copy files from a source directory to a destination directory.
 
@@ -35,12 +35,12 @@ def copy_files(src_dir: str, dst_dir: str):
     Then it iterates over all files in the source directory and copies each file to the
     destination directory.
 
-    Parameters:
-        src_dir (str): The source directory where the files are located.
-        dst_dir (str): The destination directory where the files will be copied to.
+    :param src_dir: The source directory where the files are located.
+    :type src_dir: str
+    :param dst_dir: The destination directory where the files will be copied to.
+    :type dst_dir: str
 
-    Returns:
-        None
+    :return: None
     """
     # Check if destination directory exists, if not, create it
     if not os.path.exists(dst_dir):

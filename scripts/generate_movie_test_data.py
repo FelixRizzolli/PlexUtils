@@ -10,10 +10,13 @@ def generate_movie_libraries(data_dir: str, scripts_data_dir: str) -> None:
     """
     Generates movie libraries based on JSON files.
 
-    Args:
-        data_dir (str): The path of the data directory where the movie files will be created.
-        scripts_data_dir (str): The path of the scripts data directory where the JSON files
-                                are located.
+    :param data_dir: The path of the data directory where the movie files will be created.
+    :type data_dir: str
+    :param scripts_data_dir: The path of the scripts data directory where the JSON files are
+                             located.
+    :type scripts_data_dir: str
+
+    :return: None
     """
     libraries = [
         {"name": "movies", "source_file": "movie_files.json"},
@@ -39,9 +42,12 @@ def generate_movie_librarie(library_dir: str, source_file: str) -> None:
     The function creates directories if they do not exist, then reads a JSON file containing
     movie file names. It then creates these movie files in the specified directory.
 
-    Args:
-        library_dir (str): The path of the library directory where the movie files will be created.
-        source_file (str): The path of the source file where the JSON file is located.
+    :param library_dir: The path of the library directory where the movie files will be created.
+    :type library_dir: str
+    :param source_file: The path of the source file where the JSON file is located.
+    :type source_file: str
+
+    :return: None
     """
     # Open the JSON file
     print("\nRead movie_files.json")

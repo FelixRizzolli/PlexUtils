@@ -10,11 +10,13 @@ def generate_tvshow_libaries(data_dir: str, scripts_data_dir: str) -> None:
     """
     Generates TV show libraries based on JSON files.
 
-    Args:
-        data_dir (str): The path of the data directory where the TV show directories will be
-                        created.
-        scripts_data_dir (str): The path of the scripts data directory where the JSON files
-                                are located.
+    :param data_dir: The path of the data directory where the TV show directories will be created.
+    :type data_dir: str
+    :param scripts_data_dir: The path of the scripts data directory where the JSON files are
+                             located.
+    :type scripts_data_dir: str
+
+    :return: None
     """
     libraries = [
         {"name": "tvshows", "source_file": "tvshow_files.json"},
@@ -40,10 +42,13 @@ def generate_tvshow_library(library_dir: str, source_file: str) -> None:
     The function creates directories if they do not exist, then reads a JSON file containing
     TV show directory names. It then creates these TV show directories in the specified directory.
 
-    Args:
-        library_dir (str): The path of the library directory where the TV show directories
-                           will be created.
-        source_file (str): The path of the source file where the JSON file is located.
+    :param library_dir: The path of the library directory where the TV show directories will be
+                        created.
+    :type library_dir: str
+    :param source_file: The path of the source file where the JSON file is located.
+    :type source_file: str
+
+    :return: None
     """
     # Open the JSON file
     print("\nRead tvshow_files.json")
@@ -77,10 +82,13 @@ def generate_tvshow_season_directories(tvshow_dir: str, tvshow: dict) -> None:
 
     The function creates season directories within a TV show directory.
 
-    Args:
-        tvshow_dir (str): The path of the TV show directory where the season directories
-                          will be created.
-        tvshow (dict): A dictionary containing information about the TV show and its seasons.
+    :param tvshow_dir: The path of the TV show directory where the season directories will be
+                       created.
+    :type tvshow_dir: str
+    :param tvshow: A dictionary containing information about the TV show and its seasons.
+    :type tvshow: dict
+
+    :return: None
     """
     for season in tvshow["seasons"]:
         season_dirname: str = season["dirname"]
@@ -98,9 +106,12 @@ def generate_tvshow_episode_files(season_dir: str, season: dict) -> None:
 
     The function creates episode files within a season directory.
 
-    Args:
-        season_dir (str): The path of the season directory where the episode files will be created.
-        season (dict): A dictionary containing information about the season and its episodes.
+    :param season_dir: The path of the season directory where the episode files will be created.
+    :type season_dir: str
+    :param season: A dictionary containing information about the season and its episodes.
+    :type season: dict
+
+    :return: None
     """
     for episode in season["episodes"]:
         episode_dir: str = os.path.join(season_dir, episode)

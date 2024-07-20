@@ -26,8 +26,8 @@ def get_current_version() -> str:
     """
     Returns the version number of the latest release in the changelog.
 
-    Returns:
-        str: The version number of the latest release.
+    :return: The version number of the latest release.
+    :rtype: str
     """
     current_script_dir: str = os.path.dirname(os.path.realpath(__file__))
     changelog_file: str = os.path.join(current_script_dir, "..", "CHANGELOG.md")
@@ -50,9 +50,9 @@ def get_version_from_pyproject() -> str:
     This function loads the pyproject.toml file, navigates to the 'version' field
     under 'tool.poetry', and returns the version number.
 
-    Returns:
-        str: The version number as a string. If the version number is not found,
-             an empty string is returned.
+    :return: The version number as a string. If the version number is not found, an empty string is
+             returned.
+    :rtype: str
     """
     current_script_dir: str = os.path.dirname(os.path.realpath(__file__))
     pyproject_file: str = os.path.join(current_script_dir, "..", "pyproject.toml")
@@ -70,11 +70,10 @@ def print_change(ver: str = "") -> None:
     """
     Prints the changes made in a specific version or the latest version.
 
-    Args:
-        ver (str): The version to print the changes for.
+    :param ver: The version to print the changes for.
+    :type ver: str
 
-    Returns:
-        None
+    :return: None
     """
     current_script_dir: str = os.path.dirname(os.path.realpath(__file__))
     changelog_file: str = os.path.join(current_script_dir, "..", "CHANGELOG.md")
@@ -115,11 +114,11 @@ def parse_changelog(changelog_file_content: str) -> list:
     """
     Parses the content of a changelog file and returns a list of changes.
 
-    Parameters:
-        changelog_file_content (str): The content of the changelog file as a string.
+    :param changelog_file_content: The content of the changelog file as a string.
+    :type changelog_file_content: str
 
-    Returns:
-        list: A list of dictionaries, each representing a change.
+    :return: A list of dictionaries, each representing a change.
+    :rtype: list
     """
 
     lines: list = changelog_file_content.split("\n")
@@ -150,12 +149,13 @@ def read_unreleased_headline(line: str, changelog: list) -> Optional[str]:
     """
     Reads a line from the changelog and checks if it starts with "## [Unreleased]".
 
-    Parameters:
-        line (str): The line to check.
-        changelog (list): The current changelog list.
+    :param line: The line to check.
+    :type line: str
+    :param changelog: The current changelog list.
+    :type changelog: list
 
-    Returns:
-        str: The version if the line starts with "## [Unreleased]", None otherwise.
+    :return: The version if the line starts with "## [Unreleased]", None otherwise.
+    :rtype: Optional[str]
     """
 
     match: bool = line.startswith("## [Unreleased]")
@@ -173,12 +173,13 @@ def read_version_headline(line: str, changelog: list) -> Optional[str]:
     """
     Reads a line from the changelog and checks if it matches the version headline pattern.
 
-    Parameters:
-        line (str): The line to check.
-        changelog (list): The current changelog list.
+    :param line: The line to check.
+    :type line: str
+    :param changelog: The current changelog list.
+    :type changelog: list
 
-    Returns:
-        str: The version if the line matches the pattern, None otherwise.
+    :return: The version if the line matches the pattern, None otherwise.
+    :rtype: Optional[str]
     """
 
     match: Optional[Match[str]] = re.search(
@@ -200,13 +201,15 @@ def read_category_headline(
     """
     Reads a line from the changelog and checks if it matches the category headline pattern.
 
-    Parameters:
-        line (str): The line to check.
-        current_version (str): The current version.
-        changelog (list): The current changelog list.
+    :param line: The line to check.
+    :type line: str
+    :param current_version: The current version.
+    :type current_version: str
+    :param changelog: The current changelog list.
+    :type changelog: list
 
-    Returns:
-        str: The category if the line matches the pattern, None otherwise.
+    :return: The category if the line matches the pattern, None otherwise.
+    :rtype: Optional[str]
     """
 
     match: Optional[Match[str]] = re.search(r"^### (.+)", line)
@@ -232,14 +235,16 @@ def read_change_item(
     """
     Reads a line from the changelog and checks if it matches the change item pattern.
 
-    Parameters:
-        line (str): The line to check.
-        current_version (str): The current version.
-        current_change_category (str): The current change category.
-        changelog (list): The current changelog list.
+    :param line: The line to check.
+    :type line: str
+    :param current_version: The current version.
+    :type current_version: str
+    :param current_change_category: The current change category.
+    :type current_change_category: str
+    :param changelog: The current changelog list.
+    :type changelog: list
 
-    Returns:
-        None
+    :return: None
     """
 
     ci_match: Optional[Match[str]] = re.search(r"^- (.+)", line)
@@ -259,11 +264,11 @@ def build_change(title: str) -> dict[str, Any]:
     """
     Builds a change dictionary from a title line.
 
-    Args:
-        title (str): The title line.
+    :param title: The title line.
+    :type title: str
 
-    Returns:
-        dict: A dictionary representing a change.
+    :return: A dictionary representing a change.
+    :rtype: dict[str, Any]
     """
     match: Optional[Match[str]] = re.search(
         r"^## \[(\d+)\.(\d+)\.(\d+)\] - (\d{4})-(\d{2})-(\d{2})", title
@@ -290,12 +295,13 @@ def get_change(changelog: list, version: str) -> dict:
     """
     Gets a change from the changelog by version.
 
-    Args:
-        changelog (list): The changelog.
-        version (str): The version to get the change for.
+    :param changelog: The changelog.
+    :type changelog: list
+    :param version: The version to get the change for.
+    :type version: str
 
-    Returns:
-        dict: The change for the given version, or the first change if version is None.
+    :return: The change for the given version, or the first change if version is None.
+    :rtype: dict
     """
     if version is None:
         return changelog[0]
@@ -306,12 +312,13 @@ def get_change_category(change: dict, category: str) -> dict:
     """
     Gets a change category from a change.
 
-    Args:
-        change (dict): The change.
-        category (str): The category to get.
+    :param change: The change.
+    :type change: dict
+    :param category: The category to get.
+    :type category: str
 
-    Returns:
-        dict: The change category for the given category.
+    :return: The change category for the given category.
+    :rtype: dict
     """
     return next((c for c in change["changes"] if c["category"] == category), {})
 
@@ -321,11 +328,11 @@ def sort_changelog(changelog: list) -> list:
     Sorts the changelog list by version number in descending order.
     The "unreleased" version, if it exists, is always placed at the beginning of the list.
 
-    Args:
-        changelog (list): The changelog list to sort.
+    :param changelog: The changelog list to sort.
+    :type changelog: list
 
-    Returns:
-        list: The sorted changelog list.
+    :return: The sorted changelog list.
+    :rtype: list
     """
     unreleased: list = [
         change for change in changelog if change["version"] == "unreleased"

@@ -9,12 +9,14 @@ from scripts.generate_test_config_files import generate_test_config_files
 from scripts.generate_tvshow_test_data import generate_tvshow_libaries
 
 
-def delete_directory(dir_path):
+def delete_directory(dir_path) -> None:
     """
     Deletes the given directory and all its contents.
 
-    Args:
-        dir_path (str): The path of the directory to be deleted.
+    :param dir_path: The path of the directory to be deleted.
+    :type dir_path: str
+
+    :return: None
     """
     for item in os.listdir(dir_path):
         item_path: str = os.path.join(dir_path, item)
@@ -27,12 +29,14 @@ def delete_directory(dir_path):
     os.rmdir(dir_path)
 
 
-def generate_test_data():
+def generate_test_data() -> None:
     """
     Generates test data for movies and TV shows.
 
     The function first deletes any existing data in the 'movies' and 'tvshows' directories.
     Then, it generates new movie files and TV show directories.
+
+    :return: None
     """
     # Get the absolute path of the current script
     current_script_dir: str = os.path.dirname(os.path.realpath(__file__))

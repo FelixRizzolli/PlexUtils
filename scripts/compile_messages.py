@@ -18,10 +18,9 @@ class OS(Enum):
     operating systems. Each operating system is represented by a string that
     `platform.system()` returns.
 
-    Attributes:
-        LINUX (str): Represents the Linux operating system.
-        MACOS (str): Represents the macOS operating system.
-        WINDOWS (str): Represents the Windows operating system.
+    :cvar str LINUX: Represents the Linux operating system.
+    :cvar str MACOS: Represents the macOS operating system.
+    :cvar str WINDOWS: Represents the Windows operating system.
     """
 
     LINUX = "Linux".upper()
@@ -36,11 +35,12 @@ def compile_messages() -> None:
     This function traverses the 'locale' directory and for each language,
     it compiles the .po files into .mo files using the 'msgfmt' command.
 
-    Raises:
-        FileNotFoundError: If the 'locale' directory does not exist.
-        PermissionError: If the script does not have the necessary permissions
-                         to access the 'locale' directory.
-        subprocess.CalledProcessError: If the 'msgfmt' command fails.
+    :raises FileNotFoundError: If the 'locale' directory does not exist.
+    :raises PermissionError: If the script does not have the necessary permissions to access the
+                             'locale' directory.
+    :raises subprocess.CalledProcessError: If the 'msgfmt' command fails.
+
+    :return: None
     """
     current_script_dir: str = os.path.dirname(os.path.realpath(__file__))
     locale_dir: str = os.path.join(current_script_dir, "../locale")
@@ -72,12 +72,14 @@ def compile_po_file(po_dir: str, po_filename: str) -> None:
     If it does, the function constructs the path to the .mo file that will be created, and then runs
     the 'msgfmt' command to compile the .po file into a .mo file.
 
-    Args:
-        po_dir (str): The directory path of the .po file.
-        po_filename (str): The name of the .po file.
+    :param po_dir: The directory path of the .po file.
+    :type po_dir: str
+    :param po_filename: The name of the .po file.
+    :type po_filename: str
 
-    Raises:
-        subprocess.CalledProcessError: If the 'msgfmt' command fails.
+    :raises subprocess.CalledProcessError: If the 'msgfmt' command fails.
+
+    :return: None
     """
     name, ext = os.path.splitext(po_filename)
     if ext == ".po":
@@ -95,12 +97,14 @@ def run_compile_process(mo_file: str, po_file: str) -> None:
     The function uses the 'msgfmt' tool to perform the compilation.
     The operating system is checked to ensure the correct command is executed.
 
-    Args:
-        mo_file (str): The path to the output file (.mo).
-        po_file (str): The path to the input file (.po).
+    :param mo_file: The path to the output file (.mo).
+    :type mo_file: str
+    :param po_file: The path to the input file (.po).
+    :type po_file: str
 
-    Raises:
-        subprocess.CalledProcessError: If the compilation process fails.
+    :raises subprocess.CalledProcessError: If the compilation process fails.
+
+    :return: None
     """
     operating_system: str = platform.system().upper()
 
@@ -142,9 +146,9 @@ def check_compiler() -> bool:
     for the specific operating system.
     If the operating system is not supported, it prints an error message.
 
-    Returns:
-        bool: True if the necessary compiler is installed or the operating system is not supported,
-              False otherwise.
+    :return: True if the necessary compiler is installed or the operating system is not supported,
+             False otherwise.
+    :rtype: bool
     """
     operating_system: str = platform.system().upper()
     print(f"Operating system: {operating_system}")
@@ -188,8 +192,8 @@ def is_msgfmt_installed() -> bool:
     If the command succeeds, it means msgfmt is installed. If the command fails, it means
     msgfmt is not installed.
 
-    Returns:
-        bool: True if msgfmt is installed, False otherwise.
+    :return: True if msgfmt is installed, False otherwise.
+    :rtype: bool
     """
     try:
         subprocess.run(
@@ -211,8 +215,8 @@ def is_pybabel_installed() -> bool:
     If the command succeeds, it means PyBabel is installed. If the command fails, it means
     PyBabel is not installed.
 
-    Returns:
-        bool: True if PyBabel is installed, False otherwise.
+    :return: True if PyBabel is installed, False otherwise.
+    :rtype: bool
     """
     try:
         subprocess.run(

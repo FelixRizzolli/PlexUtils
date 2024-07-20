@@ -28,6 +28,8 @@ def lint() -> None:
 
     The function assumes that `isort`, `black`, and `pylint` are installed in the
     current environment.
+
+    :return: None
     """
     # Get the absolute path of the current script
     current_script_dir: str = os.path.dirname(os.path.realpath(__file__))
@@ -56,8 +58,10 @@ def run_isort(directories: str) -> None:
     isort is a Python utility / library to sort imports alphabetically, and
     automatically separated into sections.
 
-    Args:
-        directories (str): The directories to run isort on.
+    :param directories: The directories to run isort on.
+    :type directories: str
+
+    :return: None
     """
     print("Running isort...")
     subprocess.run(f"isort {directories}", shell=True, check=True)
@@ -70,8 +74,10 @@ def run_black(directories: str) -> None:
     Black is the uncompromising Python code formatter. By using it, you agree
     to cede control over minutiae of hand-formatting.
 
-    Args:
-        directories (str): The directories to run black on.
+    :param directories: The directories to run black on.
+    :type directories: str
+
+    :return: None
     """
     print("Running black...")
     subprocess.run(f"black {directories}", shell=True, check=True)
@@ -84,8 +90,10 @@ def run_pylint(directories: str) -> None:
     Pylint is a tool that checks for errors in Python code, tries to enforce
     a coding standard and looks for code smells.
 
-    Args:
-        directories (str): The directories to run pylint on.
+    :param directories: The directories to run pylint on.
+    :type directories: str
+
+    :return: None
     """
     print("Running pylint...")
     subprocess.run(f"pylint {directories}", shell=True, check=True)
@@ -99,8 +107,10 @@ def run_mypy(directories: str) -> None:
     to your Python programs using the standard Python type hint syntax and
     then use mypy to type check them.
 
-    Args:
-        directories (str): The directories to run mypy on.
+    :param directories: The directories to run mypy on.
+    :type directories: str
+
+    :return: None
     """
     print("Running mypy...")
 
@@ -138,8 +148,7 @@ def check_version() -> None:
     It then compares these two version numbers and prints a message indicating whether they
     match or not.
 
-    Returns:
-        None
+    :return: None
     """
     print("Comparing versions...")
 

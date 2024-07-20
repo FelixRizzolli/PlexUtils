@@ -8,6 +8,7 @@ import subprocess
 def generate_docs() -> None:
     """
     Generates the documentation for a project using Sphinx.
+
     :return: None
     """
 
