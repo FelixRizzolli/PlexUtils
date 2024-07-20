@@ -9,17 +9,14 @@ from plexutils.shared.media_tools import (
     extract_episodeid,
     extract_seasonid_from_episode,
 )
+from plexutils.media.video_file import VideoFile
 
 
 @dataclass
-class TVShowEpisode:
+class TVShowEpisode(VideoFile):
     """
     Represents a single episode of a TV show.
     """
-
-    def __init__(self, filename: str):
-        self._filename: str = filename
-        self._episode_id: Optional[int] = extract_episodeid(filename)
 
     @property
     def episode_id(self) -> Optional[int]:
@@ -29,17 +26,7 @@ class TVShowEpisode:
         :return: The ID of the episode.
         :rtype: Optional[int]
         """
-        return self._episode_id
-
-    @property
-    def filename(self) -> str:
-        """
-        Returns the filename of the episode.
-
-        :return: The filename of the episode.
-        :rtype: str
-        """
-        return self._filename
+        return extract_episodeid(self._filename)
 
     def is_valid(self) -> bool:
         """
@@ -49,4 +36,4 @@ class TVShowEpisode:
         :rtype: bool
         """
         season_id: Optional[int] = extract_seasonid_from_episode(self._filename)
-        return (self._episode_id is not None) and (season_id is not None)
+        return (self.episode_id is not None) and (season_id is not None)

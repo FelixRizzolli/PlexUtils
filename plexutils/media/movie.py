@@ -6,17 +6,14 @@ from dataclasses import dataclass
 from typing import Optional
 
 from plexutils.shared.media_tools import extract_tvdbid
+from plexutils.media.video_file import VideoFile
 
 
 @dataclass
-class Movie:
+class Movie(VideoFile):
     """
     Represents a single movie.
     """
-
-    def __init__(self, filename: str):
-        self._filename: str = filename
-        self._tvdbid: Optional[int] = extract_tvdbid(filename)
 
     @property
     def tvdbid(self) -> Optional[int]:
@@ -26,7 +23,7 @@ class Movie:
         :return: The TVDB ID of the movie.
         :rtype: Optional[int]
         """
-        return self._tvdbid
+        return extract_tvdbid(self._filename)
 
     @property
     def filename(self) -> str:
@@ -45,4 +42,4 @@ class Movie:
         :return: True if the movie has a valid filename, False otherwise.
         :rtype: bool
         """
-        return self._tvdbid is not None
+        return self.tvdbid is not None
