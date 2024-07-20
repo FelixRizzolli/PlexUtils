@@ -22,7 +22,10 @@ def get_config_file(config_id: str) -> str:
     Returns the path to the test configuration file with the given ID.
 
     :param config_id: The ID of the test configuration file.
+    :type config_id: str
+
     :return: The path to the test configuration file.
+    :rtype: str
     """
     script_path: str = os.path.dirname(os.path.realpath(__file__))
     pj_path: str = os.path.join(script_path, "..", "..")

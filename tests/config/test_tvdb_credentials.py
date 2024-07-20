@@ -13,7 +13,7 @@ class TestTVDBCredentials(unittest.TestCase):
     Test case for the TVDBCredentials class.
     """
 
-    def setUp(self):
+    def setUp(self) -> None:
         """
         Set up the test case.
         """
@@ -21,20 +21,20 @@ class TestTVDBCredentials(unittest.TestCase):
         self.api_pin = "test_api_pin"
         self.credentials = TVDBCredentials(self.api_key, self.api_pin)
 
-    def test_initialization(self):
+    def test_initialization(self) -> None:
         """
         Test the initialization of the TVDBCredentials class.
         """
         self.assertEqual(self.credentials.api_key, self.api_key)
         self.assertEqual(self.credentials.api_pin, self.api_pin)
 
-    def test_api_key_property(self):
+    def test_api_key_property(self) -> None:
         """
         Test the api_key property of the TVDBCredentials class.
         """
         self.assertEqual(self.credentials.api_key, self.api_key)
 
-    def test_api_pin_property(self):
+    def test_api_pin_property(self) -> None:
         """
         Test the api_pin property of the TVDBCredentials class.
         """

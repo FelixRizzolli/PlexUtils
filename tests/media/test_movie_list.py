@@ -12,7 +12,7 @@ from plexutils.media.movie_list import MovieList
 class TestMovieList(unittest.TestCase):
     """test class for the MovieList class"""
 
-    def test_medialist_add(self):
+    def test_medialist_add(self) -> None:
         """tests the add method of the MovieList class"""
         movie_list = MovieList()
         movie_list.add(Movie("Happy Death Day (2017) {tvdb-475}.mp4"))
@@ -20,13 +20,13 @@ class TestMovieList(unittest.TestCase):
         movie_list.add(Movie("The Matrix Revolutions (2003) {tvdb-554}.mp4"))
         self.assertEqual(3, len(movie_list.movies))
 
-    def test_property_movies(self):
+    def test_property_movies(self) -> None:
         """tests the movies property of the MovieList class"""
         movie_list = MovieList()
         movie_list.add(Movie("Happy Death Day (2017) {tvdb-475}.mp4"))
         self.assertEqual(1, len(movie_list.movies))
 
-    def test_get_movie(self):
+    def test_get_movie(self) -> None:
         """tests the get_movie method of the MovieList class"""
         movie_list = MovieList()
         movie_list.add(Movie("Happy Death Day (2017) {tvdb-475}.mp4"))
@@ -41,7 +41,7 @@ class TestMovieList(unittest.TestCase):
             self.assertEqual("Happy Death Day (2017) {tvdb-475}.mp4", movie.filename)
             self.assertEqual(475, movie.tvdbid)
 
-    def test_is_empty(self):
+    def test_is_empty(self) -> None:
         """tests the is_empty method of the MovieList class"""
         movie_list = MovieList()
         self.assertTrue(movie_list.is_empty())

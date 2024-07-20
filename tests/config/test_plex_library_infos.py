@@ -13,7 +13,7 @@ class TestPlexLibraryInfos(unittest.TestCase):
     Represents a test suite for the PlexLibraryInfos class.
     """
 
-    def test_type_peoperty(self):
+    def test_type_peoperty(self) -> None:
         """
         Test the type property.
         """
@@ -26,7 +26,7 @@ class TestPlexLibraryInfos(unittest.TestCase):
         )
         self.assertEqual("movie", plex_info.type)
 
-    def test_name_peoperty(self):
+    def test_name_peoperty(self) -> None:
         """
         Test the name property.
         """
@@ -39,7 +39,7 @@ class TestPlexLibraryInfos(unittest.TestCase):
         )
         self.assertEqual("Movies", plex_info.name)
 
-    def test_path_peoperty(self):
+    def test_path_peoperty(self) -> None:
         """
         Test the path property.
         """
@@ -52,7 +52,7 @@ class TestPlexLibraryInfos(unittest.TestCase):
         )
         self.assertEqual("/path/to/movies", plex_info.path)
 
-    def test_dub_lang_peoperty(self):
+    def test_dub_lang_peoperty(self) -> None:
         """
         Test the dub_lang property.
         """
@@ -65,7 +65,7 @@ class TestPlexLibraryInfos(unittest.TestCase):
         )
         self.assertEqual("en", plex_info.dub_lang)
 
-    def test_sub_lang_peoperty(self):
+    def test_sub_lang_peoperty(self) -> None:
         """
         Test the sub_lang property.
         """
@@ -78,7 +78,7 @@ class TestPlexLibraryInfos(unittest.TestCase):
         )
         self.assertEqual("fr", plex_info.sub_lang)
 
-    def test_full_name_peoperty_with_dub2_sub2(self):
+    def test_full_name_peoperty_with_dub2_sub2(self) -> None:
         """
         Test the full_name property.
         """
@@ -91,7 +91,7 @@ class TestPlexLibraryInfos(unittest.TestCase):
         )
         self.assertEqual("(EN-FR) Movies", plex_info.full_name)
 
-    def test_full_name_peoperty_with_dub5_sub2(self):
+    def test_full_name_peoperty_with_dub5_sub2(self) -> None:
         """
         Test the full_name property.
         """
@@ -104,7 +104,7 @@ class TestPlexLibraryInfos(unittest.TestCase):
         )
         self.assertEqual("(US-FR) Movies", plex_info.full_name)
 
-    def test_full_name_peoperty_with_dub2_sub5(self):
+    def test_full_name_peoperty_with_dub2_sub5(self) -> None:
         """
         Test the full_name property.
         """
@@ -117,7 +117,7 @@ class TestPlexLibraryInfos(unittest.TestCase):
         )
         self.assertEqual("(EN-FR) Movies", plex_info.full_name)
 
-    def test_full_name_peoperty_with_dub5_sub5(self):
+    def test_full_name_peoperty_with_dub5_sub5(self) -> None:
         """
         Test the full_name property.
         """
@@ -130,7 +130,7 @@ class TestPlexLibraryInfos(unittest.TestCase):
         )
         self.assertEqual("(US-FR) Movies", plex_info.full_name)
 
-    def test_full_name_peoperty_with_dubnone_sub5(self):
+    def test_full_name_peoperty_with_dubnone_sub5(self) -> None:
         """
         Test the full_name property.
         """
@@ -142,7 +142,7 @@ class TestPlexLibraryInfos(unittest.TestCase):
         )
         self.assertEqual("(EN-FR) Movies", plex_info.full_name)
 
-    def test_full_name_peoperty_with_dubnone_subnone(self):
+    def test_full_name_peoperty_with_dubnone_subnone(self) -> None:
         """
         Test the full_name property.
         """

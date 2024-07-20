@@ -12,7 +12,7 @@ class TestMenuTools(unittest.TestCase):
     This class contains unit tests for the functions in the menu_tools.py module.
     """
 
-    def test_get_library_name_with_dubblank_subblank(self):
+    def test_get_library_name_with_dubblank_subblank(self) -> None:
         """
         Test case for the `get_library_name` function when both dubbed language and subtitle
         language are blank.
@@ -20,7 +20,7 @@ class TestMenuTools(unittest.TestCase):
         library_name = get_library_name("Movies", "", "")
         self.assertEqual(library_name, "(EN) Movies")
 
-    def test_get_library_name_with_dubblank_sub2(self):
+    def test_get_library_name_with_dubblank_sub2(self) -> None:
         """
         Test case for the `get_library_name` function when dubbed language is blank and subtitle
         language is a 2-letter language code.
@@ -28,7 +28,7 @@ class TestMenuTools(unittest.TestCase):
         library_name = get_library_name("Movies", "", "DE")
         self.assertEqual(library_name, "(EN-DE) Movies")
 
-    def test_get_library_name_with_dubblank_sub5(self):
+    def test_get_library_name_with_dubblank_sub5(self) -> None:
         """
         Test case for the `get_library_name` function when dubbed language is blank and subtitle
         language is a 5-letter language code.
@@ -36,7 +36,7 @@ class TestMenuTools(unittest.TestCase):
         library_name = get_library_name("Movies", "", "de_AT")
         self.assertEqual(library_name, "(EN-AT) Movies")
 
-    def test_get_library_name_with_dub2_subblank(self):
+    def test_get_library_name_with_dub2_subblank(self) -> None:
         """
         Test case for the `get_library_name` function when dubbed language is a 2-letter language
         code and subtitle language is blank.
@@ -44,7 +44,7 @@ class TestMenuTools(unittest.TestCase):
         library_name = get_library_name("Movies", "DE", "")
         self.assertEqual(library_name, "(DE) Movies")
 
-    def test_get_library_name_with_dub2_sub2(self):
+    def test_get_library_name_with_dub2_sub2(self) -> None:
         """
         Test case for the `get_library_name` function when both dubbed language and subtitle
         language are 2-letter language codes.
@@ -52,7 +52,7 @@ class TestMenuTools(unittest.TestCase):
         library_name = get_library_name("Movies", "DE", "DE")
         self.assertEqual(library_name, "(DE-DE) Movies")
 
-    def test_get_library_name_with_dub2_sub5(self):
+    def test_get_library_name_with_dub2_sub5(self) -> None:
         """
         Test case for the `get_library_name` function when dubbed language is a 2-letter language
         code and subtitle language is a 5-letter language code.
@@ -60,7 +60,7 @@ class TestMenuTools(unittest.TestCase):
         library_name = get_library_name("Movies", "DE", "de_AT")
         self.assertEqual(library_name, "(DE-AT) Movies")
 
-    def test_get_library_name_with_dub5_subblank(self):
+    def test_get_library_name_with_dub5_subblank(self) -> None:
         """
         Test case for the `get_library_name` function when dubbed language is a 5-letter language
         code and subtitle language is blank.
@@ -68,7 +68,7 @@ class TestMenuTools(unittest.TestCase):
         library_name = get_library_name("Movies", "de_AT", "")
         self.assertEqual(library_name, "(AT) Movies")
 
-    def test_get_library_name_with_dub5_sub2(self):
+    def test_get_library_name_with_dub5_sub2(self) -> None:
         """
         Test case for the `get_library_name` function when dubbed language is a 5-letter language
         code and subtitle language is a 2-letter language code.
@@ -76,7 +76,7 @@ class TestMenuTools(unittest.TestCase):
         library_name = get_library_name("Movies", "de_AT", "DE")
         self.assertEqual(library_name, "(AT-DE) Movies")
 
-    def test_get_library_name_with_dub5_sub5(self):
+    def test_get_library_name_with_dub5_sub5(self) -> None:
         """
         Test case for the `get_library_name` function when both dubbed language and subtitle
         language are 5-letter language codes.

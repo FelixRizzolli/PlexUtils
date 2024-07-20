@@ -14,7 +14,7 @@ class TestConfig(unittest.TestCase):
     This class contains unit tests for the Config class.
     """
 
-    def setUp(self):
+    def setUp(self) -> None:
         """
         Set up test data for the unit tests.
         """
@@ -48,7 +48,7 @@ class TestConfig(unittest.TestCase):
         )
         self.tvdb = TVDBCredentials(api_key="test_api_key", api_pin="test_user_key")
 
-    def test_multiple_movie_libraries(self):
+    def test_multiple_movie_libraries(self) -> None:
         """
         Test that the get_movie_libraries method correctly returns all movie libraries.
         """
@@ -63,7 +63,7 @@ class TestConfig(unittest.TestCase):
         self.assertEqual(self.movie_library1, movie_libraries[0])
         self.assertEqual(self.movie_library2, movie_libraries[1])
 
-    def test_multiple_tvshow_libraries(self):
+    def test_multiple_tvshow_libraries(self) -> None:
         """
         Test that the get_tvshow_libraries method correctly returns all TV show libraries.
         """
@@ -78,7 +78,7 @@ class TestConfig(unittest.TestCase):
         self.assertEqual(tvshow_libraries[0], self.tvshow_library1)
         self.assertEqual(tvshow_libraries[1], self.tvshow_library2)
 
-    def test_config_without_movie_library(self):
+    def test_config_without_movie_library(self) -> None:
         """
         Test that the get_tvshow_libraries method correctly handles the case where there
         are no TV show libraries.
@@ -92,7 +92,7 @@ class TestConfig(unittest.TestCase):
 
         self.assertEqual(0, len(movie_libraries))
 
-    def test_config_without_tvshow_library(self):
+    def test_config_without_tvshow_library(self) -> None:
         """
         Test that the get_tvshow_libraries method correctly handles the case where there
         are no TV show libraries.
