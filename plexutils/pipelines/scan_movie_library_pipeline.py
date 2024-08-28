@@ -3,6 +3,7 @@ This module contains the ScanMovieLibraryPipeline class.
 """
 
 import os
+from datetime import datetime
 from typing import Optional
 from enum import Enum
 
@@ -10,6 +11,7 @@ import pandas as pd
 from pandas import DataFrame
 
 from media_tools import extract_tvdbid
+from mongodb import get_collection
 from plexutils.media.video_file import VideoFile
 
 
@@ -51,6 +53,9 @@ class ScanMovieLibraryPipeline:
 
         # Project data
         self.project_data()
+
+        # Save the invalid movie files to a MongoDB database
+        self.save_invalid_movies_to_mongodb()
 
         pass
 
@@ -172,6 +177,46 @@ class ScanMovieLibraryPipeline:
         # Add the processing date column with the current timestamp
         if self._valid_movie_data is not None:
             self._valid_movie_data["processing_date"] = datetime.now()
+
+    def save_invalid_movies_to_mongodb(self) -> None:
+        """
+        This method saves the invalid movie files to a MongoDB database.
+
+        :return: None
+        """
+        if self._invalid_movie_data is not None and len(self._invalid_movie_data) > 0:
+            invalid_movies_collection = get_collection("raw_data", "invalid_movies")
+            invalid_movies_collection.insert_many(
+                self._invalid_movie_data.to_dict("records")
+            )
+
+            runs_collection = get_collection("sys", "runs")
+            runs_collection.insert_one(
+                {
+                    "database": "raw_data",
+                    "collection": "invalid_movies",
+                    "library": "movies",
+                    "application": "plexutils",
+                    "type": "library-scan",
+                    "processing_date": datetime.now(),
+                }
+            )
+
+        if self._valid_movie_data is not None and len(self._valid_movie_data) > 0:
+            movies_collection = get_collection("raw_data", "movies")
+            movies_collection.insert_many(self._valid_movie_data.to_dict("records"))
+
+            runs_collection = get_collection("sys", "runs")
+            runs_collection.insert_one(
+                {
+                    "database": "raw_data",
+                    "collection": "movies",
+                    "library": "movies",
+                    "application": "plexutils",
+                    "type": "library-scan",
+                    "processing_date": datetime.now(),
+                }
+            )
 
 
 if __name__ == "__main__":
