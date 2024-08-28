@@ -14,17 +14,23 @@ class VideoFile:
     """
 
     _filepath: str
+    _format_name: str
     _filesize: int
-    _duration: int
+    _duration: float
     _resolution_width: int
     _resolution_height: int
     _video_codec: str
     _audio_codec: str
+    _bitrate: int
+    _frame_rate: int
+    _number_of_streams: int
+    _pixel_format: str
 
     @property
     def __dict__(self) -> dict:
         return {
             "filename": self.filename,
+            "format_name": self.format_name,
             "filepath": self.filepath,
             "filesize": self.filesize,
             "duration": self.duration,
@@ -32,6 +38,10 @@ class VideoFile:
             "resolution_height": self.resolution_height,
             "video_codec": self.video_codec,
             "audio_codec": self.audio_codec,
+            "bitrate": self.bitrate,
+            "frame_rate": self.frame_rate,
+            "number_of_streams": self.number_of_streams,
+            "pixel_format": self.pixel_format,
         }
 
     @property
@@ -43,6 +53,16 @@ class VideoFile:
         :rtype: str
         """
         return os.path.basename(self._filepath)
+
+    @property
+    def format_name(self) -> str:
+        """
+        Returns the format name of the video file.
+
+        :return: The format name of the video file.
+        :rtype: str
+        """
+        return self._format_name
 
     @property
     def filepath(self) -> str:
@@ -123,3 +143,43 @@ class VideoFile:
         :rtype: bool
         """
         pass
+
+    @property
+    def bitrate(self) -> int:
+        """
+        Returns the bitrate of the video file.
+
+        :return: The bitrate of the video file.
+        :rtype: int
+        """
+        return self._bitrate
+
+    @property
+    def frame_rate(self) -> int:
+        """
+        Returns the frame rate of the video file.
+
+        :return: The frame rate of the video file.
+        :rtype: int
+        """
+        return self._frame_rate
+
+    @property
+    def number_of_streams(self) -> int:
+        """
+        Returns the number of streams in the video file.
+
+        :return: The number of streams in the video file.
+        :rtype: int
+        """
+        return self._number_of_streams
+
+    @property
+    def pixel_format(self) -> str:
+        """
+        Returns the pixel format of the video file.
+
+        :return: The pixel format of the video file.
+        :rtype: str
+        """
+        return self._pixel_format

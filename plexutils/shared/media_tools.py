@@ -7,6 +7,8 @@ setup.
 import re
 from typing import Optional
 
+import ffmpeg
+
 
 def extract_tvdbid(dirname: str) -> Optional[int]:
     """
@@ -78,3 +80,155 @@ def extract_seasonid(dirname: str) -> Optional[int]:
     if seasonid_match:
         return int(seasonid_match.group(1))
     return None
+
+
+def get_video_codec(file_path: str) -> str:
+    """
+    Get the video codecs from an MP4 file.
+
+    :param file_path: The path to the MP4 file.
+    :return: A dictionary with the video and audio codecs.
+    """
+    try:
+        probe = ffmpeg.probe(file_path)
+
+        return next(
+            stream for stream in probe["streams"] if stream["codec_type"] == "video"
+        )["codec_name"]
+    except Exception:
+        return "unknown"
+
+
+def get_audio_codec(file_path: str) -> str:
+    """
+    Get the audio codecs from an MP4 file.
+
+    :param file_path: The path to the MP4 file.
+    :return: A dictionary with the video and audio codecs.
+    """
+    try:
+        probe = ffmpeg.probe(file_path)
+
+        return next(
+            stream for stream in probe["streams"] if stream["codec_type"] == "audio"
+        )["codec_name"]
+    except Exception:
+        return "unknown"
+
+
+def get_duration(file_path: str) -> float:
+    """
+    Get the duration of a movie file in seconds.
+
+    :param file_path: The path to the movie file.
+    :return: The duration of the movie file in seconds.
+    """
+    try:
+        probe = ffmpeg.probe(file_path)
+        duration = float(probe["format"]["duration"])
+        return duration
+    except Exception:
+        return 0.0
+
+
+def get_resolution(file_path: str) -> tuple[int, int]:
+    """
+    Get the resolution of a movie file in pixels.
+
+    :param file_path: The path to the movie file.
+    :return: The resolution of the movie file in pixels.
+    """
+    try:
+        probe = ffmpeg.probe(file_path)
+        video_stream = next(
+            stream for stream in probe["streams"] if stream["codec_type"] == "video"
+        )
+        width = int(video_stream["width"])
+        height = int(video_stream["height"])
+        return width, height
+    except Exception:
+        return 0, 0
+
+
+def get_bitrate(file_path: str) -> int:
+    """
+    Get the bitrate of a movie file in kbps.
+
+    :param file_path: The path to the movie file.
+    :return: The bitrate of the movie file in kbps.
+    """
+    try:
+        probe = ffmpeg.probe(file_path)
+        video_stream = next(
+            stream for stream in probe["streams"] if stream["codec_type"] == "video"
+        )
+        bitrate = int(video_stream["bit_rate"]) // 1000
+        return bitrate
+    except Exception:
+        return 0
+
+
+def get_frame_rate(file_path: str) -> int:
+    """
+    Get the frame rate of a movie file in frames per second.
+
+    :param file_path: The path to the movie file.
+    :return: The frame rate of the movie file in frames per second.
+    """
+    try:
+        probe = ffmpeg.probe(file_path)
+        video_stream = next(
+            stream for stream in probe["streams"] if stream["codec_type"] == "video"
+        )
+        frame_rate = int(video_stream["r_frame_rate"].split("/")[0])
+        return frame_rate
+    except Exception:
+        return 0
+
+
+def get_format_name(file_path: str) -> str:
+    """
+    Get the format name of a movie file.
+
+    :param file_path: The path to the movie file.
+    :return: The format name of the movie file.
+    """
+    try:
+        probe = ffmpeg.probe(file_path)
+        format_name = probe["format"]["format_name"]
+        return format_name
+    except Exception:
+        return "unknown"
+
+
+def get_number_of_streams(file_path: str) -> int:
+    """
+    Get the number of streams in a movie file.
+
+    :param file_path: The path to the movie file.
+    :return: The number of streams in the movie file.
+    """
+    try:
+        probe = ffmpeg.probe(file_path)
+        number_of_streams = len(probe["streams"])
+        return number_of_streams
+    except Exception:
+        return 0
+
+
+def get_pixel_format(file_path: str) -> str:
+    """
+    Get the pixel format of a movie file.
+
+    :param file_path: The path to the movie file.
+    :return: The pixel format of the movie file.
+    """
+    try:
+        probe = ffmpeg.probe(file_path)
+        video_stream = next(
+            stream for stream in probe["streams"] if stream["codec_type"] == "video"
+        )
+        pixel_format = video_stream["pix_fmt"]
+        return pixel_format
+    except Exception:
+        return "unknown"

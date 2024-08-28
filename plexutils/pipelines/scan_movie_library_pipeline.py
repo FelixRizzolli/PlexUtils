@@ -9,8 +9,20 @@ from enum import Enum
 
 import pandas as pd
 from pandas import DataFrame
+from pyarrow import duration
 
-from media_tools import extract_tvdbid
+from media_tools import (
+    extract_tvdbid,
+    get_video_codec,
+    get_audio_codec,
+    get_duration,
+    get_resolution,
+    get_format_name,
+    get_bitrate,
+    get_frame_rate,
+    get_number_of_streams,
+    get_pixel_format,
+)
 from mongodb import get_collection
 from plexutils.media.video_file import VideoFile
 
@@ -74,16 +86,31 @@ class ScanMovieLibraryPipeline:
             filepath: str = os.path.normpath(
                 os.path.join(self._library_path, movie_dir)
             )
+            format_name: str = get_format_name(filepath)
             filesize: int = os.path.getsize(filepath)
+            video_codec: str = get_video_codec(filepath)
+            audio_codec: str = get_audio_codec(filepath)
+            duration: float = get_duration(filepath)
+            [resolution_width, resolution_height] = get_resolution(filepath)
+            bitrate: int = get_bitrate(filepath)
+            frame_rate: int = get_frame_rate(filepath)
+            number_of_frames: int = get_number_of_streams(filepath)
+            pixel_format: str = get_pixel_format(filepath)
+
             movies.append(
                 VideoFile(
                     _filepath=filepath,
+                    _format_name=format_name,
                     _filesize=filesize,
-                    _duration=0,
-                    _resolution_width=0,
-                    _resolution_height=0,
-                    _video_codec="",
-                    _audio_codec="",
+                    _duration=duration,
+                    _resolution_width=resolution_width,
+                    _resolution_height=resolution_height,
+                    _video_codec=video_codec,
+                    _audio_codec=audio_codec,
+                    _bitrate=bitrate,
+                    _frame_rate=frame_rate,
+                    _number_of_streams=number_of_frames,
+                    _pixel_format=pixel_format,
                 )
             )
 
@@ -154,14 +181,14 @@ class ScanMovieLibraryPipeline:
             self._invalid_movie_data = pd.concat(
                 [self._invalid_movie_data, pd.DataFrame(invalid_rows)],
                 ignore_index=True,
-            )
+            ).dropna(how="all", axis=1)
 
         # Concatenate valid rows to _valid_movie_data
         if valid_rows:
             self._valid_movie_data = pd.concat(
                 [self._valid_movie_data, pd.DataFrame(valid_rows)],
                 ignore_index=True,
-            )
+            ).dropna(how="all", axis=1)
 
     def project_data(self) -> None:
         """
@@ -223,7 +250,7 @@ if __name__ == "__main__":
 
     script_path: str = os.path.dirname(os.path.realpath(__file__))
     pj_path: str = os.path.join(script_path, "..", "..")
-    movie_lib = os.path.join(pj_path, "data", "movies", "movies")
+    movie_lib = os.path.join(pj_path, "data", "movies", "animes")
     data_path = os.path.join(pj_path, "data", "raw")
 
     pipeline = ScanMovieLibraryPipeline(
