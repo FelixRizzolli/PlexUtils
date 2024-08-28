@@ -25,9 +25,9 @@ class ScanMovieLibraryPipeline:
 
     _library_path: str
     _data_path: str
-    _raw_movie_data: DataFrame
-    _invalid_movie_data: DataFrame
-    _valid_movie_data: DataFrame
+    _raw_movie_data: Optional[DataFrame] = None
+    _invalid_movie_data: Optional[DataFrame] = None
+    _valid_movie_data: Optional[DataFrame] = None
 
     def __init__(self, library_path: str, data_path: str):
         self._library_path = library_path
@@ -48,6 +48,9 @@ class ScanMovieLibraryPipeline:
 
         # Validate the list of movie files
         self.validate_data()
+
+        # Project data
+        self.project_data()
 
         pass
 
@@ -114,8 +117,10 @@ class ScanMovieLibraryPipeline:
         # Initialize _invalid_movie_data with the same structure as _raw_movie_data
         self._invalid_movie_data = pd.DataFrame(columns=self._raw_movie_data.columns)
         self._invalid_movie_data["errorcode"] = None
-
         invalid_rows = []
+
+        # Initialize _valid_movie_data with the same structure as _raw_movie_data
+        self._valid_movie_data = pd.DataFrame(columns=self._raw_movie_data.columns)
         valid_rows = []
 
         # Validate the list of movie files
@@ -145,6 +150,28 @@ class ScanMovieLibraryPipeline:
                 [self._invalid_movie_data, pd.DataFrame(invalid_rows)],
                 ignore_index=True,
             )
+
+        # Concatenate valid rows to _valid_movie_data
+        if valid_rows:
+            self._valid_movie_data = pd.concat(
+                [self._valid_movie_data, pd.DataFrame(valid_rows)],
+                ignore_index=True,
+            )
+
+    def project_data(self) -> None:
+        """
+        This method projects the valid movie files to a new DataFrame.
+
+        :return: None
+        """
+
+        # Add the processing date column with the current timestamp
+        if self._invalid_movie_data is not None:
+            self._invalid_movie_data["processing_date"] = datetime.now()
+
+        # Add the processing date column with the current timestamp
+        if self._valid_movie_data is not None:
+            self._valid_movie_data["processing_date"] = datetime.now()
 
 
 if __name__ == "__main__":
