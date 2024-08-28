@@ -4,6 +4,7 @@ This module contains the ScanMovieLibraryPipeline class.
 
 import json
 import os
+from typing import Optional
 
 import pandas as pd
 from pandas import DataFrame
@@ -17,9 +18,12 @@ class ScanMovieLibraryPipeline:
     """
 
     _library_path: str
+    _data_path: str
+    _raw_movie_data: DataFrame
 
-    def __init__(self, library_path: str):
+    def __init__(self, library_path: str, data_path: str):
         self._library_path = library_path
+        self._data_path = data_path
 
     def run(self) -> None:
         """
@@ -28,9 +32,11 @@ class ScanMovieLibraryPipeline:
         :return: None
         """
 
+        # Collect the file information from the movie library
         self.collect_data()
-        self.load_and_validate_data()
-        self.project_and_save_data()
+
+        # Load the list of movie files from a parquet file
+        self.load_data()
 
         pass
 
@@ -68,20 +74,24 @@ class ScanMovieLibraryPipeline:
         print(movies_df)
 
         # Save the DataFrame to a parquet file
-        script_path: str = os.path.dirname(os.path.realpath(__file__))
+        script_path: str = self._data_path
         file_path: str = os.path.join(script_path, "movies.parquet")
         movies_df.to_parquet(file_path, engine="pyarrow")
 
         pass
 
-    def load_and_validate_data(self) -> None:
+    def load_data(self) -> None:
         """
-        This method loads the list of movie files from a parquet file into a list of Movie objects
-        and validates them.
+        This method loads the list of movie files from a parquet file into a DataFrame.
 
-        :return: None
+        :return: The DataFrame containing the list of movie files.
+        :rtype: DataFrame
         """
-        pass
+        script_path: str = self._data_path
+        file_path: str = os.path.join(script_path, "movies.parquet")
+        movies_df: DataFrame = pd.read_parquet(file_path, engine="pyarrow")
+
+        self._raw_movie_data = movies_df
 
     def project_and_save_data(self) -> None:
         """
@@ -98,6 +108,9 @@ if __name__ == "__main__":
     script_path: str = os.path.dirname(os.path.realpath(__file__))
     pj_path: str = os.path.join(script_path, "..", "..")
     movie_lib = os.path.join(pj_path, "data", "movies", "movies")
+    data_path = os.path.join(pj_path, "data", "raw")
 
-    pipeline = ScanMovieLibraryPipeline(os.path.normpath(movie_lib))
+    pipeline = ScanMovieLibraryPipeline(
+        os.path.normpath(movie_lib), os.path.normpath(data_path)
+    )
     pipeline.run()
