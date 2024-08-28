@@ -2,14 +2,20 @@
 This module contains the ScanMovieLibraryPipeline class.
 """
 
-import json
 import os
 from typing import Optional
+from enum import Enum
 
 import pandas as pd
 from pandas import DataFrame
 
+from media_tools import extract_tvdbid
 from plexutils.media.video_file import VideoFile
+
+
+class MovieErrorCode(Enum):
+    INVALID_TVDB_ID = "INVALID_TVDB_ID"
+    INVALID_FILESIZE = "INVALID_FILESIZE"
 
 
 class ScanMovieLibraryPipeline:
@@ -20,6 +26,8 @@ class ScanMovieLibraryPipeline:
     _library_path: str
     _data_path: str
     _raw_movie_data: DataFrame
+    _invalid_movie_data: DataFrame
+    _valid_movie_data: DataFrame
 
     def __init__(self, library_path: str, data_path: str):
         self._library_path = library_path
@@ -37,6 +45,9 @@ class ScanMovieLibraryPipeline:
 
         # Load the list of movie files from a parquet file
         self.load_data()
+
+        # Validate the list of movie files
+        self.validate_data()
 
         pass
 
@@ -93,14 +104,47 @@ class ScanMovieLibraryPipeline:
 
         self._raw_movie_data = movies_df
 
-    def project_and_save_data(self) -> None:
+    def validate_data(self) -> None:
         """
-        This method projects the list of the Movie objects & invalid files and saves them to a
-        parquet file.
+        This method validates the list of movie files and removes any invalid files.
 
         :return: None
         """
-        pass
+
+        # Initialize _invalid_movie_data with the same structure as _raw_movie_data
+        self._invalid_movie_data = pd.DataFrame(columns=self._raw_movie_data.columns)
+        self._invalid_movie_data["errorcode"] = None
+
+        invalid_rows = []
+        valid_rows = []
+
+        # Validate the list of movie files
+        for index, row in self._raw_movie_data.iterrows():
+            # Extract the TVDB ID from the filename and check if it is valid
+            tvdb_id: Optional[int] = extract_tvdbid(row["filename"])
+            if tvdb_id is None:
+                err = MovieErrorCode.INVALID_TVDB_ID.value
+                row["errorcode"] = err
+                invalid_rows.append(row)
+                print(f"Invalid movie file: [{err}] [{index}] {row['filename']}")
+
+            # Check if the filesize is valid
+            elif row["filesize"] <= 0:
+                err = MovieErrorCode.INVALID_FILESIZE.value
+                row["errorcode"] = err
+                invalid_rows.append(row)
+                print(f"Invalid movie file: [{err}] [{index}] {row['filename']}")
+
+            # Valid row
+            else:
+                valid_rows.append(row)
+
+        # Concatenate invalid rows to _invalid_movie_data
+        if invalid_rows:
+            self._invalid_movie_data = pd.concat(
+                [self._invalid_movie_data, pd.DataFrame(invalid_rows)],
+                ignore_index=True,
+            )
 
 
 if __name__ == "__main__":
