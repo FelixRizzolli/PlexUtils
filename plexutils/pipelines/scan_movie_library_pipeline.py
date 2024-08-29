@@ -9,7 +9,6 @@ from enum import Enum
 
 import pandas as pd
 from pandas import DataFrame
-from pyarrow import duration
 
 from media_tools import (
     extract_tvdbid,
@@ -24,6 +23,7 @@ from media_tools import (
     get_pixel_format,
 )
 from mongodb import get_collection
+from pipelines.base_pipeline import BaseConfig, BasePipeline
 from plexutils.media.video_file import VideoFile
 
 
@@ -32,20 +32,20 @@ class MovieErrorCode(Enum):
     INVALID_FILESIZE = "INVALID_FILESIZE"
 
 
-class ScanMovieLibraryPipeline:
+class ScanMovieLibraryConfig(BaseConfig):
+    """
+    This class represents the configuration for the ScanMovieLibraryPipeline.
+    """
+
+
+class ScanMovieLibraryPipeline(BasePipeline):
     """
     This class represents a pipeline for scanning a movie library.
     """
 
-    _library_path: str
-    _data_path: str
     _raw_movie_data: Optional[DataFrame] = None
     _invalid_movie_data: Optional[DataFrame] = None
     _valid_movie_data: Optional[DataFrame] = None
-
-    def __init__(self, library_path: str, data_path: str):
-        self._library_path = library_path
-        self._data_path = data_path
 
     def run(self) -> None:
         """
@@ -69,8 +69,6 @@ class ScanMovieLibraryPipeline:
         # Save the invalid movie files to a MongoDB database
         self.save_invalid_movies_to_mongodb()
 
-        pass
-
     def collect_data(self) -> None:
         """
         This method collects the file information from the movie library and saves them to a parquet
@@ -78,13 +76,13 @@ class ScanMovieLibraryPipeline:
 
         :return: None
         """
-        movie_directories: list[str] = os.listdir(self._library_path)
+        movie_directories: list[str] = os.listdir(self.config.library_path)
         movies: list[VideoFile] = []
 
         # Collect file information
         for movie_dir in movie_directories:
             filepath: str = os.path.normpath(
-                os.path.join(self._library_path, movie_dir)
+                os.path.join(self.config.library_path, movie_dir)
             )
             format_name: str = get_format_name(filepath)
             filesize: int = os.path.getsize(filepath)
@@ -120,7 +118,7 @@ class ScanMovieLibraryPipeline:
         print(movies_df)
 
         # Save the DataFrame to a parquet file
-        script_path: str = self._data_path
+        script_path: str = self.config.data_path
         file_path: str = os.path.join(script_path, "movies.parquet")
         movies_df.to_parquet(file_path, engine="pyarrow")
 
@@ -133,7 +131,7 @@ class ScanMovieLibraryPipeline:
         :return: The DataFrame containing the list of movie files.
         :rtype: DataFrame
         """
-        script_path: str = self._data_path
+        script_path: str = self.config.data_path
         file_path: str = os.path.join(script_path, "movies.parquet")
         movies_df: DataFrame = pd.read_parquet(file_path, engine="pyarrow")
 
@@ -222,7 +220,7 @@ class ScanMovieLibraryPipeline:
                 {
                     "database": "raw_data",
                     "collection": "invalid_movies",
-                    "library": "movies",
+                    "library": self.config.library_name,
                     "application": "plexutils",
                     "type": "library-scan",
                     "processing_date": datetime.now(),
@@ -238,7 +236,7 @@ class ScanMovieLibraryPipeline:
                 {
                     "database": "raw_data",
                     "collection": "movies",
-                    "library": "movies",
+                    "library": self.config.library_name,
                     "application": "plexutils",
                     "type": "library-scan",
                     "processing_date": datetime.now(),
@@ -247,13 +245,15 @@ class ScanMovieLibraryPipeline:
 
 
 if __name__ == "__main__":
-
     script_path: str = os.path.dirname(os.path.realpath(__file__))
     pj_path: str = os.path.join(script_path, "..", "..")
     movie_lib = os.path.join(pj_path, "data", "movies", "animes")
     data_path = os.path.join(pj_path, "data", "raw")
 
-    pipeline = ScanMovieLibraryPipeline(
-        os.path.normpath(movie_lib), os.path.normpath(data_path)
+    pipeline = ScanMovieLibraryPipeline()
+    pipeline.config = ScanMovieLibraryConfig(
+        library_name="movies",
+        library_path=os.path.normpath(movie_lib),
+        data_path=os.path.normpath(data_path),
     )
     pipeline.run()
