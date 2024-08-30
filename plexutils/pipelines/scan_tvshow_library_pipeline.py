@@ -1,4 +1,6 @@
 import os
+from datetime import datetime
+from enum import Enum
 from typing import Optional
 
 import pandas as pd
@@ -7,6 +9,11 @@ from loguru import logger
 
 from base_pipeline import BaseLibraryConfig, BasePipeline, pipeline_runner
 from video_file import VideoFile
+
+
+class TVShowErrorCode(Enum):
+    INVALID_TVDB_ID = "INVALID_TVDB_ID"
+    INVALID_FILESIZE = "INVALID_FILESIZE"
 
 
 class ScanTvShowLibraryConfig(BaseLibraryConfig):
@@ -45,6 +52,10 @@ class ScanTvShowLibraryPipeline(BasePipeline):
 
         # Validate the list of tv show files.
         self.validate_data()
+        if self.valid_episode_files is not None:
+            logger.info(f"Valid Episodes: {len(self.valid_episode_files)}")
+        if self.invalid_episode_files is not None:
+            logger.info(f"Invalid Episodes: {len(self.invalid_episode_files)}")
 
         # Project data
         self.project_data()
@@ -95,7 +106,7 @@ class ScanTvShowLibraryPipeline(BasePipeline):
         """
         return self._valid_episode_files
 
-    def collect_data(self) -> DataFrame:
+    def collect_data(self) -> None:
         """
         Collects the data.
 
@@ -123,9 +134,20 @@ class ScanTvShowLibraryPipeline(BasePipeline):
             else:
                 episodes_df = pd.concat([episodes_df, new_episodes])
 
-        logger.info(f"Total TV Shows: {len(tvshows_df)}")
-        logger.info(f"Total Seasons: {len(seasons_df)}")
-        logger.info(f"Total Episodes: {len(episodes_df)}")
+        if tvshow_df is None or tvshow_df.empty:
+            logger.error("No TV Shows found.")
+        else:
+            logger.info(f"Total TV Shows: {len(tvshows_df)}")
+
+        if seasons_df is None or seasons_df.empty:
+            logger.error("No Seasons found.")
+        else:
+            logger.info(f"Total Seasons: {len(seasons_df)}")
+
+        if episodes_df is None or episodes_df.empty:
+            logger.error("No Episodes found.")
+        else:
+            logger.info(f"Total Episodes: {len(episodes_df)}")
 
     def collect_tvshow_data(self) -> DataFrame:
         """
@@ -186,7 +208,8 @@ class ScanTvShowLibraryPipeline(BasePipeline):
                 video_data = video_file.__dict__
                 episode_data.append({**path_data, **video_data})
 
-        return pd.DataFrame(episode_data)
+        self._raw_tvshow_data = pd.DataFrame([episode for episode in episode_data])
+        print(self._raw_tvshow_data)
 
     def save_data(self) -> None:
         """
@@ -197,8 +220,8 @@ class ScanTvShowLibraryPipeline(BasePipeline):
         parquet_name: str = self.config.library_name + "_tvshows.parquet"
         file_path: str = os.path.join(self.config.data_path, parquet_name)
 
-        if self._raw_tvshow_data is not None and isinstance(
-            self._raw_tvshow_data, DataFrame
+        if self.raw_tvshow_data is not None and isinstance(
+            self.raw_tvshow_data, DataFrame
         ):
             self._raw_tvshow_data.to_parquet(file_path, engine="pyarrow")
 
@@ -221,7 +244,60 @@ class ScanTvShowLibraryPipeline(BasePipeline):
 
         :return: None
         """
-        pass
+        if self.raw_tvshow_data is None:
+            return
+
+        # Initialize _invalid_episode_files with the same structure as _raw_tvshow_data
+        self._invalid_episode_files = pd.DataFrame(
+            columns=self._raw_tvshow_data.columns
+        )
+        self._invalid_episode_files["error_code"] = None
+        invalid_rows = []
+
+        # Initialize _valid_episode_files with the same structure as _raw_tvshow_data
+        self._valid_episode_files = pd.DataFrame(columns=self._raw_tvshow_data.columns)
+        valid_rows = []
+
+        # Validate the list of episode files.
+        for index, row in self._raw_tvshow_data.iterrows():
+            # Extract the TVDB ID from the episode file name and check if it is valid.
+            tvdb_id: Optional[int] = self.extract_tvdb_id(row["file_name"])
+            if tvdb_id is None:
+                err: str = TVShowErrorCode.INVALID_TVDB_ID.value
+                row["error_code"] = err
+                invalid_rows.append(row)
+                print(f"Invalid episode file: [{err}] [{index}] {row['file_name']}")
+
+            # Check if the file size is valid.
+            elif row["file_size"] <= 0:
+                err: str = TVShowErrorCode.INVALID_FILESIZE.value
+                row["error_code"] = err
+                invalid_rows.append(row)
+                print(f"Invalid episode file: [{err}] [{index}] {row['file_name']}")
+
+            # Valid episode file
+            else:
+                valid_rows.append(row)
+
+        # Concatenate invalid rows to _invalid_episode_files
+        if invalid_rows:
+            if self._invalid_episode_files is None:
+                self._invalid_episode_files = pd.DataFrame(invalid_rows)
+            else:
+                self._invalid_episode_files = pd.concat(
+                    [self._invalid_episode_files, pd.DataFrame(invalid_rows)],
+                    ignore_index=True,
+                ).dropna(how="all", axis=1)
+
+        # Concatenate valid rows to _valid_episode_files
+        if valid_rows:
+            if self._valid_episode_files is None:
+                self._valid_episode_files = pd.DataFrame(valid_rows)
+            else:
+                self._valid_episode_files = pd.concat(
+                    [self._valid_episode_files, pd.DataFrame(valid_rows)],
+                    ignore_index=True,
+                ).dropna(how="all", axis=1)
 
     def project_data(self) -> None:
         """
@@ -229,7 +305,14 @@ class ScanTvShowLibraryPipeline(BasePipeline):
 
         :return: None
         """
-        pass
+
+        # Add the processing date column with the current timestamp
+        if self.invalid_episode_files is not None:
+            self._invalid_episode_files["processing_date"] = datetime.now()
+
+        # Add the processing date column with the current timestamp
+        if self.valid_episode_files is not None:
+            self._valid_episode_files["processing_date"] = datetime.now()
 
     def save_invalid_episode_files_to_mongodb(self) -> None:
         """

@@ -62,8 +62,10 @@ class ScanMovieLibraryPipeline(BasePipeline):
 
         # Validate the list of movie files
         self.validate_data()
-        logger.info(f"Valid Movies: {len(self.valid_movie_data)}")
-        logger.info(f"Invalid Movies: {len(self.invalid_movie_data)}")
+        if self.valid_movie_data is not None:
+            logger.info(f"Valid Movies: {len(self.valid_movie_data)}")
+        if self.invalid_movie_data is not None:
+            logger.info(f"Invalid Movies: {len(self.invalid_movie_data)}")
 
         # Project data
         self.project_data()
@@ -138,9 +140,7 @@ class ScanMovieLibraryPipeline(BasePipeline):
             movies.append(video_file)
 
         # Save the file information to a DataFrame
-        self._raw_movie_data: DataFrame = pd.DataFrame(
-            [movie.__dict__ for movie in movies]
-        )
+        self._raw_movie_data = pd.DataFrame([movie.__dict__ for movie in movies])
         print(self._raw_movie_data)
 
     def save_data(self) -> None:
@@ -172,6 +172,8 @@ class ScanMovieLibraryPipeline(BasePipeline):
 
         :return: None
         """
+        if self.raw_movie_data is None:
+            return
 
         # Initialize _invalid_movie_data with the same structure as _raw_movie_data
         self._invalid_movie_data = pd.DataFrame(columns=self._raw_movie_data.columns)
@@ -187,19 +189,19 @@ class ScanMovieLibraryPipeline(BasePipeline):
             # Extract the TVDB ID from the filename and check if it is valid
             tvdb_id: Optional[int] = extract_tvdbid(row["file_name"])
             if tvdb_id is None:
-                err = MovieErrorCode.INVALID_TVDB_ID.value
+                err: str = MovieErrorCode.INVALID_TVDB_ID.value
                 row["error_code"] = err
                 invalid_rows.append(row)
                 print(f"Invalid movie file: [{err}] [{index}] {row['file_name']}")
 
             # Check if the filesize is valid
             elif row["file_size"] <= 0:
-                err = MovieErrorCode.INVALID_FILESIZE.value
+                err: str = MovieErrorCode.INVALID_FILESIZE.value
                 row["error_code"] = err
                 invalid_rows.append(row)
                 print(f"Invalid movie file: [{err}] [{index}] {row['file_name']}")
 
-            # Valid row
+            # Valid movie file
             else:
                 valid_rows.append(row)
 
@@ -215,7 +217,7 @@ class ScanMovieLibraryPipeline(BasePipeline):
 
         # Concatenate valid rows to _valid_movie_data
         if valid_rows:
-            if self._valid_movie_data is None or self._valid_movie_data.empty:
+            if self.valid_movie_data is None or self.valid_movie_data.empty:
                 self._valid_movie_data = pd.DataFrame(valid_rows)
             else:
                 self._valid_movie_data = pd.concat(
@@ -231,11 +233,11 @@ class ScanMovieLibraryPipeline(BasePipeline):
         """
 
         # Add the processing date column with the current timestamp
-        if self._invalid_movie_data is not None:
+        if self.invalid_movie_data is not None:
             self._invalid_movie_data["processing_date"] = datetime.now()
 
         # Add the processing date column with the current timestamp
-        if self._valid_movie_data is not None:
+        if self.valid_movie_data is not None:
             self._valid_movie_data["processing_date"] = datetime.now()
 
     def save_invalid_movies_to_mongodb(self) -> None:
