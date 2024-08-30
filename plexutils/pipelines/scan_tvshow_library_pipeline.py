@@ -34,7 +34,71 @@ class ScanTvShowLibraryPipeline(BasePipeline):
         :return: None
         """
 
-        # Collect the data.
+        # Collect the file information from the tv show library.
+        self.collect_data()
+
+        # Save the tv show file data to a parquet file.
+        self.save_data()
+
+        # Validate the list of tv show files.
+
+        # Project data
+
+        # Save the invalid tv show files to a MongoDB database.
+
+        # Save the valid tv show files to a MongoDB database.
+
+    def save_data(self) -> None:
+        """
+        This method saves the list of movie files to a parquet file.
+
+        :return: None
+        """
+        parquet_name: str = self.config.library_name + "_tvshows.parquet"
+        file_path: str = os.path.join(self.config.data_path, parquet_name)
+
+        if self._tvshow_data is not None and isinstance(self._tvshow_data, DataFrame):
+            self._tvshow_data.to_parquet(file_path, engine="pyarrow")
+
+    def load_data(self) -> None:
+        """
+        This method loads the list of movie files from a parquet file into a DataFrame.
+
+        :return: The DataFrame containing the list of movie files.
+        :rtype: DataFrame
+        """
+        parquet_name: str = self.config.library_name + "_tvshows.parquet"
+        file_path: str = os.path.join(self.config.data_path, parquet_name)
+        tvshows_df: DataFrame = pd.read_parquet(file_path, engine="pyarrow")
+
+        self._tvshow_data = tvshows_df
+
+    @property
+    def config(self) -> ScanTvShowLibraryConfig:
+        """
+        Returns the configuration.
+
+        :return: The configuration.
+        :rtype: ScanTvShowLibraryConfig
+        """
+        return self._config
+
+    @property
+    def raw_tvshow_data(self) -> DataFrame:
+        """
+        Returns the raw TV show data.
+
+        :return: The raw TV show data.
+        :rtype: DataFrame
+        """
+        return self._raw_tvshow_data
+
+    def collect_data(self) -> DataFrame:
+        """
+        Collects the data.
+
+        :return: None
+        """
         tvshows_df: DataFrame = self.collect_tvshow_data()
 
         seasons_df: DataFrame = None
@@ -60,28 +124,6 @@ class ScanTvShowLibraryPipeline(BasePipeline):
         logger.info(f"Total TV Shows: {len(tvshows_df)}")
         logger.info(f"Total Seasons: {len(seasons_df)}")
         logger.info(f"Total Episodes: {len(episodes_df)}")
-
-        pass
-
-    @property
-    def config(self) -> ScanTvShowLibraryConfig:
-        """
-        Returns the configuration.
-
-        :return: The configuration.
-        :rtype: ScanTvShowLibraryConfig
-        """
-        return self._config
-
-    @property
-    def raw_tvshow_data(self) -> DataFrame:
-        """
-        Returns the raw TV show data.
-
-        :return: The raw TV show data.
-        :rtype: DataFrame
-        """
-        return self._raw_tvshow_data
 
     def collect_tvshow_data(self) -> DataFrame:
         """
@@ -148,11 +190,11 @@ class ScanTvShowLibraryPipeline(BasePipeline):
 if __name__ == "__main__":
     script_path: str = os.path.dirname(os.path.realpath(__file__))
     pj_path: str = os.path.join(script_path, "..", "..")
-    movie_lib = os.path.join(pj_path, "data", "movies", "animes")
+    tvshows_lib = os.path.join(pj_path, "data", "tvshows", "animes")
     data_path = os.path.join(pj_path, "data", "raw")
 
-    # library_path = os.path.normpath(movie_lib)
-    library_path = "/Volumes/PlexLibrary/TVShows/[EN-XX] Animationsserien"
+    library_path = os.path.normpath(tvshows_lib)
+    # library_path = "/Volumes/PlexLibrary/TVShows/[EN-XX] Animationsserien"
 
     pipeline_config = ScanTvShowLibraryConfig(
         library_name="tvshows",
