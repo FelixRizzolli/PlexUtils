@@ -21,7 +21,10 @@ class ScanTvShowLibraryPipeline(BasePipeline):
     """
 
     _config: Optional[ScanTvShowLibraryConfig] = None
-    _tvshow_data: Optional[DataFrame] = None
+    _raw_tvshow_data: Optional[DataFrame] = None
+
+    _invalid_episode_files: Optional[DataFrame] = None
+    _valid_episode_files: Optional[DataFrame] = None
 
     def __init__(self, config: ScanTvShowLibraryConfig):
         self._config = config
@@ -41,37 +44,16 @@ class ScanTvShowLibraryPipeline(BasePipeline):
         self.save_data()
 
         # Validate the list of tv show files.
+        self.validate_data()
 
         # Project data
+        self.project_data()
 
         # Save the invalid tv show files to a MongoDB database.
+        self.save_invalid_episode_files_to_mongodb()
 
         # Save the valid tv show files to a MongoDB database.
-
-    def save_data(self) -> None:
-        """
-        This method saves the list of movie files to a parquet file.
-
-        :return: None
-        """
-        parquet_name: str = self.config.library_name + "_tvshows.parquet"
-        file_path: str = os.path.join(self.config.data_path, parquet_name)
-
-        if self._tvshow_data is not None and isinstance(self._tvshow_data, DataFrame):
-            self._tvshow_data.to_parquet(file_path, engine="pyarrow")
-
-    def load_data(self) -> None:
-        """
-        This method loads the list of movie files from a parquet file into a DataFrame.
-
-        :return: The DataFrame containing the list of movie files.
-        :rtype: DataFrame
-        """
-        parquet_name: str = self.config.library_name + "_tvshows.parquet"
-        file_path: str = os.path.join(self.config.data_path, parquet_name)
-        tvshows_df: DataFrame = pd.read_parquet(file_path, engine="pyarrow")
-
-        self._tvshow_data = tvshows_df
+        self.save_valid_episode_files_to_mongodb()
 
     @property
     def config(self) -> ScanTvShowLibraryConfig:
@@ -92,6 +74,26 @@ class ScanTvShowLibraryPipeline(BasePipeline):
         :rtype: DataFrame
         """
         return self._raw_tvshow_data
+
+    @property
+    def invalid_episode_files(self) -> DataFrame:
+        """
+        Returns the invalid episode files.
+
+        :return: The invalid episode files.
+        :rtype: DataFrame
+        """
+        return self._invalid_episode_files
+
+    @property
+    def valid_episode_files(self) -> DataFrame:
+        """
+        Returns the valid episode files.
+
+        :return: The valid episode files.
+        :rtype: DataFrame
+        """
+        return self._valid_episode_files
 
     def collect_data(self) -> DataFrame:
         """
@@ -185,6 +187,65 @@ class ScanTvShowLibraryPipeline(BasePipeline):
                 episode_data.append({**path_data, **video_data})
 
         return pd.DataFrame(episode_data)
+
+    def save_data(self) -> None:
+        """
+        This method saves the list of movie files to a parquet file.
+
+        :return: None
+        """
+        parquet_name: str = self.config.library_name + "_tvshows.parquet"
+        file_path: str = os.path.join(self.config.data_path, parquet_name)
+
+        if self._raw_tvshow_data is not None and isinstance(
+            self._raw_tvshow_data, DataFrame
+        ):
+            self._raw_tvshow_data.to_parquet(file_path, engine="pyarrow")
+
+    def load_data(self) -> None:
+        """
+        This method loads the list of movie files from a parquet file into a DataFrame.
+
+        :return: The DataFrame containing the list of movie files.
+        :rtype: DataFrame
+        """
+        parquet_name: str = self.config.library_name + "_tvshows.parquet"
+        file_path: str = os.path.join(self.config.data_path, parquet_name)
+        tvshows_df: DataFrame = pd.read_parquet(file_path, engine="pyarrow")
+
+        self._raw_tvshow_data = tvshows_df
+
+    def validate_data(self) -> None:
+        """
+        This method validates the list of movie files.
+
+        :return: None
+        """
+        pass
+
+    def project_data(self) -> None:
+        """
+        This method projects the data.
+
+        :return: None
+        """
+        pass
+
+    def save_invalid_episode_files_to_mongodb(self) -> None:
+        """
+        This method saves the invalid episode files to a MongoDB database.
+
+        :return: None
+        """
+        pass
+
+    def save_valid_episode_files_to_mongodb(self) -> None:
+        """
+        This method saves the valid episode files to a MongoDB database.
+
+        :return: None
+        """
+        pass
 
 
 if __name__ == "__main__":
