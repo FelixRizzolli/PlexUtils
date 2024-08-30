@@ -4,10 +4,13 @@ and file names. These functions are primarily used for handling media files in a
 setup.
 """
 
+import os
 import re
 from typing import Optional
 
 import ffmpeg
+
+from video_file import VideoFile
 
 
 def extract_tvdbid(dirname: str) -> Optional[int]:
@@ -232,3 +235,28 @@ def get_pixel_format(file_path: str) -> str:
         return pixel_format
     except Exception:
         return "unknown"
+
+
+def collect_video_file_data(file_path: str) -> VideoFile:
+    """
+    Collects the video file data.
+
+    :param file_path: The path to the video file.
+    :return: VideoFile object.
+    """
+    [resolution_width, resolution_height] = get_resolution(file_path)
+
+    return VideoFile(
+        _filepath=file_path,
+        _format_name=get_format_name(file_path),
+        _filesize=os.path.getsize(file_path),
+        _duration=get_duration(file_path),
+        _resolution_width=resolution_width,
+        _resolution_height=resolution_height,
+        _video_codec=get_video_codec(file_path),
+        _audio_codec=get_audio_codec(file_path),
+        _bitrate=get_bitrate(file_path),
+        _frame_rate=get_frame_rate(file_path),
+        _number_of_streams=get_number_of_streams(file_path),
+        _pixel_format=get_pixel_format(file_path),
+    )
