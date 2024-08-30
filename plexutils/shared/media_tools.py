@@ -4,13 +4,8 @@ and file names. These functions are primarily used for handling media files in a
 setup.
 """
 
-import os
 import re
 from typing import Optional
-
-import ffmpeg
-
-from video_file import VideoFile
 
 
 def extract_tvdbid(dirname: str) -> Optional[int]:

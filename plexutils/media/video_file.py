@@ -4,7 +4,7 @@ This module contains the VideoFile class.
 
 import os.path
 from abc import abstractmethod
-from typing import Any
+from typing import Any, Optional
 
 import ffmpeg
 
@@ -14,12 +14,13 @@ class VideoFile:
     Represents a single video file.
     """
 
-    _probe: Any
-    _video_stream: Any
+    _probe: Optional[Any] = None
+    _video_stream: Optional[Any] = None
+    _audio_stream: Optional[Any] = None
 
-    _filepath: str
+    _file_path: str
+    _file_size: int
     _format_name: str
-    _filesize: int
     _duration: float
     _resolution_width: int
     _resolution_height: int
@@ -31,15 +32,16 @@ class VideoFile:
     _pixel_format: str
 
     def __init__(self, file_path: str):
-        self._filepath = file_path
+        self._file_path = file_path
 
     @property
     def __dict__(self) -> dict:
         return {
-            "filename": self.filename,
+            "file_path": self.file_path,
+            "file_dir": self.file_dir,
+            "file_name": self.file_name,
+            "file_size": self.file_size,
             "format_name": self.format_name,
-            "filepath": self.filepath,
-            "filesize": self.filesize,
             "duration": self.duration,
             "resolution_width": self.resolution_width,
             "resolution_height": self.resolution_height,
@@ -52,14 +54,34 @@ class VideoFile:
         }
 
     @property
-    def filename(self) -> str:
+    def file_path(self) -> str:
         """
-        Returns the filename of the video file.
+        Returns the file path of the video file.
 
-        :return: The filename of the video file.
+        :return: The file path of the video file.
         :rtype: str
         """
-        return os.path.basename(self._filepath)
+        return self._file_path
+
+    @property
+    def file_dir(self) -> str:
+        """
+        Returns the file directory of the video file.
+
+        :return: The file directory of the video file.
+        :rtype: str
+        """
+        return os.path.dirname(self._file_path)
+
+    @property
+    def file_name(self) -> str:
+        """
+        Returns the file name of the video file.
+
+        :return: The file name of the video file.
+        :rtype: str
+        """
+        return os.path.basename(self._file_path)
 
     @property
     def format_name(self) -> str:
@@ -72,24 +94,14 @@ class VideoFile:
         return self._format_name
 
     @property
-    def filepath(self) -> str:
+    def file_size(self) -> int:
         """
-        Returns the filepath of the video file.
+        Returns the file size of the video file.
 
-        :return: The filepath of the video file.
-        :rtype: str
-        """
-        return self._filepath
-
-    @property
-    def filesize(self) -> int:
-        """
-        Returns the filesize of the video file.
-
-        :return: The filesize of the video file.
+        :return: The file size of the video file.
         :rtype: int
         """
-        return self._filesize
+        return self._file_size
 
     @property
     def duration(self) -> float:
@@ -197,30 +209,67 @@ class VideoFile:
 
         :return: None
         """
-        self._probe = ffmpeg.probe(self._filepath)
-        self._video_stream = next(stream for stream in self._probe["streams"])
+        # Probe the video file
+        try:
+            self._probe = ffmpeg.probe(self._filepath)
+            self._video_stream = next(
+                stream
+                for stream in self._probe["streams"]
+                if stream["codec_type"] == "video"
+            )
+            self._audio_stream = next(
+                stream
+                for stream in self._probe["streams"]
+                if stream["codec_type"] == "video"
+            )
+        except Exception:
+            self._probe = None
+            self._video_stream = None
 
-        self._read_format_name()
-        self._read_filesize()
-        self._read_video_codec()
-        self._read_audio_codec()
-        self._read_duration()
-        self._read_resolution()
-        self._read_bitrate()
-        self._read_frame_rate()
-        self._read_number_of_streams()
-        self._read_pixel_format()
+        # Read the filesize of the video file
+        self._read_file_size()
 
-    def _read_filesize(self) -> None:
+        # Read the video file data when a valid probe is available
+        if self._file_size > 0 and self._probe is not None:
+            self._read_duration()
+            self._read_format_name()
+            self._read_number_of_streams()
+        else:
+            self._duration = 0.0
+            self._format_name = "unknown"
+            self._number_of_streams = 0
+
+        # Read the video file data when a valid video stream is available
+        if self._file_size > 0 and self._video_stream is not None:
+            self._read_video_codec()
+            self._read_resolution()
+            self._read_bitrate()
+            self._read_frame_rate()
+            self._read_pixel_format()
+        else:
+            self._video_codec = "unknown"
+            self._resolution_width = 0
+            self._resolution_height = 0
+            self._bitrate = 0
+            self._frame_rate = 0
+            self._pixel_format = "unknown"
+
+        # Read the video file data when a valid audio stream is available
+        if self._file_size > 0 and self._audio_stream is not None:
+            self._read_audio_codec()
+        else:
+            self._audio_codec = "unknown"
+
+    def _read_file_size(self) -> None:
         """
-        Get the filesize of the video file.
+        Get the file size of the video file.
 
         :return: None
         """
         try:
-            self._filesize = os.path.getsize(self._filepath)
+            self._file_size = os.path.getsize(self._file_path)
         except Exception:
-            self._filesize = 0
+            self._file_size = 0
 
     def _read_video_codec(self) -> None:
         """
@@ -240,7 +289,7 @@ class VideoFile:
         :return: None
         """
         try:
-            self._audio_codec = self._video_stream["codec_name"]
+            self._audio_codec = self._audio_stream["codec_name"]
         except Exception:
             self._audio_codec = "unknown"
 
