@@ -9,6 +9,7 @@ from enum import Enum
 
 import pandas as pd
 from pandas import DataFrame
+from loguru import logger
 
 from media_tools import (
     extract_tvdbid,
@@ -61,18 +62,29 @@ class ScanMovieLibraryPipeline(BasePipeline):
 
         # Collect the file information from the movie library
         self.collect_data()
+        logger.info(f"Total Movies: {len(self.raw_movie_data)}")
 
         # Load the list of movie files from a parquet file
         self.load_data()
+        logger.info("Data loaded successfully to the parquet file.")
 
         # Validate the list of movie files
         self.validate_data()
+        logger.info(f"Valid Movies: {len(self.valid_movie_data)}")
+        logger.info(f"Invalid Movies: {len(self.invalid_movie_data)}")
 
         # Project data
         self.project_data()
+        logger.info("Data projected successfully.")
 
         # Save the invalid movie files to a MongoDB database
-        self.save_invalid_movies_to_mongodb()
+        if self._invalid_movie_data is not None and len(self._invalid_movie_data) > 0:
+            self.save_invalid_movies_to_mongodb()
+            logger.info("Invalid movies saved to MongoDB.")
+
+        if self._valid_movie_data is not None and len(self._valid_movie_data) > 0:
+            self.save_valid_movies_to_mongodb()
+            logger.info("Valid movies saved to MongoDB.")
 
     @property
     def config(self) -> ScanMovieLibraryConfig:
@@ -254,39 +266,43 @@ class ScanMovieLibraryPipeline(BasePipeline):
 
         :return: None
         """
-        if self._invalid_movie_data is not None and len(self._invalid_movie_data) > 0:
-            invalid_movies_collection = get_collection("raw_data", "invalid_movies")
-            invalid_movies_collection.insert_many(
-                self._invalid_movie_data.to_dict("records")
-            )
+        invalid_movies_collection = get_collection("raw_data", "invalid_movies")
+        invalid_movies_collection.insert_many(
+            self._invalid_movie_data.to_dict("records")
+        )
 
-            runs_collection = get_collection("sys", "runs")
-            runs_collection.insert_one(
-                {
-                    "database": "raw_data",
-                    "collection": "invalid_movies",
-                    "library": self.config.library_name,
-                    "application": "plexutils",
-                    "type": "library-scan",
-                    "processing_date": datetime.now(),
-                }
-            )
+        runs_collection = get_collection("sys", "runs")
+        runs_collection.insert_one(
+            {
+                "database": "raw_data",
+                "collection": "invalid_movies",
+                "library": self.config.library_name,
+                "application": "plexutils",
+                "type": "library-scan",
+                "processing_date": datetime.now(),
+            }
+        )
 
-        if self._valid_movie_data is not None and len(self._valid_movie_data) > 0:
-            movies_collection = get_collection("raw_data", "movies")
-            movies_collection.insert_many(self._valid_movie_data.to_dict("records"))
+    def save_valid_movies_to_mongodb(self) -> None:
+        """
+        This method saves the valid movie files to a MongoDB database.
 
-            runs_collection = get_collection("sys", "runs")
-            runs_collection.insert_one(
-                {
-                    "database": "raw_data",
-                    "collection": "movies",
-                    "library": self.config.library_name,
-                    "application": "plexutils",
-                    "type": "library-scan",
-                    "processing_date": datetime.now(),
-                }
-            )
+        :return: None
+        """
+        movies_collection = get_collection("raw_data", "movies")
+        movies_collection.insert_many(self._valid_movie_data.to_dict("records"))
+
+        runs_collection = get_collection("sys", "runs")
+        runs_collection.insert_one(
+            {
+                "database": "raw_data",
+                "collection": "movies",
+                "library": self.config.library_name,
+                "application": "plexutils",
+                "type": "library-scan",
+                "processing_date": datetime.now(),
+            }
+        )
 
 
 if __name__ == "__main__":
