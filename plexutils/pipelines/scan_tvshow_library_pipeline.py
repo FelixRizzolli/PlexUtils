@@ -6,7 +6,7 @@ from pandas.core.interchange.dataframe_protocol import DataFrame
 from loguru import logger
 
 from base_pipeline import BaseLibraryConfig, BasePipeline, pipeline_runner
-from media_tools import collect_video_file_data
+from video_file import VideoFile
 
 
 class ScanTvShowLibraryConfig(BaseLibraryConfig):
@@ -137,7 +137,9 @@ class ScanTvShowLibraryPipeline(BasePipeline):
                     "episode": episode,
                     "path": episode_path,
                 }
-                video_data: dict = collect_video_file_data(episode_path).__dict__
+                video_file: VideoFile = VideoFile(episode_path)
+                video_file.collect_data()
+                video_data = video_file.__dict__
                 episode_data.append({**path_data, **video_data})
 
         return pd.DataFrame(episode_data)
@@ -150,7 +152,7 @@ if __name__ == "__main__":
     data_path = os.path.join(pj_path, "data", "raw")
 
     # library_path = os.path.normpath(movie_lib)
-    library_path = "/Volumes/PlexLibrary/TVShows/[DE-XX] Serien"
+    library_path = "/Volumes/PlexLibrary/TVShows/[EN-XX] Animationsserien"
 
     pipeline_config = ScanTvShowLibraryConfig(
         library_name="tvshows",
