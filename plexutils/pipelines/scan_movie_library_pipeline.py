@@ -23,7 +23,7 @@ from media_tools import (
     get_pixel_format,
 )
 from mongodb import get_collection
-from pipelines.base_pipeline import BaseConfig, BasePipeline
+from pipelines.base_pipeline import BaseLibraryConfig, BasePipeline, pipeline_runner
 from plexutils.media.video_file import VideoFile
 
 
@@ -32,7 +32,7 @@ class MovieErrorCode(Enum):
     INVALID_FILESIZE = "INVALID_FILESIZE"
 
 
-class ScanMovieLibraryConfig(BaseConfig):
+class ScanMovieLibraryConfig(BaseLibraryConfig):
     """
     This class represents the configuration for the ScanMovieLibraryPipeline.
     """
@@ -43,10 +43,15 @@ class ScanMovieLibraryPipeline(BasePipeline):
     This class represents a pipeline for scanning a movie library.
     """
 
+    _config: Optional[ScanMovieLibraryConfig] = None
     _raw_movie_data: Optional[DataFrame] = None
     _invalid_movie_data: Optional[DataFrame] = None
     _valid_movie_data: Optional[DataFrame] = None
 
+    def __init__(self, config: Optional[ScanMovieLibraryConfig] = None):
+        self._config = config
+
+    @pipeline_runner
     def run(self) -> None:
         """
         Runs the pipeline.
@@ -68,6 +73,46 @@ class ScanMovieLibraryPipeline(BasePipeline):
 
         # Save the invalid movie files to a MongoDB database
         self.save_invalid_movies_to_mongodb()
+
+    @property
+    def config(self) -> ScanMovieLibraryConfig:
+        """
+        Returns the configuration for the pipeline.
+
+        :return: The configuration for the pipeline.
+        :rtype: ScanMovieLibraryConfig
+        """
+        return self._config
+
+    @property
+    def raw_movie_data(self) -> Optional[DataFrame]:
+        """
+        Returns the raw movie data.
+
+        :return: The raw movie data.
+        :rtype: Optional[DataFrame]
+        """
+        return self._raw_movie_data
+
+    @property
+    def invalid_movie_data(self) -> Optional[DataFrame]:
+        """
+        Returns the invalid movie data.
+
+        :return: The invalid movie data.
+        :rtype: Optional[DataFrame]
+        """
+        return self._invalid_movie_data
+
+    @property
+    def valid_movie_data(self) -> Optional[DataFrame]:
+        """
+        Returns the valid movie data.
+
+        :return: The valid movie data.
+        :rtype: Optional[DataFrame]
+        """
+        return self._valid_movie_data
 
     def collect_data(self) -> None:
         """
@@ -250,10 +295,13 @@ if __name__ == "__main__":
     movie_lib = os.path.join(pj_path, "data", "movies", "animes")
     data_path = os.path.join(pj_path, "data", "raw")
 
-    pipeline = ScanMovieLibraryPipeline()
-    pipeline.config = ScanMovieLibraryConfig(
+    # library_path = os.path.normpath(movie_lib)
+    library_path = "/Volumes/PlexLibrary/Movies/[DE-XX] Anime"
+
+    pipeline_config = ScanMovieLibraryConfig(
         library_name="movies",
-        library_path=os.path.normpath(movie_lib),
+        library_path=library_path,
         data_path=os.path.normpath(data_path),
     )
+    pipeline = ScanMovieLibraryPipeline(pipeline_config)
     pipeline.run()

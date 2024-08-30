@@ -3,9 +3,24 @@ This module contains the base classes for the configuration and pipeline.
 """
 
 from abc import abstractmethod
+from loguru import logger
 
 
-class BaseConfig:
+def pipeline_runner(func):
+    def wrapper(self, *args, **kwargs):
+        if not hasattr(self, "config") or self.config is None:
+            raise AttributeError(
+                "The 'config' property must be set before running the pipeline."
+            )
+        logger.info(f"Starting {func.__name__} method.")
+        result = func(self, *args, **kwargs)
+        logger.info(f"Finished {func.__name__} method.")
+        return result
+
+    return wrapper
+
+
+class BaseLibraryConfig:
     """
     This class represents the base configuration for the pipelines.
     """
