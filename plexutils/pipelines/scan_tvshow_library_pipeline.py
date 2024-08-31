@@ -52,6 +52,9 @@ class ScanTvShowLibraryPipeline(BasePipeline):
         :return: None
         """
 
+        # Set the execution start time.
+        self.config.execution_start_time = datetime.now()
+
         # Collect the file information from the tv show library.
         self.collect_data()
         if is_empty(self.raw_tvshow_data):
@@ -78,6 +81,12 @@ class ScanTvShowLibraryPipeline(BasePipeline):
         # Save the valid tv show files to a MongoDB database.
         if is_not_empty(self.valid_episode_files):
             self.save_valid_episode_files_to_mongodb()
+
+        # Set the execution end time.
+        self.config.execution_end_time = datetime.now()
+
+        # Save the run information to a MongoDB database.
+        self.save_run_information_to_mongodb()
 
     @property
     def config(self) -> ScanTvShowLibraryConfig:
@@ -343,18 +352,6 @@ class ScanTvShowLibraryPipeline(BasePipeline):
             self.invalid_episode_files.to_dict("records")
         )
 
-        runs_collection = get_collection("sys", "runs")
-        runs_collection.insert_one(
-            {
-                "database": "raw_data",
-                "collection": "invalid_episodes",
-                "library": self.config.library_name,
-                "application": "plexutils",
-                "type": "library-scan",
-                "processing_date": datetime.now(),
-            }
-        )
-
     def save_valid_episode_files_to_mongodb(self) -> None:
         """
         This method saves the valid episode files to a MongoDB database.
@@ -364,17 +361,33 @@ class ScanTvShowLibraryPipeline(BasePipeline):
         episodes_collection = get_collection("raw_data", "episodes")
         episodes_collection.insert_many(self.valid_episode_files.to_dict("records"))
 
-        runs_collection = get_collection("sys", "runs")
-        runs_collection.insert_one(
-            {
-                "database": "raw_data",
-                "collection": "episodes",
-                "library": self.config.library_name,
-                "application": "plexutils",
-                "type": "library-scan",
-                "processing_date": datetime.now(),
-            }
-        )
+    def save_run_information_to_mongodb(self) -> None:
+        """
+        This method saves the run information to a MongoDB database.
+
+        :return: None
+        """
+        base_run_information = {
+            "database": "raw_data",
+            "libearyType": "tvshow",
+            "libraryName": self.config.library_name,
+            "application": "plexutils",
+            "type": "library-scan",
+            "executionStartTime": self.config.execution_start_time,
+            "executionEndTime": self.config.execution_end_time,
+        }
+
+        if is_not_empty(self.invalid_episode_files):
+            invalid_episodes_collection = get_collection("sys", "runs")
+            invalid_episodes_collection.insert_one(
+                {**base_run_information, "collection": "invalid_episodes"}
+            )
+
+        if is_not_empty(self.valid_episode_files):
+            episodes_collection = get_collection("sys", "runs")
+            episodes_collection.insert_one(
+                {**base_run_information, "collection": "episodes"}
+            )
 
 
 if __name__ == "__main__":

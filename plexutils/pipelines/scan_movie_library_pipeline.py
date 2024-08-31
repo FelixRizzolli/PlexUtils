@@ -55,6 +55,9 @@ class ScanMovieLibraryPipeline(BasePipeline):
         :return: None
         """
 
+        # Set the execution start time.
+        self.config.execution_start_time = datetime.now()
+
         # Collect the file information from the movie library
         self.collect_data()
         if is_empty(self.raw_movie_data):
@@ -85,6 +88,12 @@ class ScanMovieLibraryPipeline(BasePipeline):
         if is_not_empty(self.valid_movie_data):
             self.save_valid_movies_to_mongodb()
             logger.info("Valid movies saved to MongoDB.")
+
+        # Set the execution end time.
+        self.config.execution_end_time = datetime.now()
+
+        # Save the run information to a MongoDB database.
+        self.save_run_information_to_mongodb()
 
     @property
     def config(self) -> ScanMovieLibraryConfig:
@@ -260,18 +269,6 @@ class ScanMovieLibraryPipeline(BasePipeline):
             self.invalid_movie_data.to_dict("records")
         )
 
-        runs_collection = get_collection("sys", "runs")
-        runs_collection.insert_one(
-            {
-                "database": "raw_data",
-                "collection": "invalid_movies",
-                "library": self.config.library_name,
-                "application": "plexutils",
-                "type": "library-scan",
-                "processing_date": datetime.now(),
-            }
-        )
-
     def save_valid_movies_to_mongodb(self) -> None:
         """
         This method saves the valid movie files to a MongoDB database.
@@ -281,17 +278,33 @@ class ScanMovieLibraryPipeline(BasePipeline):
         movies_collection = get_collection("raw_data", "movies")
         movies_collection.insert_many(self.valid_movie_data.to_dict("records"))
 
-        runs_collection = get_collection("sys", "runs")
-        runs_collection.insert_one(
-            {
-                "database": "raw_data",
-                "collection": "movies",
-                "library": self.config.library_name,
-                "application": "plexutils",
-                "type": "library-scan",
-                "processing_date": datetime.now(),
-            }
-        )
+    def save_run_information_to_mongodb(self) -> None:
+        """
+        This method saves the run information to a MongoDB database.
+
+        :return: None
+        """
+        base_run_information = {
+            "database": "raw_data",
+            "libearyType": "movie",
+            "libraryName": self.config.library_name,
+            "application": "plexutils",
+            "type": "library-scan",
+            "executionStartTime": self.config.execution_start_time,
+            "executionEndTime": self.config.execution_end_time,
+        }
+
+        if is_not_empty(self.invalid_movie_data):
+            invalid_movies_collection = get_collection("sys", "runs")
+            invalid_movies_collection.insert_one(
+                {**base_run_information, "collection": "invalid_movies"}
+            )
+
+        if is_not_empty(self.valid_movie_data):
+            movies_collection = get_collection("sys", "runs")
+            movies_collection.insert_one(
+                {**base_run_information, "collection": "movies"}
+            )
 
 
 if __name__ == "__main__":

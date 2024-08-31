@@ -89,6 +89,48 @@ class BaseLibraryConfig:
         """
         return self._data_path
 
+    @property
+    def execution_start_time(self) -> str:
+        """
+        Returns the start time of the execution.
+
+        :return: The start time of the execution.
+        :rtype: str
+        """
+        return self._execution_start_time
+
+    @execution_start_time.setter
+    def execution_start_time(self, value: str) -> None:
+        """
+        Sets the start time of the execution.
+
+        :param value: The start time of the execution.
+        :type value: str
+        :return: None
+        """
+        self._execution_start_time = value
+
+    @property
+    def execution_end_time(self) -> str:
+        """
+        Returns the end time of the execution.
+
+        :return: The end time of the execution.
+        :rtype: str
+        """
+        return self._execution_end_time
+
+    @execution_end_time.setter
+    def execution_end_time(self, value: str) -> None:
+        """
+        Sets the end time of the execution.
+
+        :param value: The end time of the execution.
+        :type value: str
+        :return: None
+        """
+        self._execution_end_time = value
+
 
 class BasePipeline:
     """
