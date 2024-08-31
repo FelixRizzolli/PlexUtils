@@ -4,10 +4,11 @@ from enum import Enum
 from typing import Optional
 
 import pandas as pd
-from pandas.core.interchange.dataframe_protocol import DataFrame
 from loguru import logger
+from pandas import DataFrame
 
 from base_pipeline import BaseLibraryConfig, BasePipeline, pipeline_runner
+from mongodb import get_collection
 from video_file import VideoFile
 from media_tools import extract_tvdbid
 
@@ -62,10 +63,15 @@ class ScanTvShowLibraryPipeline(BasePipeline):
         self.project_data()
 
         # Save the invalid tv show files to a MongoDB database.
-        self.save_invalid_episode_files_to_mongodb()
+        if (
+            self.invalid_episode_files is not None
+            and not self.invalid_episode_files.empty
+        ):
+            self.save_invalid_episode_files_to_mongodb()
 
         # Save the valid tv show files to a MongoDB database.
-        self.save_valid_episode_files_to_mongodb()
+        if self.valid_episode_files is not None and not self.valid_episode_files.empty:
+            self.save_valid_episode_files_to_mongodb()
 
     @property
     def config(self) -> ScanTvShowLibraryConfig:
@@ -330,7 +336,22 @@ class ScanTvShowLibraryPipeline(BasePipeline):
 
         :return: None
         """
-        pass
+        invalid_episodes_collection = get_collection("raw_data", "invalid_episodes")
+        invalid_episodes_collection.insert_many(
+            self.invalid_episode_files.to_dict("records")
+        )
+
+        runs_collection = get_collection("sys", "runs")
+        runs_collection.insert_one(
+            {
+                "database": "raw_data",
+                "collection": "invalid_episodes",
+                "library": self.config.library_name,
+                "application": "plexutils",
+                "type": "library-scan",
+                "processing_date": datetime.now(),
+            }
+        )
 
     def save_valid_episode_files_to_mongodb(self) -> None:
         """
@@ -338,7 +359,20 @@ class ScanTvShowLibraryPipeline(BasePipeline):
 
         :return: None
         """
-        pass
+        episodes_collection = get_collection("raw_data", "episodes")
+        episodes_collection.insert_many(self.valid_episode_files.to_dict("records"))
+
+        runs_collection = get_collection("sys", "runs")
+        runs_collection.insert_one(
+            {
+                "database": "raw_data",
+                "collection": "episodes",
+                "library": self.config.library_name,
+                "application": "plexutils",
+                "type": "library-scan",
+                "processing_date": datetime.now(),
+            }
+        )
 
 
 if __name__ == "__main__":

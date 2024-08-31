@@ -252,7 +252,7 @@ class ScanMovieLibraryPipeline(BasePipeline):
         """
         invalid_movies_collection = get_collection("raw_data", "invalid_movies")
         invalid_movies_collection.insert_many(
-            self._invalid_movie_data.to_dict("records")
+            self.invalid_movie_data.to_dict("records")
         )
 
         runs_collection = get_collection("sys", "runs")
@@ -274,7 +274,7 @@ class ScanMovieLibraryPipeline(BasePipeline):
         :return: None
         """
         movies_collection = get_collection("raw_data", "movies")
-        movies_collection.insert_many(self._valid_movie_data.to_dict("records"))
+        movies_collection.insert_many(self.valid_movie_data.to_dict("records"))
 
         runs_collection = get_collection("sys", "runs")
         runs_collection.insert_one(
