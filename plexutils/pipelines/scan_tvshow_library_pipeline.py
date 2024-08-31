@@ -9,6 +9,7 @@ from loguru import logger
 
 from base_pipeline import BaseLibraryConfig, BasePipeline, pipeline_runner
 from video_file import VideoFile
+from media_tools import extract_tvdbid
 
 
 class TVShowErrorCode(Enum):
@@ -149,6 +150,9 @@ class ScanTvShowLibraryPipeline(BasePipeline):
         else:
             logger.info(f"Total Episodes: {len(episodes_df)}")
 
+        self._raw_tvshow_data = episodes_df
+        print(self._raw_tvshow_data)
+
     def collect_tvshow_data(self) -> DataFrame:
         """
         Collects the TV show data.
@@ -208,8 +212,7 @@ class ScanTvShowLibraryPipeline(BasePipeline):
                 video_data = video_file.__dict__
                 episode_data.append({**path_data, **video_data})
 
-        self._raw_tvshow_data = pd.DataFrame([episode for episode in episode_data])
-        print(self._raw_tvshow_data)
+        return pd.DataFrame([episode for episode in episode_data])
 
     def save_data(self) -> None:
         """
@@ -261,7 +264,7 @@ class ScanTvShowLibraryPipeline(BasePipeline):
         # Validate the list of episode files.
         for index, row in self._raw_tvshow_data.iterrows():
             # Extract the TVDB ID from the episode file name and check if it is valid.
-            tvdb_id: Optional[int] = self.extract_tvdb_id(row["file_name"])
+            tvdb_id: Optional[int] = extract_tvdbid(row["tvshow"])
             if tvdb_id is None:
                 err: str = TVShowErrorCode.INVALID_TVDB_ID.value
                 row["error_code"] = err
@@ -280,24 +283,28 @@ class ScanTvShowLibraryPipeline(BasePipeline):
                 valid_rows.append(row)
 
         # Concatenate invalid rows to _invalid_episode_files
-        if invalid_rows:
-            if self._invalid_episode_files is None:
+        if len(invalid_rows) > 0:
+            if self.invalid_episode_files is None or self.invalid_episode_files.empty:
                 self._invalid_episode_files = pd.DataFrame(invalid_rows)
             else:
                 self._invalid_episode_files = pd.concat(
                     [self._invalid_episode_files, pd.DataFrame(invalid_rows)],
                     ignore_index=True,
                 ).dropna(how="all", axis=1)
+        else:
+            self._invalid_episode_files = pd.DataFrame([])
 
         # Concatenate valid rows to _valid_episode_files
-        if valid_rows:
-            if self._valid_episode_files is None:
+        if len(valid_rows) > 0:
+            if self.valid_episode_files is None or self.valid_episode_files.empty:
                 self._valid_episode_files = pd.DataFrame(valid_rows)
             else:
                 self._valid_episode_files = pd.concat(
                     [self._valid_episode_files, pd.DataFrame(valid_rows)],
                     ignore_index=True,
                 ).dropna(how="all", axis=1)
+        else:
+            self._valid_episode_files = pd.DataFrame([])
 
     def project_data(self) -> None:
         """
@@ -307,11 +314,14 @@ class ScanTvShowLibraryPipeline(BasePipeline):
         """
 
         # Add the processing date column with the current timestamp
-        if self.invalid_episode_files is not None:
+        if (
+            self.invalid_episode_files is not None
+            and not self.invalid_episode_files.empty
+        ):
             self._invalid_episode_files["processing_date"] = datetime.now()
 
         # Add the processing date column with the current timestamp
-        if self.valid_episode_files is not None:
+        if self.valid_episode_files is not None and not self.valid_episode_files.empty:
             self._valid_episode_files["processing_date"] = datetime.now()
 
     def save_invalid_episode_files_to_mongodb(self) -> None:

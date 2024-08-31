@@ -206,7 +206,7 @@ class ScanMovieLibraryPipeline(BasePipeline):
                 valid_rows.append(row)
 
         # Concatenate invalid rows to _invalid_movie_data
-        if invalid_rows:
+        if len(invalid_rows) > 0:
             if self._invalid_movie_data is None or self._invalid_movie_data.empty:
                 self._invalid_movie_data = pd.DataFrame(invalid_rows)
             else:
@@ -214,9 +214,11 @@ class ScanMovieLibraryPipeline(BasePipeline):
                     [self._invalid_movie_data, pd.DataFrame(invalid_rows)],
                     ignore_index=True,
                 ).dropna(how="all", axis=1)
+        else:
+            self._invalid_movie_data = pd.DataFrame([])
 
         # Concatenate valid rows to _valid_movie_data
-        if valid_rows:
+        if len(valid_rows) > 0:
             if self.valid_movie_data is None or self.valid_movie_data.empty:
                 self._valid_movie_data = pd.DataFrame(valid_rows)
             else:
@@ -224,6 +226,8 @@ class ScanMovieLibraryPipeline(BasePipeline):
                     [self._valid_movie_data, pd.DataFrame(valid_rows)],
                     ignore_index=True,
                 ).dropna(how="all", axis=1)
+        else:
+            self._valid_movie_data = pd.DataFrame([])
 
     def project_data(self) -> None:
         """
