@@ -266,7 +266,7 @@ class ScanTvShowLibraryPipeline(BasePipeline):
         self._invalid_episode_files = pd.DataFrame(
             columns=self._raw_tvshow_data.columns
         )
-        self._invalid_episode_files["error_code"] = None
+        self._invalid_episode_files["errorCode"] = None
         invalid_rows = []
 
         # Initialize _valid_episode_files with the same structure as _raw_tvshow_data
@@ -279,16 +279,16 @@ class ScanTvShowLibraryPipeline(BasePipeline):
             tvdb_id: Optional[int] = extract_tvdbid(row["tvshow"])
             if tvdb_id is None:
                 err: str = TVShowErrorCode.INVALID_TVDB_ID.value
-                row["error_code"] = err
+                row["errorCode"] = err
                 invalid_rows.append(row)
-                print(f"Invalid episode file: [{err}] [{index}] {row['file_name']}")
+                print(f"Invalid episode file: [{err}] [{index}] {row['file']['name']}")
 
             # Check if the file size is valid.
-            elif row["file_size"] <= 0:
+            elif row["file"]["size"] <= 0:
                 err: str = TVShowErrorCode.INVALID_FILESIZE.value
-                row["error_code"] = err
+                row["errorCode"] = err
                 invalid_rows.append(row)
-                print(f"Invalid episode file: [{err}] [{index}] {row['file_name']}")
+                print(f"Invalid episode file: [{err}] [{index}] {row['file']['name']}")
 
             # Valid episode file
             else:

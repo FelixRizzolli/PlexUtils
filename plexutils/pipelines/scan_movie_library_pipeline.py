@@ -183,7 +183,7 @@ class ScanMovieLibraryPipeline(BasePipeline):
 
         # Initialize _invalid_movie_data with the same structure as _raw_movie_data
         self._invalid_movie_data = pd.DataFrame(columns=self._raw_movie_data.columns)
-        self._invalid_movie_data["error_code"] = None
+        self._invalid_movie_data["errorCode"] = None
         invalid_rows = []
 
         # Initialize _valid_movie_data with the same structure as _raw_movie_data
@@ -193,19 +193,19 @@ class ScanMovieLibraryPipeline(BasePipeline):
         # Validate the list of movie files
         for index, row in self._raw_movie_data.iterrows():
             # Extract the TVDB ID from the filename and check if it is valid
-            tvdb_id: Optional[int] = extract_tvdbid(row["file_name"])
+            tvdb_id: Optional[int] = extract_tvdbid(row["file"]["name"])
             if tvdb_id is None:
                 err: str = MovieErrorCode.INVALID_TVDB_ID.value
-                row["error_code"] = err
+                row["errorCode"] = err
                 invalid_rows.append(row)
-                print(f"Invalid movie file: [{err}] [{index}] {row['file_name']}")
+                print(f"Invalid movie file: [{err}] [{index}] {row['file']['name']}")
 
             # Check if the filesize is valid
-            elif row["file_size"] <= 0:
+            elif row["file"]["size"] <= 0:
                 err: str = MovieErrorCode.INVALID_FILESIZE.value
-                row["error_code"] = err
+                row["errorCode"] = err
                 invalid_rows.append(row)
-                print(f"Invalid movie file: [{err}] [{index}] {row['file_name']}")
+                print(f"Invalid movie file: [{err}] [{index}] {row['file']['name']}")
 
             # Valid movie file
             else:

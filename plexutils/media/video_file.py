@@ -37,20 +37,27 @@ class VideoFile:
     @property
     def __dict__(self) -> dict:
         return {
-            "file_path": self.file_path,
-            "file_dir": self.file_dir,
-            "file_name": self.file_name,
-            "file_size": self.file_size,
-            "format_name": self.format_name,
-            "duration": self.duration,
-            "resolution_width": self.resolution_width,
-            "resolution_height": self.resolution_height,
-            "video_codec": self.video_codec,
-            "audio_codec": self.audio_codec,
-            "bitrate": self.bitrate,
-            "frame_rate": self.frame_rate,
-            "number_of_streams": self.number_of_streams,
-            "pixel_format": self.pixel_format,
+            "file": {
+                "path": self.file_path,
+                "name": self.file_name,
+                "size": self.file_size,
+            },
+            "video": {
+                "codec": self.video_codec,
+                "resolution": {
+                    "width": self.resolution_width,
+                    "height": self.resolution_height,
+                },
+                "formatName": self.format_name,
+                "duration": self.duration,
+                "bitrate": self.bitrate,
+                "frameRate": self.frame_rate,
+                "numberOfStreams": self.number_of_streams,
+                "pixelFormat": self.pixel_format,
+            },
+            "audio": {
+                "codec": self.audio_codec,
+            },
         }
 
     @property
@@ -64,16 +71,6 @@ class VideoFile:
         return self._file_path
 
     @property
-    def file_dir(self) -> str:
-        """
-        Returns the file directory of the video file.
-
-        :return: The file directory of the video file.
-        :rtype: str
-        """
-        return os.path.dirname(self._file_path)
-
-    @property
     def file_name(self) -> str:
         """
         Returns the file name of the video file.
@@ -81,7 +78,7 @@ class VideoFile:
         :return: The file name of the video file.
         :rtype: str
         """
-        return os.path.basename(self._file_path)
+        return os.path.basename(self.file_path)
 
     @property
     def format_name(self) -> str:
@@ -211,7 +208,7 @@ class VideoFile:
         """
         # Probe the video file
         try:
-            self._probe = ffmpeg.probe(self._filepath)
+            self._probe = ffmpeg.probe(self._file_path)
             self._video_stream = next(
                 stream
                 for stream in self._probe["streams"]
