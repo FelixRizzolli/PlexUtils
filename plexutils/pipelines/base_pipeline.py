@@ -3,7 +3,30 @@ This module contains the base classes for the configuration and pipeline.
 """
 
 from abc import abstractmethod
+from typing import Optional
+
 from loguru import logger
+from pandas import DataFrame
+
+
+def is_not_empty(df: Optional[DataFrame]) -> bool:
+    """
+    Check if the DataFrame is not empty.
+
+    :param df: The DataFrame to check.
+    :return: True if the DataFrame is not empty, False otherwise.
+    """
+    return not is_empty(df)
+
+
+def is_empty(df: Optional[DataFrame]) -> bool:
+    """
+    Check if the DataFrame is empty.
+
+    :param df: The DataFrame to check.
+    :return: True if the DataFrame is empty, False otherwise.
+    """
+    return df is None or df.empty
 
 
 def pipeline_runner(func):
@@ -28,6 +51,8 @@ class BaseLibraryConfig:
     _library_name: str
     _library_path: str
     _data_path: str
+    _execution_start_time: str
+    _execution_end_time: str
 
     def __init__(self, library_name: str, library_path: str, data_path: str):
         self._library_name = library_name

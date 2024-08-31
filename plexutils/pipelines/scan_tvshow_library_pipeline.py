@@ -7,7 +7,13 @@ import pandas as pd
 from loguru import logger
 from pandas import DataFrame
 
-from base_pipeline import BaseLibraryConfig, BasePipeline, pipeline_runner
+from base_pipeline import (
+    BaseLibraryConfig,
+    BasePipeline,
+    pipeline_runner,
+    is_not_empty,
+    is_empty,
+)
 from mongodb import get_collection
 from video_file import VideoFile
 from media_tools import extract_tvdbid
@@ -48,29 +54,29 @@ class ScanTvShowLibraryPipeline(BasePipeline):
 
         # Collect the file information from the tv show library.
         self.collect_data()
+        if is_empty(self.raw_tvshow_data):
+            logger.error("No TV Shows found.")
+            return
 
         # Save the tv show file data to a parquet file.
         self.save_data()
 
         # Validate the list of tv show files.
         self.validate_data()
-        if self.valid_episode_files is not None:
+        if is_not_empty(self.valid_episode_files):
             logger.info(f"Valid Episodes: {len(self.valid_episode_files)}")
-        if self.invalid_episode_files is not None:
+        if is_not_empty(self.invalid_episode_files):
             logger.info(f"Invalid Episodes: {len(self.invalid_episode_files)}")
 
         # Project data
         self.project_data()
 
         # Save the invalid tv show files to a MongoDB database.
-        if (
-            self.invalid_episode_files is not None
-            and not self.invalid_episode_files.empty
-        ):
+        if is_not_empty(self.invalid_episode_files):
             self.save_invalid_episode_files_to_mongodb()
 
         # Save the valid tv show files to a MongoDB database.
-        if self.valid_episode_files is not None and not self.valid_episode_files.empty:
+        if is_not_empty(self.valid_episode_files):
             self.save_valid_episode_files_to_mongodb()
 
     @property
@@ -141,17 +147,17 @@ class ScanTvShowLibraryPipeline(BasePipeline):
             else:
                 episodes_df = pd.concat([episodes_df, new_episodes])
 
-        if tvshow_df is None or tvshow_df.empty:
+        if is_empty(tvshows_df):
             logger.error("No TV Shows found.")
         else:
             logger.info(f"Total TV Shows: {len(tvshows_df)}")
 
-        if seasons_df is None or seasons_df.empty:
+        if is_empty(seasons_df):
             logger.error("No Seasons found.")
         else:
             logger.info(f"Total Seasons: {len(seasons_df)}")
 
-        if episodes_df is None or episodes_df.empty:
+        if is_empty(episodes_df):
             logger.error("No Episodes found.")
         else:
             logger.info(f"Total Episodes: {len(episodes_df)}")
@@ -290,7 +296,7 @@ class ScanTvShowLibraryPipeline(BasePipeline):
 
         # Concatenate invalid rows to _invalid_episode_files
         if len(invalid_rows) > 0:
-            if self.invalid_episode_files is None or self.invalid_episode_files.empty:
+            if is_empty(self.invalid_episode_files):
                 self._invalid_episode_files = pd.DataFrame(invalid_rows)
             else:
                 self._invalid_episode_files = pd.concat(
@@ -302,7 +308,7 @@ class ScanTvShowLibraryPipeline(BasePipeline):
 
         # Concatenate valid rows to _valid_episode_files
         if len(valid_rows) > 0:
-            if self.valid_episode_files is None or self.valid_episode_files.empty:
+            if is_empty(self.valid_episode_files):
                 self._valid_episode_files = pd.DataFrame(valid_rows)
             else:
                 self._valid_episode_files = pd.concat(
@@ -318,16 +324,12 @@ class ScanTvShowLibraryPipeline(BasePipeline):
 
         :return: None
         """
-
         # Add the processing date column with the current timestamp
-        if (
-            self.invalid_episode_files is not None
-            and not self.invalid_episode_files.empty
-        ):
+        if is_not_empty(self.invalid_episode_files):
             self._invalid_episode_files["processing_date"] = datetime.now()
 
         # Add the processing date column with the current timestamp
-        if self.valid_episode_files is not None and not self.valid_episode_files.empty:
+        if is_not_empty(self.valid_episode_files):
             self._valid_episode_files["processing_date"] = datetime.now()
 
     def save_invalid_episode_files_to_mongodb(self) -> None:
@@ -376,16 +378,18 @@ class ScanTvShowLibraryPipeline(BasePipeline):
 
 
 if __name__ == "__main__":
+    library_name: str = "[EN-XX] Animationsserien"
+
     script_path: str = os.path.dirname(os.path.realpath(__file__))
     pj_path: str = os.path.join(script_path, "..", "..")
     tvshows_lib = os.path.join(pj_path, "data", "tvshows", "animes")
     data_path = os.path.join(pj_path, "data", "raw")
 
-    library_path = os.path.normpath(tvshows_lib)
-    # library_path = "/Volumes/PlexLibrary/TVShows/[EN-XX] Animationsserien"
+    # library_path = os.path.normpath(tvshows_lib)
+    library_path = f"/Volumes/PlexLibrary/TVShows/{library_name}"
 
     pipeline_config = ScanTvShowLibraryConfig(
-        library_name="tvshows",
+        library_name=library_name,
         library_path=library_path,
         data_path=os.path.normpath(data_path),
     )

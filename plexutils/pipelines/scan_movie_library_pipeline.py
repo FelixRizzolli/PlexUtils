@@ -11,9 +11,15 @@ import pandas as pd
 from pandas import DataFrame
 from loguru import logger
 
+from base_pipeline import is_empty
 from media_tools import extract_tvdbid
 from mongodb import get_collection
-from pipelines.base_pipeline import BaseLibraryConfig, BasePipeline, pipeline_runner
+from pipelines.base_pipeline import (
+    BaseLibraryConfig,
+    BasePipeline,
+    pipeline_runner,
+    is_not_empty,
+)
 from plexutils.media.video_file import VideoFile
 
 
@@ -51,7 +57,7 @@ class ScanMovieLibraryPipeline(BasePipeline):
 
         # Collect the file information from the movie library
         self.collect_data()
-        if self._raw_movie_data is None:
+        if is_empty(self.raw_movie_data):
             logger.error("No movie files found in the library.")
             return
         logger.info(f"Total Movies: {len(self._raw_movie_data)}")
@@ -62,9 +68,9 @@ class ScanMovieLibraryPipeline(BasePipeline):
 
         # Validate the list of movie files
         self.validate_data()
-        if self.valid_movie_data is not None:
+        if is_not_empty(self.valid_movie_data):
             logger.info(f"Valid Movies: {len(self.valid_movie_data)}")
-        if self.invalid_movie_data is not None:
+        if is_not_empty(self.invalid_movie_data):
             logger.info(f"Invalid Movies: {len(self.invalid_movie_data)}")
 
         # Project data
@@ -72,11 +78,11 @@ class ScanMovieLibraryPipeline(BasePipeline):
         logger.info("Data projected successfully.")
 
         # Save the invalid movie files to a MongoDB database
-        if self._invalid_movie_data is not None and len(self._invalid_movie_data) > 0:
+        if is_not_empty(self.invalid_movie_data):
             self.save_invalid_movies_to_mongodb()
             logger.info("Invalid movies saved to MongoDB.")
 
-        if self._valid_movie_data is not None and len(self._valid_movie_data) > 0:
+        if is_not_empty(self.valid_movie_data):
             self.save_valid_movies_to_mongodb()
             logger.info("Valid movies saved to MongoDB.")
 
@@ -207,7 +213,7 @@ class ScanMovieLibraryPipeline(BasePipeline):
 
         # Concatenate invalid rows to _invalid_movie_data
         if len(invalid_rows) > 0:
-            if self._invalid_movie_data is None or self._invalid_movie_data.empty:
+            if is_empty(self.invalid_movie_data):
                 self._invalid_movie_data = pd.DataFrame(invalid_rows)
             else:
                 self._invalid_movie_data = pd.concat(
@@ -219,7 +225,7 @@ class ScanMovieLibraryPipeline(BasePipeline):
 
         # Concatenate valid rows to _valid_movie_data
         if len(valid_rows) > 0:
-            if self.valid_movie_data is None or self.valid_movie_data.empty:
+            if is_empty(self.valid_movie_data):
                 self._valid_movie_data = pd.DataFrame(valid_rows)
             else:
                 self._valid_movie_data = pd.concat(
@@ -235,13 +241,12 @@ class ScanMovieLibraryPipeline(BasePipeline):
 
         :return: None
         """
-
         # Add the processing date column with the current timestamp
-        if self.invalid_movie_data is not None:
+        if is_not_empty(self.invalid_movie_data):
             self._invalid_movie_data["processing_date"] = datetime.now()
 
         # Add the processing date column with the current timestamp
-        if self.valid_movie_data is not None:
+        if is_not_empty(self.valid_movie_data):
             self._valid_movie_data["processing_date"] = datetime.now()
 
     def save_invalid_movies_to_mongodb(self) -> None:
@@ -290,16 +295,18 @@ class ScanMovieLibraryPipeline(BasePipeline):
 
 
 if __name__ == "__main__":
+    library_name: str = "[DE-XX] Anime"
+
     script_path: str = os.path.dirname(os.path.realpath(__file__))
     pj_path: str = os.path.join(script_path, "..", "..")
     movie_lib = os.path.join(pj_path, "data", "movies", "animes")
     data_path = os.path.join(pj_path, "data", "raw")
 
-    library_path = os.path.normpath(movie_lib)
-    # library_path = "/Volumes/PlexLibrary/Movies/[DE-XX] Anime"
+    # library_path = os.path.normpath(movie_lib)
+    library_path = f"/Volumes/PlexLibrary/Movies/{library_name}"
 
     pipeline_config = ScanMovieLibraryConfig(
-        library_name="movies",
+        library_name=library_name,
         library_path=library_path,
         data_path=os.path.normpath(data_path),
     )
