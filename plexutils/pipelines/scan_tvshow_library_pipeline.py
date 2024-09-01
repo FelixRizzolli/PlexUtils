@@ -142,20 +142,33 @@ class ScanTvShowLibraryPipeline(BasePipeline):
             new_seasons: DataFrame = self.collect_season_data(
                 tvshow_df["tvshow"], tvshow_df["path"]
             )
-            if seasons_df is None:
+            if is_empty(seasons_df):
                 seasons_df = new_seasons
             else:
                 seasons_df = pd.concat([seasons_df, new_seasons])
 
-        episodes_df: DataFrame = None
+        list_of_episodes: list[dict] = []
         for _, season_df in seasons_df.iterrows():
-            new_episodes: DataFrame = self.collect_episode_data(
-                season_df["tvshow"], season_df["season"], season_df["path"]
-            )
-            if episodes_df is None:
-                episodes_df = new_episodes
-            else:
-                episodes_df = pd.concat([episodes_df, new_episodes])
+            tvshow_name: str = season_df["tvshow"]
+            season_name: str = season_df["season"]
+            season_path: str = season_df["path"]
+
+            # Get the list of episodes in the season directory.
+            season_episodes: list[str] = os.listdir(season_path)
+
+            # Add the episodes to the list of episodes.
+            for episode in season_episodes:
+                episode_path = os.path.join(season_path, episode)
+                if os.path.isfile(episode_path):
+                    episode_data: dict = {
+                        "tvshow": tvshow_name,
+                        "season": season_name,
+                        "episode": episode,
+                        "path": episode_path,
+                    }
+                    list_of_episodes.append(episode_data)
+
+        episodes_df: DataFrame = self.collect_episode_data(list_of_episodes)
 
         self._raw_tvshow_data = episodes_df
         print(self._raw_tvshow_data)
@@ -218,21 +231,16 @@ class ScanTvShowLibraryPipeline(BasePipeline):
         # Return the season data as a DataFrame
         return seasons_df
 
-    def collect_episode_data(
-        self, tvshow_name: str, season_name: str, season_path: str
-    ) -> DataFrame:
+    def collect_episode_data(self, list_of_episodes: list[dict]) -> DataFrame:
         """
         Collects the episode data.
 
-        :return: None
+        :param list_of_episodes: The list of episodes.
+        :return: DataFrame containing the episode data.
         """
-        # Get the list of episodes in the season directory.
-        episodes: list[str] = os.listdir(season_path)
 
         # Collect the file information from the tv show library.
-        episode_data = self.collect_data_parallel(
-            tvshow_name, season_name, season_path, episodes
-        )
+        episode_data = self.collect_data_parallel(list_of_episodes)
 
         # Create a DataFrame from the episode data.
         episodes_df = pd.DataFrame(episode_data)
@@ -248,10 +256,7 @@ class ScanTvShowLibraryPipeline(BasePipeline):
 
     def collect_data_parallel(
         self,
-        tvshow_name: str,
-        season_name: str,
-        season_path: str,
-        episode_directories: List[str],
+        list_of_episodes: list[dict],
     ) -> List[VideoFile]:
         episodes: list[VideoFile] = []
 
@@ -259,21 +264,27 @@ class ScanTvShowLibraryPipeline(BasePipeline):
             future_to_episode = {
                 executor.submit(
                     collect_video_file_data,
-                    self.config.library_path,
-                    os.path.join(season_path, episode_dir),
-                ): episode_dir
-                for episode_dir in episode_directories
+                    os.path.join(
+                        self.config.library_path, episode["tvshow"], episode["season"]
+                    ),
+                    episode["episode"],
+                ): episode
+                for episode in list_of_episodes
             }
 
             for future in as_completed(future_to_episode):
                 episode_dir = future_to_episode[future]
                 try:
-                    path_data: dict = {
-                        "tvshow": tvshow_name,
-                        "season": season_name,
-                    }
                     video_file: VideoFile = future.result()
                     video_data = video_file.__dict__
+                    path_data: dict = {
+                        "tvshow": os.path.basename(
+                            os.path.dirname(os.path.dirname(video_file.file_path))
+                        ),
+                        "season": os.path.basename(
+                            os.path.dirname(video_file.file_path)
+                        ),
+                    }
                     episodes.append({**path_data, **video_data})
                 except Exception as exc:
                     print(f"{episode_dir} generated an exception: {exc}")
