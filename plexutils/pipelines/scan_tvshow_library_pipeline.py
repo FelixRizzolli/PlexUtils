@@ -20,7 +20,7 @@ from plexutils.pipelines.base_pipeline import (
 )
 
 
-class TVShowErrorCode(Enum):
+class TvShowErrorCode(Enum):
     INVALID_TVDB_ID = "INVALID_TVDB_ID"
     INVALID_FILESIZE = "INVALID_FILESIZE"
 
@@ -343,14 +343,14 @@ class ScanTvShowLibraryPipeline(BasePipeline):
             # Extract the TVDB ID from the episode file name and check if it is valid.
             tvdb_id: Optional[int] = extract_tvdbid(row["tvshow"])
             if tvdb_id is None:
-                err: str = TVShowErrorCode.INVALID_TVDB_ID.value
+                err: str = TvShowErrorCode.INVALID_TVDB_ID.value
                 row["errorCode"] = err
                 invalid_rows.append(row)
                 print(f"Invalid episode file: [{err}] [{index}] {row['file']['name']}")
 
             # Check if the file size is valid.
             elif row["file"]["size"] <= 0:
-                err: str = TVShowErrorCode.INVALID_FILESIZE.value
+                err: str = TvShowErrorCode.INVALID_FILESIZE.value
                 row["errorCode"] = err
                 invalid_rows.append(row)
                 print(f"Invalid episode file: [{err}] [{index}] {row['file']['name']}")
