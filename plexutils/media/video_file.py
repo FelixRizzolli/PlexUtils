@@ -4,6 +4,7 @@ This module contains the VideoFile class.
 
 import os.path
 from abc import abstractmethod
+from datetime import datetime
 from typing import Any, Optional
 
 import ffmpeg
@@ -20,6 +21,7 @@ class VideoFile:
 
     _file_path: str
     _file_size: int
+    _creation_date: datetime
     _format_name: str
     _duration: float
     _resolution_width: int
@@ -41,6 +43,8 @@ class VideoFile:
                 "path": self.file_path,
                 "name": self.file_name,
                 "size": self.file_size,
+                "creationDate": self.creation_date,
+                "modifiedDate": self.modified_date,
             },
             "video": {
                 "codec": self.video_codec,
@@ -79,6 +83,28 @@ class VideoFile:
         :rtype: str
         """
         return os.path.basename(self.file_path)
+
+    @property
+    def creation_date(self) -> datetime:
+        """
+        Returns the creation date of the video file.
+
+        :return: The creation date of the video file.
+        :rtype: str
+        """
+        creation_time = os.path.getctime(self.file_path)
+        return datetime.fromtimestamp(creation_time)
+
+    @property
+    def modified_date(self) -> datetime:
+        """
+        Returns the modified date of the video file.
+
+        :return: The modified date of the video file.
+        :rtype: str
+        """
+        modified_time = os.path.getmtime(self.file_path)
+        return datetime.fromtimestamp(modified_time)
 
     @property
     def format_name(self) -> str:
