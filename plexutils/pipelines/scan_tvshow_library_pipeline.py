@@ -22,6 +22,8 @@ from plexutils.pipelines.base_pipeline import (
 
 class TvShowErrorCode(Enum):
     INVALID_TVDB_ID = "INVALID_TVDB_ID"
+    EMPTY_TVSHOW = "EMPTY_TVSHOW"
+    EMPTY_SEASON = "EMPTY_SEASON"
     INVALID_FILESIZE = "INVALID_FILESIZE"
 
 
@@ -37,8 +39,13 @@ class ScanTvShowLibraryPipeline(BasePipeline):
     """
 
     _config: Optional[ScanTvShowLibraryConfig] = None
-    _raw_tvshow_data: Optional[DataFrame] = None
 
+    _raw_tvshow_data: Optional[DataFrame] = None
+    _raw_season_data: Optional[DataFrame] = None
+    _raw_episode_data: Optional[DataFrame] = None
+
+    _invalid_tvshows: Optional[DataFrame] = None
+    _invalid_seasons: Optional[DataFrame] = None
     _invalid_episode_files: Optional[DataFrame] = None
     _valid_episode_files: Optional[DataFrame] = None
 
@@ -67,15 +74,27 @@ class ScanTvShowLibraryPipeline(BasePipeline):
 
         # Validate the list of tv show files.
         self.validate_data()
-        if is_not_empty(self.valid_episode_files):
-            logger.info(f"Valid Episodes: {len(self.valid_episode_files)}")
+        if is_not_empty(self.invalid_tvshows):
+            logger.error(f"Invalid TV Shows....: {len(self.invalid_tvshows)}")
+        if is_not_empty(self.invalid_seasons):
+            logger.error(f"Invalid Seasons.....: {len(self.invalid_seasons)}")
         if is_not_empty(self.invalid_episode_files):
-            logger.info(f"Invalid Episodes: {len(self.invalid_episode_files)}")
+            logger.error(f"Invalid Episodes....: {len(self.invalid_episode_files)}")
+        if is_not_empty(self.valid_episode_files):
+            logger.info(f"Valid Episodes......: {len(self.valid_episode_files)}")
 
         # Project data
         self.project_data()
 
-        # Save the invalid tv show files to a MongoDB database.
+        # Save the invalid TV Shows to a MongoDB database.
+        if is_not_empty(self.invalid_tvshows):
+            self.save_invalid_tvshows_to_mongodb()
+
+        # Save the invalid seasons to a MongoDB database.
+        if is_not_empty(self.invalid_seasons):
+            self.save_invalid_seasons_to_mongodb()
+
+        # Save the invalid episode files to a MongoDB database.
         if is_not_empty(self.invalid_episode_files):
             self.save_invalid_episode_files_to_mongodb()
 
@@ -110,6 +129,46 @@ class ScanTvShowLibraryPipeline(BasePipeline):
         return self._raw_tvshow_data
 
     @property
+    def raw_season_data(self) -> DataFrame:
+        """
+        Returns the raw season data.
+
+        :return: The raw season data.
+        :rtype: DataFrame
+        """
+        return self._raw_season_data
+
+    @property
+    def raw_episode_data(self) -> DataFrame:
+        """
+        Returns the raw episode data.
+
+        :return: The raw episode data.
+        :rtype: DataFrame
+        """
+        return self._raw_episode_data
+
+    @property
+    def invalid_tvshows(self) -> DataFrame:
+        """
+        Returns the invalid TV shows.
+
+        :return: The invalid TV shows.
+        :rtype: DataFrame
+        """
+        return self._invalid_tvshows
+
+    @property
+    def invalid_seasons(self) -> DataFrame:
+        """
+        Returns the invalid seasons.
+
+        :return: The invalid seasons.
+        :rtype: DataFrame
+        """
+        return self._invalid_seasons
+
+    @property
     def invalid_episode_files(self) -> DataFrame:
         """
         Returns the invalid episode files.
@@ -135,20 +194,19 @@ class ScanTvShowLibraryPipeline(BasePipeline):
 
         :return: None
         """
-        tvshows_df: DataFrame = self.collect_tvshow_data()
+        self._raw_tvshow_data = self.collect_tvshow_data()
 
-        seasons_df: DataFrame = None
-        for _, tvshow_df in tvshows_df.iterrows():
+        for _, tvshow_df in self.raw_tvshow_data.iterrows():
             new_seasons: DataFrame = self.collect_season_data(
                 tvshow_df["tvshow"], tvshow_df["path"]
             )
-            if is_empty(seasons_df):
-                seasons_df = new_seasons
+            if is_empty(self.raw_season_data):
+                self._raw_season_data = new_seasons
             else:
-                seasons_df = pd.concat([seasons_df, new_seasons])
+                self._raw_season_data = pd.concat([self.raw_season_data, new_seasons])
 
         list_of_episodes: list[dict] = []
-        for _, season_df in seasons_df.iterrows():
+        for _, season_df in self.raw_season_data.iterrows():
             tvshow_name: str = season_df["tvshow"]
             season_name: str = season_df["season"]
             season_path: str = season_df["path"]
@@ -168,10 +226,8 @@ class ScanTvShowLibraryPipeline(BasePipeline):
                     }
                     list_of_episodes.append(episode_data)
 
-        episodes_df: DataFrame = self.collect_episode_data(list_of_episodes)
-
-        self._raw_tvshow_data = episodes_df
-        print(self._raw_tvshow_data)
+        self._raw_episode_data = self.collect_episode_data(list_of_episodes)
+        print(self.raw_episode_data)
 
     def collect_tvshow_data(self) -> DataFrame:
         """
@@ -300,10 +356,8 @@ class ScanTvShowLibraryPipeline(BasePipeline):
         parquet_name: str = self.config.library_name + "_tvshows.parquet"
         file_path: str = os.path.join(self.config.data_path, parquet_name)
 
-        if self.raw_tvshow_data is not None and isinstance(
-            self.raw_tvshow_data, DataFrame
-        ):
-            self._raw_tvshow_data.to_parquet(file_path, engine="pyarrow")
+        if is_not_empty(self.raw_episode_data):
+            self.raw_episode_data.to_parquet(file_path, engine="pyarrow")
 
     def load_data(self) -> None:
         """
@@ -316,7 +370,7 @@ class ScanTvShowLibraryPipeline(BasePipeline):
         file_path: str = os.path.join(self.config.data_path, parquet_name)
         tvshows_df: DataFrame = pd.read_parquet(file_path, engine="pyarrow")
 
-        self._raw_tvshow_data = tvshows_df
+        self._raw_episode_data = tvshows_df
 
     def validate_data(self) -> None:
         """
@@ -324,32 +378,110 @@ class ScanTvShowLibraryPipeline(BasePipeline):
 
         :return: None
         """
-        if self.raw_tvshow_data is None:
+        if is_empty(self.raw_tvshow_data):
+            logger.error("No TV Shows found.")
             return
 
-        # Initialize _invalid_episode_files with the same structure as _raw_tvshow_data
-        self._invalid_episode_files = pd.DataFrame(
-            columns=self._raw_tvshow_data.columns
-        )
-        self._invalid_episode_files["errorCode"] = None
+        if is_empty(self.raw_season_data):
+            logger.error("No seasons found.")
+            return
+
+        if is_empty(self.raw_episode_data):
+            logger.error("No episodes found.")
+            return
+
+        self.validate_tvshows()
+        self.validate_seasons()
+        self.validate_episodes()
+
+    def validate_tvshows(self) -> None:
+        """
+        This method validates the list of TV Shows.
+
+        :return: None
+        """
+        # Initialize _invalid_tvshows with the same structure as raw_tvshow_data
+        self._invalid_tvshows = pd.DataFrame(columns=self.raw_tvshow_data.columns)
+        self._invalid_tvshows["errorCode"] = None
         invalid_rows = []
 
-        # Initialize _valid_episode_files with the same structure as _raw_tvshow_data
-        self._valid_episode_files = pd.DataFrame(columns=self._raw_tvshow_data.columns)
-        valid_rows = []
-
-        # Validate the list of episode files.
-        for index, row in self._raw_tvshow_data.iterrows():
+        # Validate the list of TV Shows.
+        for index, row in self.raw_tvshow_data.iterrows():
             # Extract the TVDB ID from the episode file name and check if it is valid.
             tvdb_id: Optional[int] = extract_tvdbid(row["tvshow"])
             if tvdb_id is None:
                 err: str = TvShowErrorCode.INVALID_TVDB_ID.value
                 row["errorCode"] = err
                 invalid_rows.append(row)
-                print(f"Invalid episode file: [{err}] [{index}] {row['file']['name']}")
+                logger.error(f"Invalid TV Show: [{err}] [{index}] {row['tvshow']}")
 
+            # Check if the TV Show is empty.
+            if not bool(os.listdir(row["path"])):
+                err: str = TvShowErrorCode.EMPTY_TVSHOW.value
+                row["errorCode"] = err
+                invalid_rows.append(row)
+                logger.error(f"Invalid TV Show: [{err}] [{index}] {row['path']}")
+
+        # Concatenate invalid rows to _invalid_tvshows
+        if len(invalid_rows) > 0:
+            if is_empty(self.invalid_tvshows):
+                self._invalid_tvshows = pd.DataFrame(invalid_rows)
+            else:
+                self._invalid_tvshows = pd.concat(
+                    [self._invalid_tvshows, pd.DataFrame(invalid_rows)],
+                    ignore_index=True,
+                ).dropna(how="all", axis=1)
+        else:
+            self._invalid_tvshows = pd.DataFrame([])
+
+    def validate_seasons(self) -> None:
+        """
+        This method validates the list of seasons.
+
+        :return: None
+        """
+        # Initialize _invalid_seasons with the same structure as raw_season_data
+        self._invalid_seasons = pd.DataFrame(columns=self.raw_season_data.columns)
+        self._invalid_seasons["errorCode"] = None
+        invalid_rows = []
+
+        # Validate the list of seasons.
+        for index, row in self.raw_season_data.iterrows():
+            # Check if the season is empty.
+            if not bool(os.listdir(row["path"])):
+                err: str = TvShowErrorCode.EMPTY_SEASON.value
+                row["errorCode"] = err
+                invalid_rows.append(row)
+                logger.error(f"Invalid season: [{err}] [{index}] {row['path']}")
+
+        # Concatenate invalid rows to _invalid_seasons
+        if len(invalid_rows) > 0:
+            if is_empty(self.invalid_seasons):
+                self._invalid_seasons = pd.DataFrame(invalid_rows)
+            else:
+                self._invalid_seasons = pd.concat(
+                    [self._invalid_seasons, pd.DataFrame(invalid_rows)],
+                    ignore_index=True,
+                ).dropna(how="all", axis=1)
+        else:
+            self._invalid_seasons = pd.DataFrame([])
+
+    def validate_episodes(self):
+        # Initialize _invalid_episode_files with the same structure as raw_episode_data
+        self._invalid_episode_files = pd.DataFrame(
+            columns=self.raw_episode_data.columns
+        )
+        self._invalid_episode_files["errorCode"] = None
+        invalid_rows = []
+
+        # Initialize _valid_episode_files with the same structure as raw_episode_data
+        self._valid_episode_files = pd.DataFrame(columns=self.raw_episode_data.columns)
+        valid_rows = []
+
+        # Validate the list of episode files.
+        for index, row in self.raw_episode_data.iterrows():
             # Check if the file size is valid.
-            elif row["file"]["size"] <= 0:
+            if row["file"]["size"] <= 0:
                 err: str = TvShowErrorCode.INVALID_FILESIZE.value
                 row["errorCode"] = err
                 invalid_rows.append(row)
@@ -396,6 +528,24 @@ class ScanTvShowLibraryPipeline(BasePipeline):
         # Add the processing date column with the current timestamp
         if is_not_empty(self.valid_episode_files):
             self._valid_episode_files["processing_date"] = datetime.now()
+
+    def save_invalid_tvshows_to_mongodb(self) -> None:
+        """
+        This method saves the invalid TV Shows to a MongoDB database.
+
+        :return: None
+        """
+        invalid_tvshows_collection = get_collection("raw_data", "invalid_tvshows")
+        invalid_tvshows_collection.insert_many(self.invalid_tvshows.to_dict("records"))
+
+    def save_invalid_seasons_to_mongodb(self) -> None:
+        """
+        This method saves the invalid seasons to a MongoDB database.
+
+        :return: None
+        """
+        invalid_seasons_collection = get_collection("raw_data", "invalid_seasons")
+        invalid_seasons_collection.insert_many(self.invalid_seasons.to_dict("records"))
 
     def save_invalid_episode_files_to_mongodb(self) -> None:
         """
