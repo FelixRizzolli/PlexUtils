@@ -157,21 +157,6 @@ class ScanTvShowLibraryPipeline(BasePipeline):
             else:
                 episodes_df = pd.concat([episodes_df, new_episodes])
 
-        if is_empty(tvshows_df):
-            logger.error("No TV Shows found.")
-        else:
-            logger.info(f"Total TV Shows: {len(tvshows_df)}")
-
-        if is_empty(seasons_df):
-            logger.error("No Seasons found.")
-        else:
-            logger.info(f"Total Seasons: {len(seasons_df)}")
-
-        if is_empty(episodes_df):
-            logger.error("No Episodes found.")
-        else:
-            logger.info(f"Total Episodes: {len(episodes_df)}")
-
         self._raw_tvshow_data = episodes_df
         print(self._raw_tvshow_data)
 
@@ -181,15 +166,27 @@ class ScanTvShowLibraryPipeline(BasePipeline):
 
         :return: None
         """
+        # Get the list of TV Shows in the library directory.
         tvshows: list[str] = os.listdir(self.config.library_path)
         tvshow_data = []
 
+        # Collect the file information from the tv show library.
         for tvshow in tvshows:
             tvshow_path = os.path.join(self.config.library_path, tvshow)
             if os.path.isdir(tvshow_path):
                 tvshow_data.append({"tvshow": tvshow, "path": tvshow_path})
 
-        return pd.DataFrame(tvshow_data)
+        # Create a DataFrame from the tv show data.
+        tvshows_df = pd.DataFrame(tvshow_data)
+
+        # Log the number of TV Shows found.
+        if is_empty(tvshows_df):
+            logger.error("No TV Shows found.")
+        else:
+            logger.info(f"Total TV Shows: {len(tvshows_df)}")
+
+        # Return the tv show data as a DataFrame
+        return tvshows_df
 
     def collect_season_data(self, tvshow_name: str, tvshow_path: str) -> DataFrame:
         """
@@ -197,9 +194,11 @@ class ScanTvShowLibraryPipeline(BasePipeline):
 
         :return: None
         """
+        # Get the list of seasons in the tv show directory.
         seasons: list[str] = os.listdir(tvshow_path)
         season_data = []
 
+        # Collect the file information from the tv show library.
         for season in seasons:
             season_path = os.path.join(tvshow_path, season)
             if os.path.isdir(season_path):
@@ -207,7 +206,17 @@ class ScanTvShowLibraryPipeline(BasePipeline):
                     {"tvshow": tvshow_name, "season": season, "path": season_path}
                 )
 
-        return pd.DataFrame(season_data)
+        # Create a DataFrame from the season data.
+        seasons_df = pd.DataFrame(season_data)
+
+        # Log the number of seasons found.
+        if is_empty(seasons_df):
+            logger.error("No Seasons found.")
+        else:
+            logger.info(f"Total Seasons: {len(seasons_df)}")
+
+        # Return the season data as a DataFrame
+        return seasons_df
 
     def collect_episode_data(
         self, tvshow_name: str, season_name: str, season_path: str
@@ -225,8 +234,17 @@ class ScanTvShowLibraryPipeline(BasePipeline):
             tvshow_name, season_name, season_path, episodes
         )
 
+        # Create a DataFrame from the episode data.
+        episodes_df = pd.DataFrame(episode_data)
+
+        # Log the number of episodes found.
+        if is_empty(episodes_df):
+            logger.error("No Episodes found.")
+        else:
+            logger.info(f"Total Episodes: {len(episodes_df)}")
+
         # Return the episode data as a DataFrame
-        return pd.DataFrame([episode for episode in episode_data])
+        return episodes_df
 
     def collect_data_parallel(
         self,
