@@ -4,8 +4,11 @@ and file names. These functions are primarily used for handling media files in a
 setup.
 """
 
+import os
 import re
 from typing import Optional
+
+from video_file import VideoFile
 
 
 def extract_tvdbid(dirname: str) -> Optional[int]:
@@ -78,3 +81,16 @@ def extract_seasonid(dirname: str) -> Optional[int]:
     if seasonid_match:
         return int(seasonid_match.group(1))
     return None
+
+
+def collect_video_file_data(path: str, video_file_name: str) -> VideoFile:
+    """
+    Collects data from a video file.
+
+    :param path: The path to the video file.
+    :param video_file_name: The name of the video file.
+    :return:
+    """
+    video_file = VideoFile(os.path.join(path, video_file_name))
+    video_file.collect_data()
+    return video_file

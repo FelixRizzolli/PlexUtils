@@ -1,7 +1,8 @@
 import os
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from enum import Enum
-from typing import Optional
+from typing import Optional, List
 
 import pandas as pd
 from loguru import logger
@@ -16,7 +17,7 @@ from base_pipeline import (
 )
 from mongodb import get_collection
 from video_file import VideoFile
-from media_tools import extract_tvdbid
+from media_tools import extract_tvdbid, collect_video_file_data
 
 
 class TVShowErrorCode(Enum):
@@ -216,24 +217,50 @@ class ScanTvShowLibraryPipeline(BasePipeline):
 
         :return: None
         """
+        # Get the list of episodes in the season directory.
         episodes: list[str] = os.listdir(season_path)
-        episode_data = []
 
-        for episode in episodes:
-            episode_path = os.path.join(season_path, episode)
-            if os.path.isfile(episode_path):
-                path_data: dict = {
-                    "tvshow": tvshow_name,
-                    "season": season_name,
-                    "episode": episode,
-                    "path": episode_path,
-                }
-                video_file: VideoFile = VideoFile(episode_path)
-                video_file.collect_data()
-                video_data = video_file.__dict__
-                episode_data.append({**path_data, **video_data})
+        # Collect the file information from the tv show library.
+        episode_data = self.collect_data_parallel(
+            tvshow_name, season_name, season_path, episodes
+        )
 
+        # Return the episode data as a DataFrame
         return pd.DataFrame([episode for episode in episode_data])
+
+    def collect_data_parallel(
+        self,
+        tvshow_name: str,
+        season_name: str,
+        season_path: str,
+        episode_directories: List[str],
+    ) -> List[VideoFile]:
+        episodes: list[VideoFile] = []
+
+        with ThreadPoolExecutor() as executor:
+            future_to_episode = {
+                executor.submit(
+                    collect_video_file_data,
+                    self.config.library_path,
+                    os.path.join(season_path, episode_dir),
+                ): episode_dir
+                for episode_dir in episode_directories
+            }
+
+            for future in as_completed(future_to_episode):
+                episode_dir = future_to_episode[future]
+                try:
+                    path_data: dict = {
+                        "tvshow": tvshow_name,
+                        "season": season_name,
+                    }
+                    video_file: VideoFile = future.result()
+                    video_data = video_file.__dict__
+                    episodes.append({**path_data, **video_data})
+                except Exception as exc:
+                    print(f"{episode_dir} generated an exception: {exc}")
+
+        return episodes
 
     def save_data(self) -> None:
         """
@@ -391,7 +418,7 @@ class ScanTvShowLibraryPipeline(BasePipeline):
 
 
 if __name__ == "__main__":
-    library_name: str = "[EN-XX] Animationsserien"
+    library_name: str = "[DE-XX] Serien"
 
     script_path: str = os.path.dirname(os.path.realpath(__file__))
     pj_path: str = os.path.join(script_path, "..", "..")

@@ -3,8 +3,9 @@ This module contains the ScanMovieLibraryPipeline class.
 """
 
 import os
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
 from enum import Enum
 
 import pandas as pd
@@ -12,7 +13,7 @@ from pandas import DataFrame
 from loguru import logger
 
 from base_pipeline import is_empty
-from media_tools import extract_tvdbid
+from media_tools import extract_tvdbid, collect_video_file_data
 from mongodb import get_collection
 from pipelines.base_pipeline import (
     BaseLibraryConfig,
@@ -142,21 +143,42 @@ class ScanMovieLibraryPipeline(BasePipeline):
 
         :return: None
         """
+        # Get the list of movie directories
         movie_directories: list[str] = os.listdir(self.config.library_path)
-        movies: list[VideoFile] = []
 
-        # Collect file information
-        for movie_dir in movie_directories:
-            video_file: VideoFile = VideoFile(
-                os.path.join(self.config.library_path, movie_dir)
-            )
-            video_file.collect_data()
-
-            movies.append(video_file)
+        # Collect file information from the movie library
+        movies: list[VideoFile] = self.collect_data_parallel(movie_directories)
 
         # Save the file information to a DataFrame
         self._raw_movie_data = pd.DataFrame([movie.__dict__ for movie in movies])
         print(self._raw_movie_data)
+
+    def collect_data_parallel(self, movie_directories: List[str]) -> List[VideoFile]:
+        """
+        This method collects the data for multiple movie files in parallel.
+
+        :param movie_directories: The list of movie directories.
+        :return: The list of movie files.
+        """
+        movies: list[VideoFile] = []
+
+        with ThreadPoolExecutor() as executor:
+            future_to_movie = {
+                executor.submit(
+                    collect_video_file_data, self.config.library_path, movie_dir
+                ): movie_dir
+                for movie_dir in movie_directories
+            }
+
+            for future in as_completed(future_to_movie):
+                movie_dir = future_to_movie[future]
+                try:
+                    video_file: VideoFile = future.result()
+                    movies.append(video_file)
+                except Exception as exc:
+                    print(f"{movie_dir} generated an exception: {exc}")
+
+        return movies
 
     def save_data(self) -> None:
         """
@@ -308,7 +330,7 @@ class ScanMovieLibraryPipeline(BasePipeline):
 
 
 if __name__ == "__main__":
-    library_name: str = "[DE-XX] Anime"
+    library_name: str = "[DE-XX] Movies"
 
     script_path: str = os.path.dirname(os.path.realpath(__file__))
     pj_path: str = os.path.join(script_path, "..", "..")
