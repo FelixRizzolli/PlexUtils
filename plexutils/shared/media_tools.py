@@ -8,7 +8,7 @@ import os
 import re
 from typing import Optional
 
-from video_file import VideoFile
+from plexutils.media.video_file import VideoFile
 
 
 def extract_tvdbid(dirname: str) -> Optional[int]:
