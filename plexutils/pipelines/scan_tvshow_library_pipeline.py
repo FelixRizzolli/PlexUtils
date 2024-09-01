@@ -196,6 +196,12 @@ class ScanTvShowLibraryPipeline(BasePipeline):
         """
         self._raw_tvshow_data = self.collect_tvshow_data()
 
+        # Log the number of TV Shows found.
+        if is_empty(self.raw_tvshow_data):
+            logger.error("No TV Shows found.")
+        else:
+            logger.info(f"Total TV Shows: {len(self.raw_tvshow_data)}")
+
         for _, tvshow_df in self.raw_tvshow_data.iterrows():
             new_seasons: DataFrame = self.collect_season_data(
                 tvshow_df["tvshow"], tvshow_df["path"]
@@ -205,8 +211,10 @@ class ScanTvShowLibraryPipeline(BasePipeline):
             else:
                 self._raw_season_data = pd.concat([self.raw_season_data, new_seasons])
 
+        seasons_count: int = 0
         list_of_episodes: list[dict] = []
         for _, season_df in self.raw_season_data.iterrows():
+            seasons_count += 1
             tvshow_name: str = season_df["tvshow"]
             season_name: str = season_df["season"]
             season_path: str = season_df["path"]
@@ -226,8 +234,23 @@ class ScanTvShowLibraryPipeline(BasePipeline):
                     }
                     list_of_episodes.append(episode_data)
 
-        self._raw_episode_data = self.collect_episode_data(list_of_episodes)
-        print(self.raw_episode_data)
+        # Log the number of seasons found.
+        if seasons_count == 0:
+            logger.error("No Seasons found.")
+        else:
+            logger.info(f"Total Seasons: {seasons_count}")
+
+        # Collect the episode data.
+        episodes_df: DataFrame = self.collect_episode_data(list_of_episodes)
+
+        # Log the number of episodes found.
+        if is_empty(episodes_df):
+            logger.error("No Episodes found.")
+        else:
+            logger.info(f"Total Episodes: {len(episodes_df)}")
+
+        # Set the raw episode data.
+        self._raw_episode_data = episodes_df
 
     def collect_tvshow_data(self) -> DataFrame:
         """
@@ -247,12 +270,6 @@ class ScanTvShowLibraryPipeline(BasePipeline):
 
         # Create a DataFrame from the tv show data.
         tvshows_df = pd.DataFrame(tvshow_data)
-
-        # Log the number of TV Shows found.
-        if is_empty(tvshows_df):
-            logger.error("No TV Shows found.")
-        else:
-            logger.info(f"Total TV Shows: {len(tvshows_df)}")
 
         # Return the tv show data as a DataFrame
         return tvshows_df
@@ -278,12 +295,6 @@ class ScanTvShowLibraryPipeline(BasePipeline):
         # Create a DataFrame from the season data.
         seasons_df = pd.DataFrame(season_data)
 
-        # Log the number of seasons found.
-        if is_empty(seasons_df):
-            logger.error("No Seasons found.")
-        else:
-            logger.info(f"Total Seasons: {len(seasons_df)}")
-
         # Return the season data as a DataFrame
         return seasons_df
 
@@ -300,12 +311,6 @@ class ScanTvShowLibraryPipeline(BasePipeline):
 
         # Create a DataFrame from the episode data.
         episodes_df = pd.DataFrame(episode_data)
-
-        # Log the number of episodes found.
-        if is_empty(episodes_df):
-            logger.error("No Episodes found.")
-        else:
-            logger.info(f"Total Episodes: {len(episodes_df)}")
 
         # Return the episode data as a DataFrame
         return episodes_df
@@ -343,7 +348,7 @@ class ScanTvShowLibraryPipeline(BasePipeline):
                     }
                     episodes.append({**path_data, **video_data})
                 except Exception as exc:
-                    print(f"{episode_dir} generated an exception: {exc}")
+                    logger.error(f"{episode_dir} generated an exception: {exc}")
 
         return episodes
 
@@ -485,7 +490,9 @@ class ScanTvShowLibraryPipeline(BasePipeline):
                 err: str = TvShowErrorCode.INVALID_FILESIZE.value
                 row["errorCode"] = err
                 invalid_rows.append(row)
-                print(f"Invalid episode file: [{err}] [{index}] {row['file']['name']}")
+                logger.error(
+                    f"Invalid episode file: [{err}] [{index}] {row['file']['name']}"
+                )
 
             # Valid episode file
             else:

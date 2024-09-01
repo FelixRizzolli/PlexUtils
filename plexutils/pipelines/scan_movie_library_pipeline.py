@@ -72,10 +72,10 @@ class ScanMovieLibraryPipeline(BasePipeline):
 
         # Validate the list of movie files
         self.validate_data()
-        if is_not_empty(self.valid_movie_data):
-            logger.info(f"Valid Movies: {len(self.valid_movie_data)}")
         if is_not_empty(self.invalid_movie_data):
-            logger.info(f"Invalid Movies: {len(self.invalid_movie_data)}")
+            logger.error(f"Invalid Movies...: {len(self.invalid_movie_data)}")
+        if is_not_empty(self.valid_movie_data):
+            logger.info(f"Valid Movies.....: {len(self.valid_movie_data)}")
 
         # Project data
         self.project_data()
@@ -151,7 +151,6 @@ class ScanMovieLibraryPipeline(BasePipeline):
 
         # Save the file information to a DataFrame
         self._raw_movie_data = pd.DataFrame([movie.__dict__ for movie in movies])
-        print(self._raw_movie_data)
 
     def collect_data_parallel(self, movie_directories: List[str]) -> List[VideoFile]:
         """
@@ -176,7 +175,7 @@ class ScanMovieLibraryPipeline(BasePipeline):
                     video_file: VideoFile = future.result()
                     movies.append(video_file)
                 except Exception as exc:
-                    print(f"{movie_dir} generated an exception: {exc}")
+                    logger.error(f"{movie_dir} generated an exception: {exc}")
 
         return movies
 
@@ -229,14 +228,18 @@ class ScanMovieLibraryPipeline(BasePipeline):
                 err: str = MovieErrorCode.INVALID_TVDB_ID.value
                 row["errorCode"] = err
                 invalid_rows.append(row)
-                print(f"Invalid movie file: [{err}] [{index}] {row['file']['name']}")
+                logger.error(
+                    f"Invalid movie file: [{err}] [{index}] {row['file']['name']}"
+                )
 
             # Check if the filesize is valid
             elif row["file"]["size"] <= 0:
                 err: str = MovieErrorCode.INVALID_FILESIZE.value
                 row["errorCode"] = err
                 invalid_rows.append(row)
-                print(f"Invalid movie file: [{err}] [{index}] {row['file']['name']}")
+                logger.error(
+                    f"Invalid movie file: [{err}] [{index}] {row['file']['name']}"
+                )
 
             # Valid movie file
             else:
