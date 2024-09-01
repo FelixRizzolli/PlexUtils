@@ -1,3 +1,7 @@
+"""
+Test the pipeline for the TV show library.
+"""
+
 import os
 import unittest
 
@@ -8,6 +12,9 @@ from plexutils.pipelines.scan_tvshow_library_pipeline import (
 
 
 class TestScanTvShowLibraryPipeline(unittest.TestCase):
+    """
+    Test the pipeline for the TV show library.
+    """
 
     _data_path: str
 
