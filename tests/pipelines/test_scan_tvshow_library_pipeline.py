@@ -9,12 +9,12 @@ from plexutils.pipelines.scan_tvshow_library_pipeline import (
 
 class TestScanTvShowLibraryPipeline(unittest.TestCase):
 
-    _pj_path: str
     _data_path: str
 
     def setUp(self):
-        self._pj_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        self._data_path = os.path.join(self._pj_path, "data", "raw")
+        script_path: str = os.path.dirname(os.path.realpath(__file__))
+        pj_path: str = os.path.join(script_path, "..", "..")
+        self._data_path = os.path.normpath(os.path.join(pj_path, "data", "raw"))
 
     def test_scan_de_xx_animationsserien_library_pipeline(self) -> None:
         """
