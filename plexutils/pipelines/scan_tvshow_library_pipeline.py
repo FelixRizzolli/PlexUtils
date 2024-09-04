@@ -520,6 +520,15 @@ class ScanTvShowLibraryPipeline(BasePipeline):
 
         :return: None
         """
+
+        # Add the processing date column with the current timestamp
+        if is_not_empty(self.invalid_tvshows):
+            self._invalid_tvshows["processingDate"] = self.config.execution_start_time
+
+        # Add the processing date column with the current timestamp
+        if is_not_empty(self.invalid_seasons):
+            self._invalid_seasons["processingDate"] = self.config.execution_start_time
+
         # Add the processing date column with the current timestamp
         if is_not_empty(self.invalid_episode_files):
             self._invalid_episode_files["processingDate"] = (
