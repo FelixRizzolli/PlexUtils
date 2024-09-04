@@ -271,11 +271,11 @@ class ScanMovieLibraryPipeline(BasePipeline):
         """
         # Add the processing date column with the current timestamp
         if is_not_empty(self.invalid_movie_data):
-            self._invalid_movie_data["processing_date"] = datetime.now()
+            self._invalid_movie_data["processingDate"] = datetime.now()
 
         # Add the processing date column with the current timestamp
         if is_not_empty(self.valid_movie_data):
-            self._valid_movie_data["processing_date"] = datetime.now()
+            self._valid_movie_data["processingDate"] = datetime.now()
 
     def save_invalid_movies_to_mongodb(self) -> None:
         """
