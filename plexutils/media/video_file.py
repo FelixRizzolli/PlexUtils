@@ -5,9 +5,23 @@ This module contains the VideoFile class.
 import os.path
 from abc import abstractmethod
 from datetime import datetime
+from enum import Enum
 from typing import Any, Optional
 
 import ffmpeg
+
+
+class TvShowErrorCode(Enum):
+    INVALID_TVDB_ID = "INVALID_TVDB_ID"
+    EMPTY_TVSHOW = "EMPTY_TVSHOW"
+    EMPTY_SEASON = "EMPTY_SEASON"
+    INVALID_FILESIZE = "INVALID_FILESIZE"
+    INVALID_FILENAME = "INVALID_FILENAME"
+
+
+class MovieErrorCode(Enum):
+    INVALID_TVDB_ID = "INVALID_TVDB_ID"
+    INVALID_FILESIZE = "INVALID_FILESIZE"
 
 
 class VideoFile:

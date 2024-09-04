@@ -1,14 +1,13 @@
 import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
-from enum import Enum
 from typing import Optional, List
 
 import pandas as pd
 from loguru import logger
 from pandas import DataFrame
 
-from plexutils.media.video_file import VideoFile
+from plexutils.media.video_file import VideoFile, TvShowErrorCode
 from plexutils.shared.mongodb_tools import get_collection
 from plexutils.shared.media_tools import extract_tvdbid, collect_video_file_data
 from plexutils.pipelines.base_pipeline import (
@@ -18,13 +17,6 @@ from plexutils.pipelines.base_pipeline import (
     is_not_empty,
     is_empty,
 )
-
-
-class TvShowErrorCode(Enum):
-    INVALID_TVDB_ID = "INVALID_TVDB_ID"
-    EMPTY_TVSHOW = "EMPTY_TVSHOW"
-    EMPTY_SEASON = "EMPTY_SEASON"
-    INVALID_FILESIZE = "INVALID_FILESIZE"
 
 
 class ScanTvShowLibraryConfig(BaseLibraryConfig):

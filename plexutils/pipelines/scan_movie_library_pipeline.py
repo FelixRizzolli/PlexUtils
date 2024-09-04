@@ -6,7 +6,6 @@ import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from typing import Optional, List
-from enum import Enum
 
 import pandas as pd
 from pandas import DataFrame
@@ -21,12 +20,7 @@ from plexutils.pipelines.base_pipeline import (
     pipeline_runner,
     is_not_empty,
 )
-from plexutils.media.video_file import VideoFile
-
-
-class MovieErrorCode(Enum):
-    INVALID_TVDB_ID = "INVALID_TVDB_ID"
-    INVALID_FILESIZE = "INVALID_FILESIZE"
+from plexutils.media.video_file import VideoFile, MovieErrorCode
 
 
 class ScanMovieLibraryConfig(BaseLibraryConfig):
