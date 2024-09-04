@@ -30,6 +30,13 @@ def is_empty(df: Optional[DataFrame]) -> bool:
 
 
 def pipeline_runner(func):
+    """
+    Decorator to run the pipeline.
+
+    :param func: The function to run.
+    :return: The wrapper function.
+    """
+
     def wrapper(self, *args, **kwargs):
         if not hasattr(self, "config") or self.config is None:
             raise AttributeError(
