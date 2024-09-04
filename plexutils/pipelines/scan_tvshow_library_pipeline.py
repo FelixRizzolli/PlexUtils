@@ -530,11 +530,15 @@ class ScanTvShowLibraryPipeline(BasePipeline):
         """
         # Add the processing date column with the current timestamp
         if is_not_empty(self.invalid_episode_files):
-            self._invalid_episode_files["processing_date"] = datetime.now()
+            self._invalid_episode_files["processingDate"] = (
+                self.config.execution_start_time
+            )
 
         # Add the processing date column with the current timestamp
         if is_not_empty(self.valid_episode_files):
-            self._valid_episode_files["processing_date"] = datetime.now()
+            self._valid_episode_files["processingDate"] = (
+                self.config.execution_start_time
+            )
 
     def save_invalid_tvshows_to_mongodb(self) -> None:
         """
